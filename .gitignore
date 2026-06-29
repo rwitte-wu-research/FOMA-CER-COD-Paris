@@ -1,0 +1,8 @@
+.RData
+.Rhistory
+.Rproj.user/
+commit_msg.txt
+_probe_*.R
+data/processed/
+.DS_Store
+Thumbs.db
