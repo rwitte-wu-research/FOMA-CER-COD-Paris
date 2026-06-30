@@ -9,9 +9,9 @@
 - Setup/process conventions (tooling, repo, hand-off, verifier) live in the Status workbook **Setup** tab, **not** here.
 - Source-pointer notation for cross-references: `[DEC-NNN]; [R/NN]; [<xlsx> Tab N]; [<md>]; [<ms> §X.Y]; [commit <hash>]`.
 
-**Cross-references.** Status workbook (Roadmap themes #1–#13; Tasks T0.1–T8); repo `/R`, `/output`, `/manuscript`.
+**Cross-references.** Status workbook (Roadmap themes #1–#16; Tasks T0.1–T8); repo `/R`, `/output`, `/manuscript`.
 
-**Status.** DEC-001…009 promoted from provisional; DEC-010…013 added 2026-06-29 (Roadmap themes #6–#9). IDs now active. Language: English (feeds the English response-letter / methods); switchable to German on request.
+**Status.** DEC-001…009 promoted from provisional; DEC-010…013 added 2026-06-29 (Roadmap themes #6–#9); DEC-014…016 added 2026-06-30 (methodology re-review against the newly added PK methods papers; Roadmap themes #14–#16). IDs now active. Language: English (feeds the English response-letter / methods); switchable to German on request.
 
 ---
 
@@ -168,6 +168,42 @@
 **Reviewer-Risk:** *Finance/Econometrics* — a referee will ask why coding errors were not investigated; blanket winsorizing looks like hiding them. *Management/BSE* — n/a.
 **Consequences:** Requires source verification in T0.4; sensitivity reported in T4.
 **Files:** T0.4 (verification), T4 (sensitivity); coding sheet.
+
+---
+
+## DEC-014: Cluster-robust (CR2) inference for the FAT-PET-PEESE and all meta-regressions
+**Block:** Phase 2 · 2026-06-30 · *(Roadmap #14; refines #6)*
+**Question:** The publication-bias step (FAT-PET-PEESE) and any subgroup bias regressions are estimated by WLS on 1,306 effect sizes treated as independent. Are their standard errors valid, given the dependence already established in DEC-002?
+**Options considered:** (a) keep conventional WLS standard errors for the bias regressions (status quo, as in the draft's Table 7); (b) estimate **every** weighted regression — including FAT-PET-PEESE — with cluster-robust variance (CR2 + Satterthwaite df), clustering on `study`.
+**Chosen:** (b). Cluster-robust (CR2) inference is mandatory for every weighted regression in the pipeline, not only the headline mean (T1) and the unified meta-regression (T7, already RVE under DEC-002). This explicitly extends to T5 (FAT-PET-PEESE) and to any subgroup-level PET-PEESE.
+**Rationale:** The dependence that invalidates the draft's pooled z (DEC-002) equally invalidates the SEs, t-statistics, and significance stars of the FAT-PET-PEESE table (draft Table 7): the WLS regression of z on SE(z) ignores the clustering of effects in 66 studies, so its uncertainty is understated and the PET/PEESE significance verdicts are not trustworthy as reported. The Stanley–Doucouliagos tradition that motivates PET-PEESE estimates it within a WLS frame, and in the economics-MA literature FAT-PET-PEESE is routinely study-clustered (Pustejovsky & Tipton, 2022; Stanley, Doucouliagos & Havranek, 2025). DEC-010 governs *what* is concluded from PET-PEESE (consistency, PET-alignment); DEC-014 governs *whether the SEs are valid at all*.
+**Reviewer-Risk:** *Finance/Econometrics* — a Stanley-literate referee will immediately see that 1,306 dependent estimates are pooled as independent in the bias regression; uncorrected SEs are a hard methodological error here, not a nuance. *Management/BSE* — less salient, but consistent dependence handling reads as rigor.
+**Consequences:** Tables 7 and 8 re-estimated with CR2; some PET/PEESE significance verdicts may shift (likely toward weaker), feeding the A-vs-C framing and DEC-010. The bias regression joins the same RVE pipeline as T1/T7.
+**Files:** `[R/NN_t5_pubbias]; [R/NN_t7_unified]`; T5, T7; `clubSandwich`.
+
+---
+
+## DEC-015: Correlation small-sample bias — retain Fisher's z, add UWLS+3/HS robustness, report the n-distribution, adjust PCC degrees of freedom
+**Block:** Phase 1/2 · 2026-06-30 · *(Roadmap #15; refines #1, #5)*
+**Question:** Recent work shows inverse-variance-weighted meta-analysis of correlations is biased because the SE of r is a mechanical function of r, and that Fisher's z reduces but does not eliminate the residual small-sample bias. Given that **37.4% of the 1,306 effects have n < 200** (median n = 289; 9 effects with non-integer n < 10), is the draft's Fisher-z random-effects-IVW headline adequate, and how are the 36 partial correlations to be treated?
+**Options considered:** (a) keep Fisher-z RE-IVW as the headline with no small-sample treatment (status quo); (b) retain Fisher's z, justify the WLS/RVE headline (DEC-002) explicitly on the correlation-bias literature, add a less-biased estimator (UWLS+3 and/or Hunter–Schmidt) as a robustness `spec`, report the n-distribution, and treat the 36 PCCs with covariate-adjusted Fisher-z df plus a bivariate-only sensitivity.
+**Chosen:** (b).
+**Rationale:** Stanley, Doucouliagos, Maier & Bartoš (2024, *Psychological Methods*) and Stanley, Doucouliagos & Havranek (2025, *Research Synthesis Methods*) demonstrate that fixed- and random-effects IVW of correlations and of Fisher's z carry small-sample bias (n < 200) from the r↔SE relationship, and that UWLS+3 and HS are less biased whether or not selection is present. The draft already uses Fisher's z (the correct first mitigation), so the headline critique does **not** bite — but with 37% of effects under n < 200 and a headline of only r = −0.020, the residual bias is non-negligible in proportional terms. The move to 3LMA-RVE (DEC-002) is itself a WLS/RVE estimator and thus already the right direction; the correlation-bias literature supplies a **second, independent** justification for it beyond dependence. For the 36 PCCs (2.8%), van Aert (2023) and Stanley, Doucouliagos & Havranek (2024, *RSM*, PCC) show Fisher-z transformation lowers bias/RMSE but the variance must use df = n − k − 3 (k = number of controls); given 2.8% of effects and median n = 289 the PCCs cannot move the headline, and a bivariate-only sensitivity (drop the 36) is the clean demonstration.
+**Reviewer-Risk:** *Finance/Econometrics* — Stanley/Havranek-camp referees know the correlation-bias result; an unjustified RE-IVW headline and an undisclosed n-distribution are soft spots; UWLS+3/HS robustness pre-empts the demand. *Management/BSE* — low; the bivariate/partial disclosure is reassurance.
+**Consequences:** n-distribution (median, IQR, share n < 200) reported in Methods; UWLS+3 and/or HS added as a robustness `spec` in T4; PCC df documented; bivariate-only `spec` in T4. Ties into DEC-002 and DEC-004.
+**Files:** `[R/NN_t4_robust]`; T0.4 (n verification), T4; coding sheet.
+
+---
+
+## DEC-016: Add a selection-model secondary publication-bias check (3PSM / p-uniform*)
+**Block:** Phase 2 · 2026-06-30 · *(Roadmap #16; refines #6; resolves the T5 "selection model" placeholder)*
+**Question:** The draft's publication-bias evidence rests on a single method family (FAT-PET-PEESE). Is a triangulating selection-model check warranted, and is it feasible here?
+**Options considered:** (a) PET-PEESE only (status quo); (b) PET-PEESE as primary **plus** a selection-model secondary (three-parameter selection model and/or p-uniform*); (c) add robust Bayesian MA (RoBMA) as a third.
+**Chosen:** (b), with (c) optional. PET-PEESE remains primary (strongly supported by Stanley et al., 2025); a 3PSM and/or p-uniform* check is added at the study level.
+**Rationale:** van Aert & van Assen (2026) show p-uniform* and 3PSM perform comparably and generally outperform p-uniform and the random-effects model under publication bias, and estimate the mean and between-study variance well with ≥ 10 studies (here k = 66). The project knowledge now holds three bias philosophies — PET-PEESE (Stanley), selection models (van Aert), and RoBMA (Bartoš et al., 2022) — so a referee preferring any one is likely; triangulation is the defensible posture. Stanley et al. (2025) simultaneously validate PET-PEESE as primary (it nearly eradicates selection bias and keeps type-I error nominal), so this is an addition, not a replacement. **Caveat:** selection models assume independence, so they are applied at the study level (one effect per study) or per adequately-powered subgroup — not on the 1,306 dependent effects.
+**Reviewer-Risk:** *Finance/Econometrics* — comfortable with PET-PEESE primary; a selection-model robustness is expected best practice. *Management/BSE* — selection models are familiar from the CSR–CFP MA tradition; triangulation reads as thoroughness.
+**Consequences:** T5 gains a secondary selection-model panel (study-level); convergence/divergence between PET-PEESE and the selection model feeds the overall bias narrative and the A-vs-C framing.
+**Files:** `[R/NN_t5_pubbias]`; T5.
 
 ---
 
