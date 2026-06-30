@@ -11,7 +11,7 @@
 
 **Cross-references.** Status workbook (Roadmap themes #1–#16; Tasks T0.1–T8); repo `/R`, `/output`, `/manuscript`.
 
-**Status.** DEC-001…009 promoted from provisional; DEC-010…013 added 2026-06-29 (Roadmap themes #6–#9); DEC-014…016 added 2026-06-30 (methodology re-review against the newly added PK methods papers; Roadmap themes #14–#16). IDs now active. Language: English (feeds the English response-letter / methods); switchable to German on request.
+**Status.** DEC-001…009 promoted from provisional; DEC-010…013 added 2026-06-29 (Roadmap themes #6–#9); DEC-014…016 added 2026-06-30 (methodology re-review against the newly added PK methods papers; Roadmap themes #14–#16); DEC-017 added 2026-06-30 (within-study working correlation rho; operationalizes DEC-002, analysis plan §3). IDs now active. Language: English (feeds the English response-letter / methods); switchable to German on request.
 
 ---
 
@@ -204,6 +204,18 @@
 **Reviewer-Risk:** *Finance/Econometrics* — comfortable with PET-PEESE primary; a selection-model robustness is expected best practice. *Management/BSE* — selection models are familiar from the CSR–CFP MA tradition; triangulation reads as thoroughness.
 **Consequences:** T5 gains a secondary selection-model panel (study-level); convergence/divergence between PET-PEESE and the selection model feeds the overall bias narrative and the A-vs-C framing.
 **Files:** `[R/NN_t5_pubbias]`; T5.
+
+---
+
+## DEC-017: Within-study working correlation for the CE/CHE covariance â rho = 0.6 (sensitivity 0.4/0.6/0.8)
+**Block:** Phase 0 Â· 2026-06-30 Â· *(operationalizes DEC-002; analysis plan §3.1/§3.3)*
+**Question:** The CE/CHE working model (DEC-002) needs an assumed within-study sampling correlation rho to build the block-diagonal covariance V; DEC-002 fixed the estimator but not rho.
+**Options considered:** (a) leave rho implicit / accept package defaults; (b) fix rho = 0.6 with a sensitivity grid 0.4/0.6/0.8; (c) estimate rho (not feasible â within-study sampling correlations are essentially never reported in the primaries).
+**Chosen:** (b). rho = 0.6 default; sensitivity at 0.4 / 0.6 / 0.8.
+**Rationale:** Within-study sampling correlations are essentially never reported, so an assumed working value is unavoidable â this is standard for the CHE model (Pustejovsky & Tipton, 2022). Cluster-robust CR2 inference makes the point estimates robust to rho-misspecification, so the choice affects efficiency, not validity; 0.6 is the conventional default, and the 0.4/0.6/0.8 grid demonstrates the headline is insensitive. V is built with `clubSandwich::impute_covariance_matrix(vi, cluster = study, r = 0.6)`.
+**Reviewer-Risk:** *Finance/Econometrics* â an assumed rho plus a sensitivity grid is expected and accepted; CR2 is the defence. *Management/BSE* â minor; the sensitivity table is reassurance.
+**Consequences:** V at rho = 0.6 for all 3LMA-RVE and meta-regression estimates; a rho-sensitivity row (`spec = "rho_0.4" | "rho_0.8"`) in T4.
+**Files:** `[R/NN_t1_main]; [R/NN_t4_robust]`; T1, T4; `docs/analysis_plan.md §3`.
 
 ---
 
