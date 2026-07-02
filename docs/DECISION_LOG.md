@@ -11,7 +11,7 @@
 
 **Cross-references.** Status workbook (Roadmap themes #1–#16; Tasks T0.1–T8); repo `/R`, `/output`, `/manuscript`.
 
-**Status.** DEC-001…009 promoted from provisional; DEC-010…013 added 2026-06-29 (Roadmap themes #6–#9); DEC-014…016 added 2026-06-30 (methodology re-review against the newly added PK methods papers; Roadmap themes #14–#16); DEC-017 added 2026-06-30 (within-study working correlation rho; operationalizes DEC-002, analysis plan §3). IDs now active. Language: English (feeds the English response-letter / methods); switchable to German on request.
+**Status.** DEC-001…009 promoted from provisional; DEC-010…013 added 2026-06-29 (Roadmap themes #6–#9); DEC-014…016 added 2026-06-30 (methodology re-review against the newly added PK methods papers; Roadmap themes #14–#16); DEC-017 added 2026-06-30 (within-study working correlation rho; operationalizes DEC-002, analysis plan §3); DEC-018 added 2026-06-30 (interim publication-year time axis, E8; superseded by sample year, Datenagenda #10). IDs now active. Language: English (feeds the English response-letter / methods); switchable to German on request.
 
 ---
 
@@ -216,6 +216,18 @@
 **Reviewer-Risk:** *Finance/Econometrics* â an assumed rho plus a sensitivity grid is expected and accepted; CR2 is the defence. *Management/BSE* â minor; the sensitivity table is reassurance.
 **Consequences:** V at rho = 0.6 for all 3LMA-RVE and meta-regression estimates; a rho-sensitivity row (`spec = "rho_0.4" | "rho_0.8"`) in T4.
 **Files:** `[R/NN_t1_main]; [R/NN_t4_robust]`; T1, T4; `docs/analysis_plan.md §3`.
+
+---
+
+## DEC-018: Continuous time axis — interim publication year (pub_year), superseded by sample year
+**Block:** Phase 0 · 2026-06-30 · *(implements E8; analysis_plan.md §4/§9; T0.4; Datenagenda #10)*
+**Question:** The continuous-time identification (break vs. trend, DEC-007) needs a continuous time variable. The dataset has no year column — the `event_sample` columns are already dichotomised Pre/Post labels, so the sample year is not recoverable from the data. What continuous time axis is used?
+**Options considered:** (a) wait for sample-period years from Volker's extraction sheet (identification-grade, but blocks §4/T8 until delivery); (b) parse publication year from the `study` strings as an interim axis (derivable now — all 66 studies resolve, 2010–2024 — but a proxy); (c) defer continuous-time identification entirely.
+**Chosen:** (b), explicitly **provisional**. `pub_year` is parsed from `study`; the identification-grade sample year replaces it when Volker delivers.
+**Rationale:** `pub_year` is derivable now for all 66 studies and is the conventional time axis in economics meta-regression trend tests. It is a proxy — publication lags the sample period — so it is retained as an *interim* axis, not the final one: the sample year (Datenagenda #10) supersedes it if/when Volker's sheet arrives. The raw uncentred `pub_year` is stored so T8 can recentre (likely on 2015 = Paris) without a re-prep; the effect-level centring produced in the prep (`pub_year_c`, mean 2018.54) is **not** locked. The binary headline split `post_paris` remains sample-based (end_lag0), so only the secular-trend control uses the publication clock.
+**Reviewer-Risk:** *Finance/Econometrics* — publication year as the trend axis is standard in economics MA, but a referee may note it proxies the sample period; the sample-year refinement and the sample-based binary headline mitigate. *Management/BSE* — low.
+**Consequences:** `pub_year` + provisional `pub_year_c` in the prepared dataset; continuous-time identification (§4, T8 Moves 1–2) runs on `pub_year` interim, flagged provisional; T8 recentres from raw `pub_year`; sample year tracked as Datenagenda #10.
+**Files:** `[R/01_prep.R]`; T0.4, T8; `analysis_plan.md §4/§9`; Datenagenda #10.
 
 ---
 

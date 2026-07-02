@@ -3,13 +3,13 @@
 **Status:** T0.1 deliverable. Canonical executable specification. Every per-block Claude-Code spec (T1, T4, T5, T7, T8) inherits from this document; deviations require a DEC.
 **Language:** English (consistent with `DECISION_LOG.md`).
 **Environment (confirmed):** R 4.6.1 · renv 1.2.3 · metafor 5.0.1 · clubSandwich 0.7.0 · `selmodel` present · `puniform` 0.2.8 installed. Deferred (E4): `RoBMA` + JAGS/Stan.
-**Decision basis:** DEC-002, DEC-003, DEC-004, DEC-005, DEC-006, DEC-007, DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013, DEC-014, DEC-015, DEC-016, DEC-017; E1–E6.
+**Decision basis:** DEC-002, DEC-003, DEC-004, DEC-005, DEC-006, DEC-007, DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013, DEC-014, DEC-015, DEC-016, DEC-017, DEC-018; E1–E6, E8.
 
 ---
 
 ## 1. Data
 
-- Source: `FOMA_CERCOE_Data_v1.xlsx`, sheet `Tabelle1` (filename retains the COE-era label; content is COD).
+- Source: `data/CER-COD_data_v1.xlsx`, sheet `Tabelle1` (the earlier plan name `FOMA_CERCOE_Data_v1.xlsx` refers to the same file; content is COD).
 - Unit: **1,306 effect sizes** in **66 studies** (effects/study: min 1, median 10, mean 19.8, max 138; Bauer & Hann 2010 alone = 138 = 10.6%).
 - Key columns: `study`, `corr` (r), `sample` (n), `outcome`, event-coding columns (`event_sample end_lag0..3`, `median_lag0`, `mean_lag0`), `COD_measure`, `CER_measure`, `ES_measure` (B=1270 bivariate / P=36 partial), `industry`, `regulation_start`, `regulation_end`, `journal_q`.
 - n-distribution (report in Methods, DEC-015): median 289, IQR ≈ [115, 599], **37.4% with n < 200**, 311 with n < 100, **9 with non-integer n < 10** (verify in T0.4).
@@ -60,7 +60,7 @@ m_id <- rma.mv(zi, V, mods = ~ year_c * post_paris,  # continuous time × dummy
 Wald_test(m_id, constraints = constrain_zero("post_paris"),
           vcov = "CR2", cluster = dat$study)
 ```
-- `year_c` = centred continuous study year (from T0.4 — **blocker**, not yet in data).
+- `year_c` = interim publication year `pub_year_c` (DEC-018 / E8); identification-grade **sample year** is still blocked (Datenagenda #10) and supersedes it when Volker delivers. T8 recentres from raw `pub_year` (likely on 2015).
 - Toolkit (Identifikation tab): trend-race · segmented MR · placebo · component checks. Move 6 is dead (1–3/66 studies overlap), DEC-008.
 
 ## 5. Cluster-robust inference everywhere [DEC-014]
@@ -151,3 +151,4 @@ To pre-empt specification search: headline magnitude = 3LMA-RVE pooled mean (§3
 
 ## Change log
 - 2026-06-30 — created; operationalizes `[DEC-002..017]` (E1–E6). ρ = 0.6 working correlation fixed in DEC-017.
+- 2026-06-30 (b) — `[DEC-018]` (E8): interim publication-year time axis, §4/§9; data-path fix in §1 (`data/CER-COD_data_v1.xlsx`).
