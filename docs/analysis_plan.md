@@ -9,7 +9,7 @@
 
 ## 1. Data
 
-- Source: **`CERCOD_data_v8.xlsx`** (final; sheets `data` + `country_lookup` + `source_lookup` incl. `note` audit trail and `reference_verified`). Lineage: v5 exact window midpoints (half-year resolution) + end-axis lags; v6 quality recode [DEC-025]; v7 publication-status correction [DEC-026]; v8 full 66-row source audit. The effect-size core (`corr`, both n columns, `ES_measure`, window years) is byte-identical v4→v8 (verified).
+- Source: **`CER-COD_data_v8.xlsx`** (final; sheets `data` + `country_lookup` + `source_lookup` incl. `note` audit trail and `reference_verified`). Lineage: v5 exact window midpoints (half-year resolution) + end-axis lags; v6 quality recode [DEC-025]; v7 publication-status correction [DEC-026]; v8 full 66-row source audit. The effect-size core (`corr`, both n columns, `ES_measure`, window years) is byte-identical v4→v8 (verified).
 - Cached-column caveat: `pp_start_lag0` encodes start ≥ 2017 (stale). The R prep re-derives **all** `pp_*` columns from raw years (rules in §6); cached formulas are never trusted.
 - Unit: **1,306 effect sizes** in **66 studies** (effects/study: min 1, median 10, mean 19.8, max 138; Bauer & Hann 2010 alone = 138 = 10.6%).
 - Key columns: `study`, `corr` (r), `no_firms` / `n_obs` (see §2), `ES_measure` (B = 1,270 / P = 36), `sample_start/end/mid`, continuous dose `sample_post share_2016..2019`, binary `pp_share_lag0..3` (NB: binary despite the name), `pp_mid_lag0` ≡ `pp_median_lag0`, `pp_end_lag0..3`, `pp_window_class`, `COD_instrument`, `CER_measure`, `industry`, `regulation_*`, `country_*`, `q_status`, `q_VHB`, `field`.
@@ -182,4 +182,4 @@ To pre-empt specification search: headline magnitude = 3LMA-RVE pooled mean (§3
 - 2026-06-30 — created; operationalizes `[DEC-002..017]` (E1–E6). ρ = 0.6 working correlation fixed in DEC-017.
 - 2026-06-30 (b) — `[DEC-018]` (E8): interim publication-year time axis, §4/§9; data-path fix in §1 (`data/CER-COD_data_v1.xlsx`).
 - 2026-07-03 — data finalization `[DEC-019..023]` (E14–E23): source → `CER-COD_data_v4.xlsx`; n = `no_firms` (§2); Pre/Post suite + headline shift end→mid/continuous (§6); `sample_mid` time axis, DEC-018 retired (§4); country {region/dev/culture/legal} + quality {status/VHB/JIF/field} moderators (§7); CIT dropped. Headline-cut + VHB/JIF-WP basis open for methodology finalization.
-- 2026-07-03 (b) — Step-1 finalization `[DEC-024..027]`: source → `CERCOD_data_v8.xlsx`; §§1/2/4/6/7/9 replaced; Pending-A resolved; `q_JIF` retired; E14 → `n_obs`; DEC-013 closed (extremes verified); Datenagenda #11 closed (COE overlap 5/66, 42 effects, disjoint estimands).
+- 2026-07-03 (b) — Step-1 finalization `[DEC-024..027]`: source → `CER-COD_data_v8.xlsx`; §§1/2/4/6/7/9 replaced; Pending-A resolved; `q_JIF` retired; E14 → `n_obs`; DEC-013 closed (extremes verified); Datenagenda #11 closed (COE overlap 5/66, 42 effects, disjoint estimands).
