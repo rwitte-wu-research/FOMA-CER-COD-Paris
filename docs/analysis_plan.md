@@ -3,13 +3,13 @@
 **Status:** T0.1 deliverable. Canonical executable specification. Every per-block Claude-Code spec (T1, T4, T5, T7, T8) inherits from this document; deviations require a DEC.
 **Language:** English (consistent with `DECISION_LOG.md`).
 **Environment (confirmed):** R 4.6.1 · renv 1.2.3 · metafor 5.0.1 · clubSandwich 0.7.0 · `selmodel` present · `puniform` 0.2.8 installed. Deferred (E4): `RoBMA` + JAGS/Stan.
-**Decision basis:** DEC-002, DEC-003, DEC-004, DEC-005, DEC-006, DEC-007, DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013, DEC-014, DEC-015, DEC-016, DEC-017, DEC-018; E1–E6, E8.
+**Decision basis:** DEC-002, DEC-003, DEC-004, DEC-005, DEC-006, DEC-007, DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013, DEC-014, DEC-015, DEC-016, DEC-017, DEC-018, DEC-019, DEC-020, DEC-021, DEC-022, DEC-023; E1–E6, E8, E14–E23.
 
 ---
 
 ## 1. Data
 
-- Source: `data/CER-COD_data_v1.xlsx`, sheet `Tabelle1` (the earlier plan name `FOMA_CERCOE_Data_v1.xlsx` refers to the same file; content is COD).
+- Source: **`CER-COD_data_v4.xlsx`** (final; sheet `data` + `country_lookup` + `source_lookup`). Rows re-ordered vs v1 but the effect-size set is identical. v4 carries the derived Pre/Post, country, and quality columns; the R prep re-derives them from the raw columns + lookups (not the cached formulas).
 - Unit: **1,306 effect sizes** in **66 studies** (effects/study: min 1, median 10, mean 19.8, max 138; Bauer & Hann 2010 alone = 138 = 10.6%).
 - Key columns: `study`, `corr` (r), `sample` (n), `outcome`, event-coding columns (`event_sample end_lag0..3`, `median_lag0`, `mean_lag0`), `COD_measure`, `CER_measure`, `ES_measure` (B=1270 bivariate / P=36 partial), `industry`, `regulation_start`, `regulation_end`, `journal_q`.
 - n-distribution (report in Methods, DEC-015): median 289, IQR ≈ [115, 599], **37.4% with n < 200**, 311 with n < 100, **9 with non-integer n < 10** (verify in T0.4).
@@ -17,6 +17,7 @@
 
 ## 2. Effect-size metric [DEC-004, DEC-015, E5]
 
+- **Sample size [DEC-019, E14]:** headline `n = no_firms`; `vz = 1/(no_firms − 3)`. `no_firm-years` and study-level aggregation are robustness specs (E14).
 - Metric: **Fisher's z** throughout; back-transform the meta-analytic estimate to r for reporting only.
   `zi = atanh(ri)`; bivariate variance `vz = 1/(n − 3)`.
 - Mixed estimand: retain bivariate + partial (2.8% partial); disclose. Bivariate-only sensitivity (`spec = "bivariate_only"`, drop the 36 P) is the clean demonstration [E5].
@@ -60,7 +61,7 @@ m_id <- rma.mv(zi, V, mods = ~ year_c * post_paris,  # continuous time × dummy
 Wald_test(m_id, constraints = constrain_zero("post_paris"),
           vcov = "CR2", cluster = dat$study)
 ```
-- `year_c` = interim publication year `pub_year_c` (DEC-018 / E8); identification-grade **sample year** is still blocked (Datenagenda #10) and supersedes it when Volker delivers. T8 recentres from raw `pub_year` (likely on 2015).
+- `year_c` = **`sample_mid`** (window midpoint) — the identification-grade continuous time axis [DEC-021]. Supersedes `pub_year` (DEC-018 retired); Datenagenda #10 resolved. T8 centres `sample_mid` (likely on 2015).
 - Toolkit (Identifikation tab): trend-race · segmented MR · placebo · component checks. Move 6 is dead (1–3/66 studies overlap), DEC-008.
 
 ## 5. Cluster-robust inference everywhere [DEC-014]
@@ -69,7 +70,10 @@ Wald_test(m_id, constraints = constrain_zero("post_paris"),
 
 ## 6. Pre/Post-Paris coding [DEC-005]
 
-- Headline coding fixed **a priori**: end-of-window year split (`event_sample end_lag0`).
+- **Operationalization suite [DEC-020]:** v4 carries continuous `post_share` (4 lag thresholds), binary `pp_mid`/`pp_mean`/`pp_end`/`pp_start`, `pp_median`/`pp_tertile` splits, and `window_class` (clean_pre/clean_post/straddle).
+- **Headline recommendation:** `pp_mid` (= `post_share ≥ 0.5`, majority-of-window) or continuous `post_share`. The `sample_end` cut is **demoted to robustness** — its "Post" group is 81 % majority-pre-Paris data (contamination). **Formal headline-cut decision deferred to methodology finalization (Fable-5).**
+- **Clean-window robustness (S1):** restrict to `window_class ∈ {clean_pre (578), clean_post (43)}` (drop 685 straddlers) — the uncontaminated pre/post contrast.
+- Note: with only `sample_start/end`, **mean = median = midpoint** — report one, not three.
 - Variants computed but not headline: median/mean window, lag1–3. Reported as a coding-sensitivity panel.
 
 ## 7. Unified meta-regression [DEC-002, DEC-009, DEC-014]
@@ -78,11 +82,14 @@ One model with Paris × moderator interactions instead of many nested subgroup s
 
 ```r
 m_uni <- rma.mv(zi, V,
-                mods = ~ post_paris * (cod_instrument + industry + regulation)
+                mods = ~ post_paris * (cod_instrument + industry + regulation
+                                       + country_region + country_dev + country_west + country_legal
+                                       + q_status + q_VHB + q_JIF + field)
                         + es_type + method_artefacts,
                 random = ~ 1 | study/esid, data = dat, sparse = TRUE)
 coef_test(m_uni, vcov = "CR2", cluster = dat$study)
 ```
+- **Moderator inventory [DEC-022, DEC-023]:** CER type · COD instrument · industry · regulation (ETS/CT) · country {region, development (IMF), culture (DST), legal (La Porta)}, parse-homogeneous → NCE residual · quality {publication status, VHB, JIF, field}. `country_*` via `country_lookup`; `q_*`/`field` via `source_lookup`. Dominant-country sensitivity dropped (E21); CIT dropped (DEC-023). **Open:** VHB/JIF populated for 536 working-paper rows — document basis or set N/A.
 - Long-format results CSV carries a `spec` column for variant handling.
 
 ## 8. Publication bias [DEC-010, DEC-014, DEC-016, E3]
@@ -145,10 +152,11 @@ To pre-empt specification search: headline magnitude = 3LMA-RVE pooled mean (§3
 
 ## Open prerequisite (blocker, T0.4)
 
-`year_c` (continuous study year, centred) is **not** in the data and blocks §4 / T8 Moves 1–2. Plus: regulation direction coding (0/1/9) unclear; non-integer n verification. T0.4 resolves these before T1 runs.
+**Resolved by v4 (DEC-019..023):** continuous time axis (`sample_mid`), n-definition (`no_firms`), Pre/Post suite, country + quality moderators, regulation semantics (ETS/CT). Data basis final. **Remaining open (→ methodology finalization):** (1) headline-cut choice (mid/continuous vs end); (2) VHB/JIF-for-working-papers basis; (3) COE self-overlap list (Datenagenda #11, external).
 
 ---
 
 ## Change log
 - 2026-06-30 — created; operationalizes `[DEC-002..017]` (E1–E6). ρ = 0.6 working correlation fixed in DEC-017.
 - 2026-06-30 (b) — `[DEC-018]` (E8): interim publication-year time axis, §4/§9; data-path fix in §1 (`data/CER-COD_data_v1.xlsx`).
+- 2026-07-03 — data finalization `[DEC-019..023]` (E14–E23): source → `CER-COD_data_v4.xlsx`; n = `no_firms` (§2); Pre/Post suite + headline shift end→mid/continuous (§6); `sample_mid` time axis, DEC-018 retired (§4); country {region/dev/culture/legal} + quality {status/VHB/JIF/field} moderators (§7); CIT dropped. Headline-cut + VHB/JIF-WP basis open for methodology finalization.

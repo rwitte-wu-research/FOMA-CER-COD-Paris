@@ -11,7 +11,7 @@
 
 **Cross-references.** Status workbook (Roadmap themes #1–#16; Tasks T0.1–T8); repo `/R`, `/output`, `/manuscript`.
 
-**Status.** DEC-001…009 promoted from provisional; DEC-010…013 added 2026-06-29 (Roadmap themes #6–#9); DEC-014…016 added 2026-06-30 (methodology re-review against the newly added PK methods papers; Roadmap themes #14–#16); DEC-017 added 2026-06-30 (within-study working correlation rho; operationalizes DEC-002, analysis plan §3); DEC-018 added 2026-06-30 (interim publication-year time axis, E8; superseded by sample year, Datenagenda #10). IDs now active. Language: English (feeds the English response-letter / methods); switchable to German on request.
+**Status.** DEC-001…009 promoted from provisional; DEC-010…013 added 2026-06-29 (Roadmap themes #6–#9); DEC-014…016 added 2026-06-30 (methodology re-review against the newly added PK methods papers; Roadmap themes #14–#16); DEC-017 added 2026-06-30 (within-study working correlation rho; operationalizes DEC-002, analysis plan §3); DEC-018 added 2026-06-30 (interim publication-year time axis, E8; superseded by sample year, Datenagenda #10); DEC-019…023 added 2026-07-03 (data finalization: n-definition, Pre/Post operationalization + headline-cut, DEC-018 superseded, country moderators, quality moderators). IDs now active. Language: English (feeds the English response-letter / methods); switchable to German on request.
 
 ---
 
@@ -228,6 +228,64 @@
 **Reviewer-Risk:** *Finance/Econometrics* — publication year as the trend axis is standard in economics MA, but a referee may note it proxies the sample period; the sample-year refinement and the sample-based binary headline mitigate. *Management/BSE* — low.
 **Consequences:** `pub_year` + provisional `pub_year_c` in the prepared dataset; continuous-time identification (§4, T8 Moves 1–2) runs on `pub_year` interim, flagged provisional; T8 recentres from raw `pub_year`; sample year tracked as Datenagenda #10.
 **Files:** `[R/01_prep.R]`; T0.4, T8; `analysis_plan.md §4/§9`; Datenagenda #10.
+
+---
+
+## DEC-019: Sample-size base for inverse-variance weights — no_firms (headline)
+**Block:** Data finalization · 2026-07-03 · *(E14; analysis_plan §2)*
+**Question:** v4 provides two sample-size columns (`no_firms`, `no_firm-years`); which is the base for `vz = 1/(n − 3)`?
+**Options considered:** (a) `no_firms`; (b) `no_firm-years`; (c) design-effect-adjusted between the two.
+**Chosen:** (a) `no_firms` as headline; `no_firm-years` and study-level aggregation as robustness specs.
+**Rationale:** Firm count is the conservative choice — firm-years overstates precision under within-firm clustering; it also matches the original plan's implicit n. The firm-years and study-level robustness bracket the sensitivity. Material choice (scales every variance); to be re-validated in methodology finalization.
+**Reviewer-Risk:** *Finance/Econometrics* — the firms-vs-firm-years choice is consequential; the firm-years robustness + RVE clustering is the defence. *BSE* — low.
+**Consequences:** `vz = 1/(no_firms − 3)`; firm-years + study-level as robustness (E14).
+**Files:** `[R prep]`; `analysis_plan §2`; T1, T4.
+
+---
+
+## DEC-020: Pre/Post-Paris operationalization + headline-cut shift (supersedes DEC-005 end-headline)
+**Block:** Data finalization · 2026-07-03 · *(headline-cut; clean-window S1; supersedes the end-based headline of DEC-005)*
+**Question:** The sample-end headline (DEC-005) classifies 81 % of "Post" effects as *majority-pre-Paris* data (median post-Paris coverage 0.10) — a contamination artifact. How is the pre/post treatment operationalized?
+**Options considered:** (a) `sample_end` binary (generous — over-assigns Post); (b) `sample_mid` binary (majority-of-window); (c) continuous `post_share` (treatment dose); (d) clean-window (drop the 685 straddlers).
+**Chosen:** A full suite is built in v4 — continuous `post_share` (4 lag thresholds), binary mid/mean/end/start, median-split, tertile-split, `window_class`. **Headline recommendation: `pp_mid` (= post_share ≥ 0.5) or continuous `post_share`; `end` demoted to robustness.** The formal headline-cut decision is **deferred to methodology finalization (Fable-5)**.
+**Rationale:** 52 % of windows straddle Paris; the end-cut's "Post" group is 81 % majority-pre data → the pre/post contrast is a cut artifact. Midpoint (majority-of-window) or the continuous dose is defensible; the clean-window test (578 clean_pre vs 43 clean_post) is the uncontaminated robustness. Note: with only start/end, **mean = median = midpoint** — report one, not three (illusory distinct cuts).
+**Reviewer-Risk:** *Finance/BSE* — the straddling/contamination critique is the central design vulnerability; the operationalization suite + clean-window is the pre-emptive defence.
+**Consequences:** headline = mid/continuous (pending Fable-5); `end` = robustness bound; `window_class` clean-window test; DEC-005 end-headline superseded.
+**Files:** v4 `pp_*`, `post_share`, `window_class`; `analysis_plan §6`; T1, T4, T8.
+
+---
+
+## DEC-021: Continuous time axis — sample_mid (supersedes DEC-018 / pub_year)
+**Block:** Data finalization · 2026-07-03 · *(supersedes DEC-018)*
+**Question:** DEC-018 used publication year as the interim time axis pending sample years; v4 delivers `sample_start`/`sample_end`.
+**Chosen:** `sample_mid` (window midpoint) = the continuous time axis for identification (T8); `pub_year` retired.
+**Rationale:** Sample years are now available per effect → the identification-grade time axis exists; the `pub_year` publication-lag proxy is no longer needed. T8 Moves 1–2 unblocked. Datenagenda #10 resolved.
+**Reviewer-Risk:** low — the sample-based time axis is the correct choice; `pub_year` was explicitly interim (DEC-018).
+**Consequences:** T8 identification uses `sample_mid`; DEC-018/`pub_year` retired.
+**Files:** v4 `sample_mid`; `analysis_plan §4`; T8; Datenagenda #10.
+
+---
+
+## DEC-022: Geographic / context moderators — region · development · culture · legal origin
+**Block:** Data finalization · 2026-07-03 · *(E16–E21 + legal origin)*
+**Question:** How are country-level moderators operationalized from the free-text `country` field (35 distinct strings, 88 constituent countries, ~25 % multi-country)?
+**Options considered:** crude "any multi-country → mixed" vs. parse-homogeneous vs. dominant-country assignment.
+**Chosen:** Four schemes via a documented lookup — **region** (US / Europe-geographic / Asia-Pacific incl. Oceania / NCE), **development** (IMF Advanced Economies), **culture** (DST Statistics-Denmark Western/Non-Western), **legal origin** (La Porta common/civil). **Parse-homogeneous rule:** a multi-country list → the shared category if homogeneous on that dimension, else **NCE (Not Classified Elsewhere)**. Dominant-country sensitivity **dropped** (no per-country sample composition in the data).
+**Rationale:** Objective external standards (IMF / DST / La Porta) minimize arbitrariness and are reviewer-defensible; NCE is a clean residual (19–25 %); parse-homogeneous preserves signal (all-EU list → Europe, not mixed). Documented contested calls: SA/Israel → common; Poland/Hungary/Bulgaria/Romania → developing (IMF); developed-but-non-western Japan/Korea/Singapore (IMF×DST divergence, by design). Caveats: Asia-Pacific is China-dominated (315/421); Europe-region is thin (77).
+**Reviewer-Risk:** *BSE* — geographic moderators are expected; the documented standards + auditable lookup are the defence; the `culture` (west) scheme is flagged exploratory.
+**Consequences:** `country_region/_dev/_west/_legal` columns via `country_lookup` sheet; `country_lookup.csv` is the 88-country reference.
+**Files:** v4 `country_*` + `country_lookup` sheet; `country_lookup.csv`; `analysis_plan §7`.
+
+---
+
+## DEC-023: Study-quality / context moderators — status · VHB · JIF · field (CIT dropped)
+**Block:** Data finalization · 2026-07-03 · *(E15; CIT dropped)*
+**Question:** How are study-quality tiers operationalized (v1's `journal_q` was dropped)?
+**Chosen:** Publication status (published / working-paper), **VHB-JOURQUAL** ranking (high/low), **JIF** (high/low), **field** (fin·acc·econ / sustainability / management), via a study-level `source_lookup`. **CIT (citations/year) dropped.** VHB/JIF at current-year reference.
+**Rationale:** `journal_q` replaced by richer, source-level tiers; the study-level lookup is the correct architecture. CIT dropped (collection burden outweighs marginal value). **Open item:** VHB/JIF are currently populated for the 536 working-paper rows — the assignment basis must be documented or those set to N/A (flagged, not yet resolved).
+**Reviewer-Risk:** *BSE* — quality moderators and grey-literature inclusion are standard; the working-paper-VHB/JIF assignment needs an explicit, defensible basis.
+**Consequences:** `q_status/VHB/JIF`, `field` columns via `source_lookup`; the three CIT analyses dropped from the plan.
+**Files:** v4 `q_*`, `field` + `source_lookup` sheet; `analysis_plan §9`.
 
 ---
 

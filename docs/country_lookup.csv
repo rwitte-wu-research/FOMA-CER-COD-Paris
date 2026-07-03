@@ -1,0 +1,87 @@
+country,region,development_IMF,west_DST,legal_LaPorta
+Argentina,NCE,developing,non_western,civil
+Australia,AsiaPac,developed,western,common
+Austria,Europe,developed,western,civil
+Bahrain,NCE,developing,non_western,civil
+Belgium,Europe,developed,western,civil
+Botswana,NCE,developing,non_western,common
+Brazil,NCE,developing,non_western,civil
+Bulgaria,Europe,developing,western,civil
+Canada,NCE,developed,western,common
+Chile,NCE,developing,non_western,civil
+China,AsiaPac,developing,non_western,civil
+Colombia,NCE,developing,non_western,civil
+Croatia,Europe,developed,western,civil
+Cyprus,Europe,developed,western,common
+Czechia,Europe,developed,western,civil
+Denmark,Europe,developed,western,civil
+Ecuador,NCE,developing,non_western,civil
+Egypt,NCE,developing,non_western,civil
+Estonia,Europe,developed,western,civil
+Finland,Europe,developed,western,civil
+France,Europe,developed,western,civil
+Germany,Europe,developed,western,civil
+Greece,Europe,developed,western,civil
+Guernsey,Europe,developed,western,common
+Hong Kong,AsiaPac,developed,non_western,common
+Hungary,Europe,developing,western,civil
+Iceland,Europe,developed,western,civil
+India,AsiaPac,developing,non_western,common
+Indonesia,AsiaPac,developing,non_western,civil
+Iraq,NCE,developing,non_western,civil
+Ireland,Europe,developed,western,common
+Isle of Man,Europe,developed,western,common
+Israel,NCE,developed,non_western,common
+Italy,Europe,developed,western,civil
+Japan,AsiaPac,developed,non_western,civil
+Jersey,Europe,developed,western,common
+Jordan,NCE,developing,non_western,civil
+Kazakhstan,AsiaPac,developing,non_western,civil
+Kenya,NCE,developing,non_western,common
+Kuwait,NCE,developing,non_western,civil
+Latvia,Europe,developed,western,civil
+Lebanon,NCE,developing,non_western,civil
+Libya,NCE,developing,non_western,civil
+Lithuania,Europe,developed,western,civil
+Luxembourg,Europe,developed,western,civil
+Malaysia,AsiaPac,developing,non_western,common
+Malta,Europe,developed,western,civil
+Mauritius,NCE,developing,non_western,common
+Mexico,NCE,developing,non_western,civil
+Mongolia,AsiaPac,developing,non_western,civil
+Morocco,NCE,developing,non_western,civil
+Namibia,NCE,developing,non_western,common
+Netherlands,Europe,developed,western,civil
+New Zealand,AsiaPac,developed,western,common
+Nigeria,NCE,developing,non_western,common
+Norway,Europe,developed,western,civil
+Oman,NCE,developing,non_western,civil
+Pakistan,AsiaPac,developing,non_western,common
+Panama,NCE,developing,non_western,civil
+Peru,NCE,developing,non_western,civil
+Philippines,AsiaPac,developing,non_western,civil
+Poland,Europe,developing,western,civil
+Portugal,Europe,developed,western,civil
+Qatar,NCE,developing,non_western,civil
+Romania,Europe,developing,western,civil
+Russian Federation,NCE,developing,non_western,civil
+Saudi Arabia,NCE,developing,non_western,civil
+Singapore,AsiaPac,developed,non_western,common
+Slovak Republic,Europe,developed,western,civil
+Slovenia,Europe,developed,western,civil
+South Africa,NCE,developing,non_western,common
+South Korea,AsiaPac,developed,non_western,civil
+Spain,Europe,developed,western,civil
+Sri Lanka,AsiaPac,developing,non_western,common
+Sweden,Europe,developed,western,civil
+Switzerland,Europe,developed,western,civil
+Thailand,AsiaPac,developing,non_western,civil
+Turkiye,NCE,developing,non_western,civil
+Uganda,NCE,developing,non_western,common
+Ukraine,Europe,developing,non_western,civil
+United Arab Emirates,NCE,developing,non_western,civil
+United Kingdom,Europe,developed,western,common
+United States,US,developed,western,common
+Venezuela,NCE,developing,non_western,civil
+Viet Nam,AsiaPac,developing,non_western,civil
+Zambia,NCE,developing,non_western,common
