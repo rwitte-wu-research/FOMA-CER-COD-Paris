@@ -6,3 +6,4 @@ _probe_*.R
 data/processed/
 .DS_Store
 Thumbs.db
+.claude/
