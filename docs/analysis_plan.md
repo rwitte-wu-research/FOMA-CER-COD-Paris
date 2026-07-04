@@ -3,26 +3,27 @@
 **Status:** T0.1 deliverable. Canonical executable specification. Every per-block Claude-Code spec (T1, T4, T5, T7, T8) inherits from this document; deviations require a DEC.
 **Language:** English (consistent with `DECISION_LOG.md`).
 **Environment (confirmed):** R 4.6.1 · renv 1.2.3 · metafor 5.0.1 · clubSandwich 0.7.0 · `selmodel` present · `puniform` 0.2.8 installed. Deferred (E4): `RoBMA` + JAGS/Stan.
-**Decision basis:** DEC-002, DEC-003, DEC-004, DEC-005, DEC-006, DEC-007, DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013, DEC-014, DEC-015, DEC-016, DEC-017, DEC-018, DEC-019, DEC-020, DEC-021, DEC-022, DEC-023, DEC-024, DEC-025, DEC-026, DEC-027; E1–E6, E8, E14–E23.
+**Decision basis:** DEC-002, DEC-003, DEC-004, DEC-005, DEC-006, DEC-007, DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013, DEC-014, DEC-015, DEC-016, DEC-017, DEC-018, DEC-019, DEC-020, DEC-021, DEC-022, DEC-023, DEC-024, DEC-025, DEC-026, DEC-027, DEC-028, DEC-029; E1–E6, E8, E14–E23.
 
 ---
 
 ## 1. Data
 
-- Source: **`CER-COD_data_v8.xlsx`** (final; sheets `data` + `country_lookup` + `source_lookup` incl. `note` audit trail and `reference_verified`). Lineage: v5 exact window midpoints (half-year resolution) + end-axis lags; v6 quality recode [DEC-025]; v7 publication-status correction [DEC-026]; v8 full 66-row source audit. The effect-size core (`corr`, both n columns, `ES_measure`, window years) is byte-identical v4→v8 (verified).
-- Cached-column caveat: `pp_start_lag0` encodes start ≥ 2017 (stale). The R prep re-derives **all** `pp_*` columns from raw years (rules in §6); cached formulas are never trusted.
-- Unit: **1,306 effect sizes** in **66 studies** (effects/study: min 1, median 10, mean 19.8, max 138; Bauer & Hann 2010 alone = 138 = 10.6%).
-- Key columns: `study`, `corr` (r), `no_firms` / `n_obs` (see §2), `ES_measure` (B = 1,270 / P = 36), `sample_start/end/mid`, continuous dose `sample_post share_2016..2019`, binary `pp_share_lag0..3` (NB: binary despite the name), `pp_mid_lag0` ≡ `pp_median_lag0`, `pp_end_lag0..3`, `pp_window_class`, `COD_instrument`, `CER_measure`, `industry`, `regulation_*`, `country_*`, `q_status`, `q_VHB`, `field`.
-- n-distribution (report in Methods, DEC-015): median 289, IQR ≈ [115, 599], 37.4% with n < 200, **9 integer rows with n < 10** (corrigendum of the earlier "non-integer" descriptor; rounding lives in `calc_rounded`; derivation rule no_firms = round(n_obs/T) — DEC-027).
-- Extremes [DEC-013, closed 2026-07-03]: Devalle 2017 r = +0.9998 (n = 56) and Drago 2018 r = −0.9977 (n = 184) **verified at source and confirmed**; retained; influence carried by rstudent identification, LOSO, and the winsor sensitivity (§9).
+- Source: **`CER-COD_data_v10.xlsx`** (final; sheets `data` [45 cols] + `country_lookup` + `source_lookup` [65 rows; `note` audit trail; verified-reference column `source_verfified` — sic, codebook alias: reference_verified] + `notes` [Volker batch answers a–e incl. Sharfman exclusion rationale] + `formula` [conversion routes, V5]). Lineage: v5 exact midpoints + end-axis lags; v6 quality recode [DEC-025]; v7 status correction [DEC-026]; v8 66-row source audit; v9 Volker batch (V4 flags, V5 formulas, lookup care) [DEC-028]; v10 ES-type label fix + lookup consolidation [DEC-028]. Effect-size core byte-identical v4→v10 under renames (verified: max |Δ| = 0).
+- Column renames (v9): `corr` → **`ES (corr_coeff)`**; `sample_size …calc_rounded` → `…_rounded`. New columns: `no_firms_source` / `no_firm-years_source` (coded 593/408 · calculated 713/898) [V4]; **`ES_source`** (direct r 36 · t-statistic 634 · coef+SE 570 · p-value 66) [V5]. Prep maps legacy names.
+- Cached-column caveat unchanged: prep re-derives all `pp_*` from raw years (rules in §6); `pp_start_lag0` cache stale (≥ 2017).
+- Unit: **1,306 effect sizes / 66 studies** (effects/study: min 1, median 10, max 138 = Bauer & Hann, 10.6%). Study-key note: `Li et al (2021)` → `Li et al (2022)` in v9 (same paper, version-of-record identity) [DEC-028].
+- **ES composition [F20/DEC-028]:** 36 bivariate direct-r effects (23 studies, 2.8%) · 1,270 converted PCCs (97.2%) via the `formula` routes; df convention in §2.
+- n-distribution & derivation [DEC-015/027/028]: median 289; 9 integer rows with n < 10; source flags authoritative (calculated 54.6%); round(n_obs/T) is the primary derivation route.
+- Extremes [DEC-013, closed]: Devalle +0.9998 (n = 56) and Drago −0.9977 (n = 184) verified at source; retained; rstudent/LOSO/winsor carry influence (§9).
 
-## 2. Effect-size metric [DEC-004, DEC-015, E5]
+## 2. Effect-size metric [DEC-004, DEC-015, DEC-028; E5]
 
-- **Sample size [DEC-019, DEC-027]:** headline `n = no_firms`; `vz = 1/(no_firms − 3)`. Robustness: **`n_obs`** (reported estimation-sample observations; upper-precision bound — unit-heterogeneous: 81 effects in 3 studies are sub-annual/loan-level) and study-level aggregation [E14].
-- Metric: **Fisher's z** throughout; back-transform the meta-analytic estimate to r for reporting only.
-  `zi = atanh(ri)`; bivariate variance `vz = 1/(n − 3)`.
-- Mixed estimand: retain bivariate + partial (2.8% partial); disclose. Bivariate-only sensitivity (`spec = "bivariate_only"`, drop the 36 P) is the clean demonstration [E5].
-- **PCC degrees of freedom [E5]:** the number of controls `k` is **not** coded in the dataset. Use the **n − 3 approximation** for the 36 PCCs (instead of n − k − 3), with a footnote that bias is negligible at 2.8% (median n = 289); the bivariate-only `spec` carries the robustness. Re-coding `k` from Volker's extraction sheet only if trivial (as-executed layer).
+- **Sample size [DEC-019, DEC-027]:** headline `n = no_firms`; `vz = 1/(no_firms − 3)`. Robustness: **`n_obs`** (upper-precision bound; unit-heterogeneous: 81 effects in 3 studies are sub-annual/loan-level) and study-level aggregation [E14].
+- Metric: **Fisher's z** throughout; back-transform the meta-analytic estimate to r for reporting only. `zi = atanh(ri)`.
+- **Estimand composition [F20/DEC-028]:** 1,270 effects (97.2%) are **converted partial correlations** (routes: t 634 · b/SE 570 · p 66; documented in the `formula` sheet, V5); 36 effects (2.8%; 23 studies) are direct bivariate r. The PCC literature (van Aert 2023; Stanley et al. 2024) is therefore the reporting anchor; IZRT back-transformation applies to the direct-r minority only.
+- **PCC df convention [F21/DEC-028]:** the conversions use df ≈ `n_obs` (not n − k − 1); k is not coded and is not collected. Disclosed approximation — relative attenuation ≈ k/(2·n_obs), negligible at median n_obs ≈ 2,910 — plus sensitivity `pcc_df_k10`/`pcc_df_k20` (invert t from (r, n_obs); recompute r with df = n_obs − {10, 20}). The sampling variance remains 1/(no_firms − 3) regardless [DEC-019].
+- **`direct_r_only`** (`spec`, E5): the 36/23 direct-r subsample as the conversion-free check (replaces the former `bivariate_only`/`r_type` framing).
 
 ## 3. Core model family — 3LMA-RVE [DEC-002, DEC-003, DEC-017]
 
@@ -107,11 +108,11 @@ m_uni <- rma.mv(zi, V,
                 mods = ~ post_paris * (cod_instrument + industry + regulation
                                        + country_region + country_dev + country_west + country_legal
                                        + q_status + q_VHB + field)
-                        + es_type + method_artefacts,
+                        + ES_source,
                 random = ~ 1 | study/esid, data = dat, sparse = TRUE)
 coef_test(m_uni, vcov = "CR2", cluster = dat$study)
 ```
-- **Moderator inventory [DEC-022, DEC-025]:** CER type · COD instrument · industry · regulation (ETS/CT) · country {region, development (IMF), culture (DST), legal (La Porta)}, parse-homogeneous → NCE residual · quality [DEC-025, DEC-026]: `q_status` (published 999/60 vs WP 307/6; sole grey-literature moderator) + `q_VHB` via reference-cell coding of {pub-high 813/41, pub-low 186/19 (ref), WP} — WP rows retained; univariate VHB panels on the published subsample; `q_JIF` retired (raw in `source_lookup`). `country_*` via `country_lookup`; `q_*`/`field` via `source_lookup`. Dominant-country sensitivity dropped (E21); CIT dropped (DEC-023). `method_artefacts` operationalization pending (Datenagenda #3; couples to Pending-B/V5).
+- **Moderator inventory [DEC-022, DEC-025]:** CER type · COD instrument · industry · regulation (ETS/CT) · country {region, development (IMF), culture (DST), legal (La Porta)}, parse-homogeneous → NCE residual · quality [DEC-025, DEC-026]: `q_status` (published 999/60 vs WP 307/6; sole grey-literature moderator) + `q_VHB` via reference-cell coding of {pub-high 813/41, pub-low 186/19 (ref), WP} — WP rows retained; univariate VHB panels on the published subsample; `q_JIF` retired (raw in `source_lookup`). `country_*` via `country_lookup`; `q_*`/`field` via `source_lookup`. Dominant-country sensitivity dropped (E21); CIT dropped (DEC-023). `ES_source` (4-level conversion-route factor; reference = t-route) operationalizes the former es_type/method_artefacts placeholders [DEC-028]; Datenagenda #3 closed.
 - Long-format results CSV carries a `spec` column for variant handling.
 
 ## 8. Publication bias [DEC-010, DEC-014, DEC-016, E3]
@@ -142,7 +143,7 @@ pu <- puni_star(yi = agg$z, vi = agg$vz, side = "left")      # p-uniform* (CER�
 ## 9. Robustness `spec` catalogue [DEC-004, DEC-013, DEC-015, DEC-024–027; E1, E2, E5]
 
 Single long-format CSV, `spec` column. Required specs:
-`leave_one_out` (incl. explicit post-cell LOSO) · `outlier_rstudent` · `winsor` / `unwinsor` · `one_effect_per_study` · `r_type` · `cer_type` · `journal_q` (VHB, published subsample) · `status_as_extracted` [DEC-026] · `n_obs` [E14/DEC-027] · `event_coding` = {tie_break, end_any_exposure, share_lags_main, end_lags_appendix, clean_window, share_quadratic} [DEC-024] · **`uwls3`** [E2] · **`bivariate_only`** [E5] · **`rho_0.4` / `rho_0.8`** [E1].
+`leave_one_out` (incl. explicit post-cell LOSO) · `outlier_rstudent` · `winsor` / `unwinsor` · `one_effect_per_study` · `cer_type` · `journal_q` (VHB, published subsample) · `status_as_extracted` [DEC-026] · `n_obs` [E14/DEC-027] · `event_coding` = {tie_break, end_any_exposure, share_lags_main, end_lags_appendix, clean_window, share_quadratic} [DEC-024] · **`uwls3`** [E2] · **`direct_r_only`** [E5; 36 effects / 23 studies] · **`pcc_df_k10` / `pcc_df_k20`** [DEC-028] · **`rho_0.4` / `rho_0.8`** [E1].
 
 - **UWLS+3 [E2, DEC-015]:** unrestricted WLS (FE estimator with multiplicative dispersion) with the +3 Fisher-z df adjustment of Stanley et al. (2025). Implementation per that paper's appendix (confirm the exact df constant against the source). Robustness only; HS deferred (E2).
 - **Outliers [DEC-013, closed]:** Devalle/Drago verified at source and retained; rstudent identification + drop-and-refit reported prominently; winsor remains a sensitivity, never the primary treatment.
@@ -172,9 +173,15 @@ To pre-empt specification search: headline magnitude = 3LMA-RVE pooled mean (§3
 
 ---
 
+## 13. Null-robustness battery [DEC-029]
+
+Fifteen pre-designated analyses (Status tab `Null_Battery`, GO 2026-07-04) guard the informative-null claim along four attack lines. **(A) chance/power:** N1 TOST equivalence (SESOI dual anchor, F18) · N2 design-only MDE simulation (joins the T2 verifier) · N3 BF/RoBMA · N4 prediction intervals. **(B) specification:** N5 multiverse/specification curve (anchor figure) · N6 sup-break + N7 permutation inference (shared machinery; p_perm next to p_CR2) · N8 Zarea transplantation · N9 HS (+WAAP; appendix). **(C) time-form:** N10 cumulative MA (main graphic) · N11 rolling window (appendix). **(D) benchmark:** N12 external-difference test · N13 p-curve (conditional: ≥ 5 significant study-level post-cell p, else reported infeasible) · N14 pre/post publication-bias split (appendix). N15 within-study display is descriptive only (DEC-008 partially reopened). Required a-priori inputs and paper acquisitions per DEC-029; **inputs are fixed in the battery-prep step before T1**.
+
+---
+
 ## Open items (non-blocking)
 
-**All Step-1 items resolved (DEC-024–027; Pending-A closed).** Remaining, non-blocking: Volker batch — reported-vs-derived n flag (V4/DEC-027); r-transform documentation + PCC k (V5 → Pending-B; also operationalizes `method_artefacts`, Datenagenda #3); PRISMA basics (V6); lookup care per DEC-026 (Shad/Lemma years, Li duplicate row, `reference_verified` header + 7 blanks); F16 Sharfman & Fernando (2008) exclusion rationale.
+**Pending-B resolved** (v9 `formula` sheet → DEC-028). Remaining: **V6 PRISMA basics** (Volker; Datenagenda #16) · **battery a-priori inputs + paper acquisitions** [DEC-029] (battery-prep step, pre-T1; incl. F18 SESOI) · codebook folding of `notes`/`formula` + `source_verfified` alias note · F22 Shad cross-note carried into the overlap/cover-letter table.
 
 ---
 
@@ -183,3 +190,4 @@ To pre-empt specification search: headline magnitude = 3LMA-RVE pooled mean (§3
 - 2026-06-30 (b) — `[DEC-018]` (E8): interim publication-year time axis, §4/§9; data-path fix in §1 (`data/CER-COD_data_v1.xlsx`).
 - 2026-07-03 — data finalization `[DEC-019..023]` (E14–E23): source → `CER-COD_data_v4.xlsx`; n = `no_firms` (§2); Pre/Post suite + headline shift end→mid/continuous (§6); `sample_mid` time axis, DEC-018 retired (§4); country {region/dev/culture/legal} + quality {status/VHB/JIF/field} moderators (§7); CIT dropped. Headline-cut + VHB/JIF-WP basis open for methodology finalization.
 - 2026-07-03 (b) — Step-1 finalization `[DEC-024..027]`: source → `CER-COD_data_v8.xlsx`; §§1/2/4/6/7/9 replaced; Pending-A resolved; `q_JIF` retired; E14 → `n_obs`; DEC-013 closed (extremes verified); Datenagenda #11 closed (COE overlap 5/66, 42 effects, disjoint estimands).
+- 2026-07-04 — Data closure + null battery `[DEC-028, DEC-029]`: source → `CER-COD_data_v10.xlsx`; §§1/2 rewritten (ES composition corrected: 36 direct-r / 1,270 PCC; df ≈ n_obs convention + `pcc_df_k` sensitivity); §7 `ES_source` factor; §9 updates (`direct_r_only`, `pcc_df_k10/20`; `r_type` retired); §13 null battery added; Pending-B resolved.
