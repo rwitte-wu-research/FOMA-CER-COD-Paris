@@ -420,6 +420,36 @@
 
 ---
 
+## DEC-033: Full-corpus harmonization re-extraction under codebook v1.1 (Option C); Capelle-Blancard excluded at harmonization stage (unit of analysis); triage-based verification protocol
+**Block:** Corpus governance / extraction · 2026-07-05
+**Question:** After the blind pilot (PASS, 0 extractor errors; 3 v10 errata incl. one pathological effect r=+0.9998; extraction-density gap in 2 of 4 studies), should the legacy corpus be (A) kept as-is with a segment dummy, (B) audit-re-extracted with v10 remaining canonical on exact matches, or (C) fully re-extracted so that one procedure produces the entire dataset?
+**Chosen:** **(C)** — full-corpus re-extraction via Cowork under codebook v1.1; the new extraction is the canonical basis for v11.
+- **Verification protocol (the condition that makes C affordable):** the legacy v10 human coding serves as an independent double-coding on the overlap. Field-level machine diff of new vs v10: **exact agreement = mutually verified** (no further human check); disagreements and rows without a v10 counterpart → **Volker adjudicates against the source PDF**. The F35 erratum list (a–f, incl. Devalle row 409, Atif regulation/CER_measure, Capelle firm count) is folded into this adjudication. Without this triage rule, C would cost weeks; with it, C ≈ B in workload with a cleaner lineage and a textbook double-coding design for the Methods section.
+- **Capelle-Blancard et al (2019): excluded** at harmonization stage — unit of analysis is the sovereign, not the firm (country-level ESG indices → sovereign bond spreads); fails the firm-level construct gate (R2.1/F36h). Rule-based, result-blind, pre-T1. Corpus: 66 → 65 studies; 1,306 → 1,305 legacy effects before re-extraction. PRISMA documentation as harmonization-stage exclusion; drop-one sensitivity note retained for transparency.
+- **Scope:** all 65 legacy papers + all screened-in update candidates in one Cowork batch (one paper per run; staging_<study>.csv + log_<study>.md; run manifest). The four pilot extractions are reusable (Yilmaz regulation fields re-coded per F36b at staging); the four calibration papers are re-extracted uniformly in the batch.
+- **Design invariants:** result-blind (pre-T1, no analysis has run); inclusion/membership untouched except the documented Capelle rule-exclusion; segment flag (original vs update screening vintage) retained as robustness moderator; all design quantities (DEC-024 cells, grids, df) re-derived mechanically on v11; DEC-031 (battery-input fixation) follows v11.
+- **Methods disclosure (EN, updated):** "All effect sizes were extracted under a pre-specified, versioned codebook with AI assistance (Claude, Anthropic). For the original corpus this constitutes an independent re-extraction; field-level agreement with the original human coding was [X]%, disagreements were adjudicated against the source documents, and all statistical fields of newly added studies were verified by one author."
+**Reviewer-Risk:** *Finance/Econometrics* — extraction reliability and comparability across corpus segments: answered by one uniform procedure, the double-coding agreement statistic, and cell-level provenance for every row. *Management/BSE* — transparency of AI use and of the sovereign exclusion: answered by the disclosure sentence, the committed codebook, and the PRISMA harmonization note.
+**Consequences:** production batch covers the full corpus; v11 is a single-procedure dataset; Datenagenda #21 rewritten, #22 folded into adjudication, #23 (Capelle documentation) opened; DEC-031 remains scheduled post-v11.
+**Files:** docs/extraction_codebook_v1_1.md · extraction_project_instructions.md (pin v1.1) · docs/pilot_concordance_report.md · DECISION_LOG · Status.
+
+---
+
+## DEC-034: Six supplementary extraction fields adopted (codebook v1.2) — copy-level, purpose-tagged, result-blind; pilot stagings invalidated for batch uniformity
+**Block:** Corpus governance / extraction · 2026-07-05
+**Question:** Before the full-corpus Cowork batch starts, should additional fields be collected while the marginal cost is ~zero (every table is read anyway), and which candidates survive the filter (objective copy-level; named pre-specified purpose; architecture untouched)?
+**Chosen:** Six fields adopted; the temptation list beyond them rejected (mechanism/theory coding — judgement field; DV transformation — irrelevant for PCC; primary-study winsorizing — log note suffices; journal/author traits — lookup side; anything implying a new analysis strand). Construct-/outcome-granularity needs NO new fields — post-codable ex post from the verbatim labels + provenance already collected.
+- **Per effect:** `x_lag` (reviewer-predictable robustness cut; pilot: Oikonomou t−1 lived only in the log) · `estimation_method` (MAER-NET reporting; identification cut — the most predictable Finance-referee request) · `se_clustering` (SE-quality heterogeneity of t-values; known PCC-meta flank) · `subsample_dimension` + `subsample_value` (structures the existing free-text note → mechanical composition disclosures) · `subsample_start`/`subsample_end` (effect-level windows; feeds N15 within-study contrasts and the dose axis).
+- **Per study:** `n_obs_by_year` (verbatim, only if an observations-per-year table exists) → enables WEIGHTED post-share/dose variants instead of the uniform-within-window assumption.
+- **Architecture guard:** headline definitions remain exactly as logged (DEC-024: study-window pp_share, ties→Post). Effect-window and weighted-share variants are **pre-registered secondary specifications**; x_lag/method/clustering are **documented reserves** (analyzed only per plan or in referee response). Purpose tags per field are recorded here as the defense against any field-fishing reading.
+- **Clarification memorialized (author exchange):** fields #1/#4/#6 were assumed to be already collected per row; factually #4 existed only as free-text trace (subsample_note), #1 and #6 not at all — v1.2 makes all three machine-readable.
+- **Uniformity rule:** the four pilot staging files (Atif, Capelle-Blancard, Devalle, Yilmaz) are deleted from staging\ before the full batch, so the resume rule re-runs them and every paper is extracted under v1.2.
+**Reviewer-Risk:** *Finance/Econometrics* — identification/SE heterogeneity questions get data-backed answers instead of prose. *Management/BSE* — no scope creep: six copy-level fields, each with a named purpose, none altering the locked design.
+**Consequences:** codebook v1.2 + template v1.2 + instructions pin committed and swapped into the extraction project's knowledge; DEC-031 (battery inputs) unchanged, post-v11.
+**Files:** docs/extraction_codebook_v1_2.md · docs/extraction_staging_template.csv · docs/extraction_project_instructions.md · DECISION_LOG · Status.
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
