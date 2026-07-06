@@ -450,6 +450,21 @@
 
 ---
 
+## DEC-035: Mid-batch construct-gate rulings codified (F38, F39a–f); codebook v1.3→v1.4 under pin discipline; mandated re-extractions; two further harmonization-stage exclusions
+**Block:** Corpus governance / extraction · 2026-07-06
+**Question:** The full-corpus batch surfaced construct-gate collisions between codebook v1.2 and the as-executed corpus, plus five log-flagged rule questions. How are they ruled, and how is mid-batch rule evolution kept defensible?
+**Rulings (author, 2026-07-06):**
+- **F38 — Delis stays; gate amended (v1.3):** firm-level fossil-fuel reserves qualify as embedded/potential-emissions CONDUCT. Boundary formula codified: *quantified firm-level carbon stocks and flows (emissions, intensity, reserves) = conduct; classifications, sector-membership dummies, and perceptions = exposure; country-level quantities mechanically allocated to firms remain excluded.* Delis re-extracted under v1.3: 0 → 32 main-effect rows (interactions logged as near-misses per R2.7); price-valued vs. proved reserve variants (4 rows) → adjudication [F39c].
+- **F39a — Fard et al (2020) exits** at harmonization stage: X = country-level environmental-policy stringency — exposure side of the F38 boundary, no conduct reading. Legacy impact: −46 effects; corpus 64 → **63** studies (after Capelle). Documented as rule-based, result-blind, pre-T1; PRISMA harmonization note + drop-one sensitivity note.
+- **F39b — KLD/MSCI-type rating subdimensions of strengths/concerns type, incl. climate-change concern indicators, are performance-assessment CONDUCT** (Oikonomou precedent: concerns = bad-CER conduct) → codified in v1.4. Consequence asymmetry: **missing rows ⇒ re-run** (Bauer & Hann re-extraction mandated; staging invalidated), **flagged rows ⇒ adjudication** (Chava 2010/2014 rows already captured with FLAGs).
+- **F39d** — duplicate keys / version drift (Fonseka 2019a/b; Du "2017"↔2015; Chen 2021↔2020; Christ n.d.↔2022; Chen & Gao n.d.↔2011) → crosswalk/alias table (Claude), author/Volker confirm at adjudication. **F39e** — Eichholtz building/loan-level unit → adjudication. **F39f** — v1.3 status-line inconsistency (header v1.3 / status v1.2): fixed in v1.4.
+**Version-evolution defense (reviewer-facing):** tranche 1 ran v1.2, tranche 2 v1.3, tranche 3+ v1.4 — all deltas are ADDITIVE construct-gate clarifications affecting named constructs only; every affected legacy paper is either re-extracted under the current version (Delis, Bauer & Hann) or FLAG-resolved at adjudication (Chava). Papers untouched by the deltas extract identically under all three versions; per-paper logs record the governing codebook version; the version pin in the project instructions enforces the active edition. The final dataset is therefore single-rule-set equivalent.
+**Reviewer-Risk:** *Finance/Econometrics* — "rules changed mid-extraction": answered by the pin discipline, delta-targeted re-runs, and log-level version traceability. *Management/BSE* — two further study exclusions (Fard; after Capelle): answered by the rule-based, result-blind timing and the boundary formula that also disciplines the UPDATE side (Trinh, Demetriades, Ginglinger remain out on identical grounds).
+**Consequences:** governing rule text committed to the repo WHILE governing (this package: v1.3, v1.4, instructions pin, .gitignore); Update_Scoping: Cumming reclassified D (outcome = leverage; no COD DV); Datenagenda #24 (Fard exclusion documentation) opened; DEC-036 reserved for adjudication outcomes + v11 assembly.
+**Files:** docs/extraction_codebook_v1_3.md · docs/extraction_codebook_v1_4.md · docs/extraction_project_instructions.md · DECISION_LOG · Status.
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
