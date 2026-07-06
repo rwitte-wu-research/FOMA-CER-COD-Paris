@@ -474,6 +474,18 @@
 
 ---
 
+## DEC-037: F41 rulings codified (v1.6) — Kölbel stays via disclosure-channel boundary (re-extraction mandated); system-estimator line corrects the reviewer's own narrower proposal; Maaloul source identity resolved (lookup erratum)
+**Block:** Corpus governance / extraction · 2026-07-06
+**Rulings (author):**
+- **F41a — Kölbel stays (96 legacy effects):** climate-related disclosure CONTENT measures from the firm's OWN reporting instruments (10-K/annual, CDP, TCFD, sustainability reports) — incl. risk-disclosure content scores — are disclosure CONDUCT. Boundary: textual measures from conversational/indirect sources (earnings-call transcripts, media) remain EXPOSURE → the update-side exclusions (Trinh, Lu, Cang & Li, Hrazdil) are untouched. Kölbel re-extraction mandated (0 → rows under v1.6). Residual softness acknowledged: the channel line is formal; the reviewer's alternative (adoption/quality vs. disclosed-risk magnitude) would have excluded Kölbel — both positions logged, author ruling governs.
+- **F41d — system estimators:** the author's ruling ("rein") is the CONSISTENT one — the calibration precedent (Lemma 3SLS, cell-exact reproduced) already includes system-instrumented CER coefficients; the reviewer's narrower fitted-out proposal would have contradicted as-executed practice. Codified line: external-instrument IV/2SLS CER = excluded (Al-Fakir/Ali-2023 exclusions unaffected); 3SLS/simultaneous systems incl. fitted CER regressors = qualify. Lemma: NO re-run (rows present). Mahmoudian: re-run mandated (capture any dropped fitted-regressor rows; 8-row paper, deterministic).
+- **F41b** government-initiated ratings of firm conduct (CECE) = conduct (rater identity irrelevant). **F41c** decomposed spread components qualify, outcome_label-tagged. **F41e** new ES_source label `b with significance stars only`; downstream star-bound rule documented in the v11 prep spec, not decided by the extractor.
+- **Maaloul source identity (data-logistics erratum):** the 27 v10 rows (US, 2010–2016, credit ratings, disclosure, mandatory/voluntary-type subsample-N pattern) match **Maaloul & Wegener, "Mandatory vs voluntary GHG emissions disclosure and credit risk"** (coded from the 2021 version; VoR 2022) — NOT the CRR ESG paper cited in lookup column L → **lookup erratum → F35 list**. The wrong-PDF 0-row staging is retained as documentation; the correct M&W-2022 PDF (new filename) extracts fresh in the next tranche. **Maaloul (2018) remains OUT** — pre-window; stays the F28 exclusion-documentation case; its PDF is removed from papers\ (an extraction would constitute an undocumented corpus addition outside the rule-based search).
+**Consequences:** v1.6 swapped and committed while governing; staging deletions before next tranche: Kölbel pair, Mahmoudian pair; papers\ surgery: Maaloul-2018 PDF out. DEC-038 reserved for adjudication outcomes + v11.
+**Files:** docs/extraction_codebook_v1_6.md · docs/extraction_project_instructions.md · DECISION_LOG · Status.
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
