@@ -465,6 +465,15 @@
 
 ---
 
+## DEC-036: Five construct micro-rulings codified (F40 a–e; codebook v1.5) — all additive, adjudication-resolved for completed papers, no re-extractions required
+**Block:** Corpus governance / extraction · 2026-07-06
+**Rulings (author):** (a) dichotomized/median-split dummies of the firm's OWN quantified measures = conduct transformation, not external classification (Ho & Wong case); (b) carbon-risk-awareness operationalized via the firm's own CDP response behavior = disclosure conduct (Jung); (c) Heckman-type selection-corrected outcome equations with non-instrumented CER qualify (Kleimeier & Viehs; extends the Al-Fakir precedent); (d) generalized-ordered-logit threshold equations: full-scale rating outcome qualifies, all threshold-specific coefficients extracted and tagged `rating-class` (Kim & Kim); (e) energy-/resource-consumption-based measures = quantified firm-level flows → conduct regardless of author labels (Kim & Kim).
+**Handling:** all four case papers were extracted with included+FLAGged rows → rulings resolve at adjudication; no re-runs. Codified in v1.5 because the a/e constructs recur in the remaining ~56 papers — prevents the next Bauer&Hann/Chava-type divergence. Version-evolution defense of DEC-035 extends unchanged (additive deltas; pin discipline; log-level version traceability).
+**Consequences:** v1.5 + instructions pin swapped (PK, project settings, rules\) and committed while governing; DEC-037 reserved for adjudication outcomes + v11 assembly.
+**Files:** docs/extraction_codebook_v1_5.md · docs/extraction_project_instructions.md · DECISION_LOG · Status.
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
