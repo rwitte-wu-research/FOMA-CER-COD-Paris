@@ -486,6 +486,24 @@
 
 ---
 
+## DEC-038: Post-batch ruling bundle (F42/F44/F45/F46), corrected corpus ledger (66→61 legacy), coverage-gap closure, evidence-based crosswalk, and the exclusion-list re-screen mandate
+**Block:** Corpus governance / harmonization · 2026-07-07
+**Context:** Full-corpus extraction complete (113/113 PDFs incl. Zhou gap closure; 2,579 effect rows; 954 FLAG cells; four gold papers cell-exact across eight tranches and five codebook versions). Pass 2 produced the tiered concordance and a 727-item adjudication draft.
+**Rulings (author):**
+- **F42:** (a) Nemoto & Liu exits (sovereign design; 18 legacy rows). (b) CDS term-structure SLOPE and curvature outcomes QUALIFY (overruling the reviewer's levels-only recommendation; both positions logged; heterogeneity remains visible via outcome_label). (c) Sandra↔Ofogbe identical r/p → Volker independence check; if same sample: joint cluster or drop-one at v11.
+- **F44:** (a) Trinh eco-innovation = conduct; CER_measure resolved to `performance` (104 rows). (b) Shi internal-instrument systems qualify (file carried zero FLAGs — confirmation). (c) Kölbel x_direction = good-CER (construct ruling governs over the paper's risk framing). (d) Slope FLAG resolution mechanical: 48 rows → `derivativ (CDS spread)`. (e) Wang-2020: COD_instrument = `loand (interest rate)` per author (matches file state); the 28 estimation_method FLAGs resolve descriptively to `other: not stated` (closed-list integrity; the paper names no estimator).
+- **F45:** (a) Zhu & Zhao STAYS (28 rows; overruling the reviewer). Boundary refinement codified for adjudication: allocation with FIRM-SPECIFIC weights (cost shares) = firm-varying emissions proxy = conduct; uniform/mechanical allocation without firm weights remains excluded (Delis-CRFL variants unchanged). (b) Zhang prod_inno rows (12) exit — only explicitly environmental innovation measures qualify.
+- **F46:** Weber et al (2010) exits (default-prediction design, outside R2.2; 1 row).
+**Corrected corpus ledger:** v10 comprises 66 study keys (incl. Hui 2024 and Weber 2010, absent from earlier informal counts). Study-level exits: Capelle-Blancard, Fard, Nemoto & Liu, Hachenberg & Schiereck, Weber → **61 legacy studies; 1,239 legacy rows (1,306 − 67) before adjudication**. Hui et al (2024) is retagged corpus_segment=update at v11 (in-window of the update search; documents that v10 was not strictly 2021-frozen). Zhou et al (2018) coverage gap closed (22 rows; page-renderer unavailable on that run → Volker image-spot-check flagged). Working hypothesis for the Zhou 62→22 delta (Pass-2b test): v10 bivariates drawn from a Spearman-only matrix, which R2.6/F34f now excludes — same hypothesis queued for the Cubas puzzle.
+**Crosswalk (evidence-based):** Fonseka 2019a=energy / 2019b=realestate (permutation test: 30 vs 0 exact matches); Jung (2016)↔staging 2018 (9/12); Wang et al (2020) identity confirmed (2/2) — its exclusion-list entry was stale; Du 2015↔2017; Chen 2020↔2021; Christ, Chen & Gao, Kordschia→Kordsachia, Li_Qui, Maaloul→M&W-2022, Höck/Kölbel oe-transliterations.
+**Re-screen mandate:** Volker's 42-entry exclusion list (docs-archived) is partially stale and 13 entries are undocumented ("0"); one entry is result-based ("ridicolous findings") and MUST be superseded by a rule-based verdict. Mandated: full-class re-screen of 20 papers + 1 identity check (Kleimeier & Viehs 2021 vs the already-extracted 2018 WP) under codebook v1.6, identical workflow, corpus_segment=rescreen at v11; Wang-2020 and K&V-2018 are formalized under this segment retroactively. Not-retrievable papers are documented, not skipped. Zero-row runs constitute the retroactive PRISMA exclusion documentation.
+**Adjudication approach:** B&H 62-row cluster diagnosed as row-level N-assignment difference (v10 internally consistent given its own N; 100% of analyzable pairs differ in N) → block adjudication per model family, not row-by-row. Resolution pre-fills: 48 slope rows, Trinh 104, Zhu&Zhao 28, Zhang prod_inno 12, Wang-2020 28, Truong n_obs (F37d).
+**Reviewer-Risk:** *Finance/Econometrics* — "two rulings overrule the methodological reviewer" (F42b, F45a): both positions and criteria are logged; heterogeneity remains identifiable and testable. *Management/BSE* — re-screen optics: rule-based classes, result-blind, pre-v11; converts an undocumented exclusion layer into a PRISMA asset.
+**Consequences:** DEC-039 reserved for adjudication outcomes + v11 assembly; rescreen tranche runs under this mandate; Pass-2b (cause labels, Spearman hypothesis, Cubas, calib-delta) precedes the Volker package.
+**Files:** DECISION_LOG · Status (index; Datenagenda #25 rescreen, #26 adjudication package).
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
