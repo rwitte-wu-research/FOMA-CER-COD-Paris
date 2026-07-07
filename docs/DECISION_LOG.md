@@ -504,6 +504,15 @@
 
 ---
 
+## DEC-039: Adjudication ruling layer closed (R1–R8, K1–K4) — unit boundary "firm and below", two study clusters, sign regime Devalle, industry operationalization; DEC-040 reserved for adjudication outcomes + v11
+**Block:** Corpus governance / adjudication · 2026-07-07
+**Rulings (author):** R1 Devalle: printed-scale reading governs (outcome_direction=cost; three v10 signs invert; row 409 corrected via z-route, |z|=2.32/p=.021). R2 price-valued Delis reserve variants stay, tagged `construct_variant=price-valued`. R3 Eichholtz stays — **unit boundary codified (author's formulation, adopted as superior to the reviewer's two-condition variant): the firm and everything below it (its own assets/decisions) qualifies; units above the firm (sovereign/country) do not.** R4 industry-sensitive operationalized: sector list {Oil&Gas, Energy, Utilities, Basic Materials/Chemicals, Mining/Metals, Paper/Forestry, Cement/Construction Materials}, threshold >50% firm-years, borderline → new closed-list value `mixed`. R5 Sandra/Ofogbe: both papers stay, ONE cluster_id; the literally duplicated correlation cell (r=0.001/p=.9818) counts once (Sandra set, N=1,440 per F37d), Ofogbe copy tagged `duplicate` — evidence: identical windows 2005–2019, same first author, identical cell across nominally different samples (96 vs 32 firms). R6 K&V: ONE cluster per F47a; 9 numerically duplicated rows count once; the EL-unique estimate (Scope-1 → ln spread, t=7.47, N=2,267) is ADDED to the canonical set tagged `source=EL2021` (canonical cluster = 29 rows); EL 2021 remains the citable VoR. R7 Atif errata confirmed (regulation without/without; Bloomberg=disclosure, Asset4=performance per paper framing). R8 exclusion-list semantics closed without answer; PRISMA prose will be label-free. K1 split-slope rows in (`subsample_dimension=other: slope-group`). K2 PSM/ATT rows in (`estimation_method=other: PSM-ATT`). K3 Wald-χ² mechanics ratified (z=√χ², df=1, sign from b; unresolvable cells stay FLAG). **K4 withdrawn by the reviewer:** file-level evidence shows full statistics for all 20 Piechocka rows (15 bivariate r + 5 b/SE/t/p) — the author's objection was correct.
+**Mechanics for v11:** new assembly-level field `cluster_id` (default = study key; Sandra/Ofogbe joint; K&V joint); duplicate rows carried with `duplicate` tag but excluded from estimation.
+**Consequences:** adjudication package updated (sheet Rulings_Verdikte; Sonderfälle patched); ruling dossier carries the verdict block; Volker meeting scope reduces to block confirmations, the 343 line checks, his info items (DB-run, intro status, Zhou/Cubas source checks, spot checks); **DEC-040 reserved** for adjudication outcomes + v11 assembly spec.
+**Files:** docs/ruling_dossier_volker.md · docs/adjudication_package_v1.xlsx · DECISION_LOG · Status.
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
