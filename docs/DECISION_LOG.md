@@ -513,6 +513,18 @@
 
 ---
 
+## DEC-040: Adjudication outcomes booked as study-level dispositions; lookup layer verified; v11 assembly spec issued (v11-preliminary mandated; freeze gated on DB re-run)
+**Block:** Corpus governance / v11 assembly · 2026-07-07
+**Adjudication outcomes (I2 = adjudication_package_v1_rw.xlsx):** verdicts were entered at study/block level and propagated to member rows — booked accordingly as STUDY-LEVEL DISPOSITIONS, not cell-level verifications. Blocks: 1a B&H Staging-N ("v10-N nicht nachvollziehbar") closes 62 diffs; 1b Lesart (i) — structural diagnoses CONFIRMED, 208 v10-only rows of Delis/Seltzer (R2.7) and Tan/Wang-2022a (ambient) stay out (comment "Haupteffekt" = confirmation shorthand); 1c "beibehalten" — 51 version-drift v10-only rows adopt (source=v10_version) with numeric dedup, a documented, deliberate exception to DEC-026; 1d/1e closed by existing DECs. Einzelprüfungen (308): 213 Staging / 95 v10; the 95 adoptions enter WITHOUT cause attribution (author: "kein Grund; ohne übernehmen").
+**Honesty notes (reviewer-facing):** (N1) for the 95 adoptions no cell-cause clarification is claimed; the plausible main driver is the F37c supplement-scope asymmetry (v10 could code online appendices; the 2026 extraction by design could not) — stated as conjecture, framed as the dual-coding design working as intended (the human layer caught what the scope-restricted AI layer excluded). (N2) Zhou-2018/Cubas source question WAIVED (author: "keine konkrete Tabellenquelle verfügbar") → the fully provenance-documented 2026 extraction governs; −40/−23 v10-only rows exit, 12 Cubas diffs → staging values.
+**Lookup layer (Task 5):** executed via Cowork with mandated web access (role-inversion pattern extended to bibliographic work); survived a double spend-limit interruption via resume; 61/61 records, verifier-passed (DOI format, key collisions, VHB plausibility), Volker 10% spot-check + both identity FLAGs author-resolved (Zheng confirmed; Ng & Rezaee = 2012 SSRN WP); B/C→B fixed; M&W column-L erratum resolved; Wang 2025a/b keys assigned. Task 4 spot-checks (Zhou-2018 renderer; Hamrouni scan) returned OK — verification protocol complete.
+**Quality-moderator ruling (resolves DEC-023):** q = VHB-JOURQUAL only; WPs and VHB-unrated journals = missing within that moderator. JIF completed for ALL journals (b1 top-up in the DB-re-run slot) as a DORMANT reserve field.
+**v11:** assembly spec issued (docs/v11_assembly_spec.md) — column architecture (29-col v10 core byte-identical + extension block), 12-step deterministic pipeline, 16-check verifier, cluster_id mechanic, dedup rules, ES computation incl. star-bound handling. Balance: 2,716 −1 (stray) −12 (prod_inno) −9 (K&V dupes) + 160 (adoptions) ≈ **2,853 ± version-dedup**; estimation set excludes duplicate-tagged rows. Build order: **v11-preliminary now** (unlocks prep/T1 development) → **v11-freeze = DEC-041** after DB re-run (end of week; incl. any straggler mini-tranche), JIF top-up, residual moderator list.
+**Reviewer-Risk:** *Finance/Econometrics* — study-level (not cell-level) adjudication: answered by the exact-match layer (437 mutually verified cells), the gold anchors, and full per-row provenance; *Management/BSE* — DEC-026 exception for version-drift rows: answered by numeric dedup + source tags + drop-one sensitivity availability.
+**Files:** docs/v11_assembly_spec.md · docs/adjudication_package_v1_rw.xlsx · docs/lookup_neuzugaenge_v1.xlsx · DECISION_LOG · Status.
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
