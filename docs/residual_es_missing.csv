@@ -1,0 +1,176 @@
+file;v11_key;construct_label_verbatim;ES_source;table_no
+staging_Azmi_et_al_2021.csv;Azmi et al (2021);E;p-Value available;Table 8
+staging_Bhattacharya_Sharma_2019.csv;Bhattacharya & Sharma (2019);Environmental score;FLAG;Table III
+staging_Boermans_et_al_2023.csv;Boermans et al (2023);Emission Intensity_f,t-1;Regression Cofficient and Standard Error  available;Table C1
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 5
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 5
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Scope 1;Regression Cofficient and Standard Error  available;Table 5
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 5
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Scope 1;Regression Cofficient and Standard Error  available;Table 5
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 5
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 6
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 6
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Scope 1–2;Regression Cofficient and Standard Error  available;Table 6
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 6
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Scope 1–2;Regression Cofficient and Standard Error  available;Table 6
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 6
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 4
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 4
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 4
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);I1;Regression Cofficient and Standard Error  available;Table 5
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);I9;Regression Cofficient and Standard Error  available;Table 5
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EDI_XIn;Regression Cofficient and Standard Error  available;Table 5
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);I5;Regression Cofficient and Standard Error  available;Table 5
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 7
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 7
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 7
+staging_Ge_Liu_2015.csv;Ge, Liu (2015);Environment;FLAG;Table 5
+staging_Ge_Liu_2015.csv;Ge, Liu (2015);Environment Strengths;FLAG;Table 5
+staging_Ge_Liu_2015.csv;Ge, Liu (2015);Environment Concerns;FLAG;Table 5
+staging_Hu_et_al_2024.csv;Hu et al (2024);ENV;FLAG;Section 6.1 (in-text)
+staging_Hu_et_al_2024.csv;Hu et al (2024);ENV;FLAG;Section 6.1 (in-text)
+staging_Johnson_2020.csv;Johnson (2020);E;b with significance stars only;Table 2
+staging_Johnson_2020.csv;Johnson (2020);E;b with significance stars only;Table 4
+staging_Johnson_2020.csv;Johnson (2020);E;b with significance stars only;Table 7
+staging_Jung_et_al_2018.csv;Jung et al (2016);CARBON;FLAG;untabulated (text)
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VI
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VI
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VIII
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VIII
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VIII
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VIII
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 3
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 3
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 3
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 3
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 3
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 3
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 4
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 4
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 4
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 4
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 4
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 4
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 4
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 4
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5
+staging_Ng_Rezaee_unknown.csv;Ng & Rezaee (2012);ENVt-1;Correlation coefficient available;Table 3
+staging_Ould_Daoud_Ellili_2020.csv;Ould Daoud Ellili (2020);ES;T-Statistic available;Table A2
+staging_Ould_Daoud_Ellili_2020.csv;Ould Daoud Ellili (2020);ES;T-Statistic available;Table A2
+staging_Ould_Daoud_Ellili_2020.csv;Ould Daoud Ellili (2020);ES;T-Statistic available;Table A6
+staging_Piechocka-Kaluzna_et_al_2021.csv;Piechocka-Kałużna et al (2021);E;T-Statistic available;Table 4
+staging_Piechocka-Kaluzna_et_al_2021.csv;Piechocka-Kałużna et al (2021);E;T-Statistic available;Table 4
+staging_Piechocka-Kaluzna_et_al_2021.csv;Piechocka-Kałużna et al (2021);E;T-Statistic available;Table 4
+staging_Piechocka-Kaluzna_et_al_2021.csv;Piechocka-Kałużna et al (2021);E;T-Statistic available;Table 4
+staging_Piechocka-Kaluzna_et_al_2021.csv;Piechocka-Kałużna et al (2021);E;T-Statistic available;Table 4
+staging_Polebennikov_et_al_2016.csv;Polbennikov et al (2016);Env Score (bp per std);T-Statistic available;Exhibit 13
+staging_Polebennikov_et_al_2016.csv;Polbennikov et al (2016);Env Score (bp per std);T-Statistic available;Exhibit 13
+staging_Polebennikov_et_al_2016.csv;Polbennikov et al (2016);Env Score (bp per std);T-Statistic available;Exhibit 13
+staging_Polebennikov_et_al_2016.csv;Polbennikov et al (2016);Env Score (bp per std);T-Statistic available;Exhibit 13
+staging_Ratajczak_Mikolajewicz_2021.csv;Ratajczak & Mikolajewicz (2021);log_CSR Environmental;FLAG;Table 3
+staging_Ratajczak_Mikolajewicz_2021.csv;Ratajczak & Mikolajewicz (2021);log_CSR Environmental;FLAG;Table 4
+staging_Ratajczak_Mikolajewicz_2021.csv;Ratajczak & Mikolajewicz (2021);log_CSR Environmental;FLAG;Table 4
+staging_Salvi_et_al_2021.csv;Salvi et al (2021);Environmental Score;FLAG;Table 8
+staging_Salvi_et_al_2021.csv;Salvi et al (2021);Environmental Score;FLAG;Table 8
+staging_Temiz_2022.csv;Temiz (2022);EnvPer;FLAG;Table 4
+staging_Temiz_2022.csv;Temiz (2022);ResRed Score;FLAG;Table 5
+staging_Temiz_2022.csv;Temiz (2022);Emission Score;FLAG;Table 5
+staging_Temiz_2022.csv;Temiz (2022);EnvProd Score;FLAG;Table 5
+staging_Truong_Kim_2019.csv;Truong, Kim (2019);environment (CSR_ENV);T-Statistic available;Table 4
+staging_Truong_Kim_2019.csv;Truong, Kim (2019);environment (CSR_ENV);T-Statistic available;Table 4
+staging_Truong_Kim_2019.csv;Truong, Kim (2019);environment (CSR_ENV);T-Statistic available;Table A1
+staging_Truong_Kim_2019.csv;Truong, Kim (2019);environment (CSR_ENV);T-Statistic available;Table A1
+staging_Truong_Kim_2019.csv;Truong, Kim (2019);environment (CSR_ENV);T-Statistic available;Table A1
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 5
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 5
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 5
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 5
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 6
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 6
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 6
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 6
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 7
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 7
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 7
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 7
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 8
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 8
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 8
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 8
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9

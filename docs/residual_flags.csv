@@ -1,0 +1,79 @@
+study;staging_file;CER_measure;COD_instrument;x_direction;outcome_direction;se_clustering;construct_label_verbatim
+Ali et al (2023);staging_Ali_et_al_2023.csv;FLAG;loand (interest rate);good-CER;cost;n/a (structural);CC_ACTION
+Ali et al (2023);staging_Ali_et_al_2023.csv;FLAG;loand (interest rate);good-CER;cost;robust (unclustered);CC_ACTION
+Ali et al (2023);staging_Ali_et_al_2023.csv;FLAG;loand (interest rate);good-CER;cost;robust (unclustered);CC_ACTION
+Ali et al (2023);staging_Ali_et_al_2023.csv;FLAG;loand (interest rate);good-CER;cost;robust (unclustered);CC_ACTION
+Ali et al (2023);staging_Ali_et_al_2023.csv;FLAG;loand (interest rate);good-CER;cost;robust (unclustered);CC-ACTION
+Ali et al (2023);staging_Ali_et_al_2023.csv;FLAG;loand (interest rate);good-CER;cost;robust (unclustered);CC_ACTION
+Ali et al (2023);staging_Ali_et_al_2023.csv;FLAG;loand (interest rate);good-CER;cost;robust (unclustered);CC_ACTION
+Ali et al (2023);staging_Ali_et_al_2023.csv;FLAG;loand (interest rate);good-CER;cost;robust (unclustered);CC_ACTION
+Ali et al (2023);staging_Ali_et_al_2023.csv;FLAG;loand (interest rate);good-CER;cost;robust (unclustered);CC_ACTION
+Azmi et al (2021);staging_Azmi_et_al_2021.csv;FLAG;loand (interest rate);good-CER;cost;not stated;E
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;n/a (structural);CEPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEP_RANKt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEP_RANKt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEP_RANKt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEP_GROUPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEP_GROUPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEP_GROUPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEPt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEP_GROUP_DUMt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEP_GROUP_DUMt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEP_GROUP_DUMt-1
+Du et al (2015);staging_Du_et_al_2017.csv;FLAG;loand (interest rate);good-CER;cost;two-way:clustering at firm and year level;CEP_GROUP_DUMt-1
+Du et al (2022);staging_Du_et_al_2022.csv;disclosure;FLAG;good-CER;cost;n/a (structural);EID
+Du et al (2022);staging_Du_et_al_2022.csv;disclosure;FLAG;good-CER;cost;not stated;EID
+Hui et al (2024);staging_Hui_et_al_2024.csv;FLAG;loand (interest rate);good-CER;cost;firm;Env. input
+Hui et al (2024);staging_Hui_et_al_2024.csv;FLAG;loand (interest rate);good-CER;cost;firm;If high env. input
+Kordschia (2020);staging_Kordschia_2019.csv;performance;FLAG;good-CER;cost;firm;E_PILLAR
+Kordschia (2020);staging_Kordschia_2019.csv;performance;FLAG;good-CER;cost;n/a (structural);E_PILLAR
+Kordschia (2020);staging_Kordschia_2019.csv;performance;FLAG;good-CER;cost;n/a (structural);E_PILLAR
+Lemma et al (2017);staging_Lemma_et_al_2017.csv;performance;loand (interest rate);FLAG;cost;n/a (structural);CRi,t
+Lemma et al (2017);staging_Lemma_et_al_2017.csv;performance;loand (interest rate);FLAG;cost;not stated;HCRi,t
+Luo et al (2019);staging_Luo_et_al_2019.csv;disclosure;loand (interest rate);FLAG;cost;not stated;A_EID
+Luo et al (2019);staging_Luo_et_al_2019.csv;disclosure;loand (interest rate);FLAG;cost;not stated;A_EID
+Luo et al (2019);staging_Luo_et_al_2019.csv;disclosure;loand (interest rate);FLAG;cost;not stated;A_EID
+Luo et al (2019);staging_Luo_et_al_2019.csv;disclosure;loand (interest rate);FLAG;cost;not stated;A_EID
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Verified
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Verified
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Verified
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Verified
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Verified
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Board
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Board
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Board
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Board
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Board
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Target
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Target
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Target
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Target
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;firm;Target
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;n/a (structural);Verified
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;n/a (structural);Board
+Palea, Drogo (2020);staging_Palea_Drogo_2020.csv;FLAG;loand (interest rate);good-CER;cost;n/a (structural);Target
+Tang et al (2023);staging_Tang_et_al_2023.csv;disclosure;FLAG;good-CER;cost;robust (unclustered);EIDS
+Truong, Kim (2019);staging_Truong_Kim_2019.csv;performance;derivativ (CDS spread);FLAG;FLAG;other:Newey-West (12 lags);environment (CSR_ENV)
+Truong, Kim (2019);staging_Truong_Kim_2019.csv;performance;derivativ (CDS spread);FLAG;FLAG;other:Newey-West (12 lags);environment (CSR_ENV)
+Truong, Kim (2019);staging_Truong_Kim_2019.csv;performance;derivativ (CDS spread);FLAG;cost;other:Newey-West (12 lags);environment (CSR_ENV)
+Truong, Kim (2019);staging_Truong_Kim_2019.csv;performance;derivativ (CDS spread);FLAG;cost;other:Newey-West (12 lags);environment (CSR_ENV)
+Truong, Kim (2019);staging_Truong_Kim_2019.csv;performance;derivativ (CDS spread);FLAG;cost;other:Newey-West (12 lags);environment (CSR_ENV)
+Wang & Wijethilake (2026);staging_Wang_Wijethilake_2026.csv;FLAG;bond (yield);good-CER;cost;n/a (structural);CIDQ
+Wang & Wijethilake (2026);staging_Wang_Wijethilake_2026.csv;FLAG;bond (yield);good-CER;cost;firm;CIDQ
+Wang & Wijethilake (2026);staging_Wang_Wijethilake_2026.csv;FLAG;bond (yield);good-CER;cost;firm;CIDQ
+Wang & Wijethilake (2026);staging_Wang_Wijethilake_2026.csv;FLAG;bond (yield);good-CER;cost;firm;CIDQ
+Wang & Wijethilake (2026);staging_Wang_Wijethilake_2026.csv;FLAG;bond (yield);good-CER;cost;firm;CIDQ
+Wang & Wijethilake (2026);staging_Wang_Wijethilake_2026.csv;FLAG;bond (yield);good-CER;cost;firm;CIDQ
+Wang et al (2025a);staging_Wang_et_al_2025_bond.csv;FLAG;bond (yield);good-CER;cost;robust (unclustered);Envir_B
+Wang et al (2025a);staging_Wang_et_al_2025_bond.csv;FLAG;bond (yield);good-CER;cost;robust (unclustered);Green_inno
+Wang et al (2025b);staging_Wang_et_al_2025_ushaped.csv;performance;loand (interest rate);author-inverted-to-good;cost;FLAG;CCP1
+Wang et al (2025b);staging_Wang_et_al_2025_ushaped.csv;performance;loand (interest rate);author-inverted-to-good;cost;FLAG;CCP1
+Zhou et al (2024);staging_Zhou_et_al_2024.csv;FLAG;loand (interest rate);good-CER;cost;other: Lender;Executive Compensation ESG
+Zhou et al (2024);staging_Zhou_et_al_2024.csv;FLAG;loand (interest rate);good-CER;cost;other: Lender;Reduction target %
