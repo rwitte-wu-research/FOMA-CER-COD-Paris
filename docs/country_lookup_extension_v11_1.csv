@@ -1,0 +1,35 @@
+mod_country_key,region,culture,legal,rule,flag
+China,3_AsiaPac,2_non_western,2_civil law,single; La Porta: German-origin civil,0
+Egypt,99_NCE,2_non_western,2_civil law,single; MENA outside region scheme; French-origin civil,1
+India,3_AsiaPac,2_non_western,1_common law,single; English-origin,0
+Indonesia,3_AsiaPac,2_non_western,2_civil law,single; French-origin,0
+Japan,3_AsiaPac,2_non_western,2_civil law,single; German-origin,0
+South Africa,99_NCE,2_non_western,1_common law,single; Africa outside region scheme; La Porta English-origin,1
+Taiwan,3_AsiaPac,2_non_western,2_civil law,single; German-origin,0
+US,1_US,1_western,1_common law,single,0
+United States,1_US,1_western,1_common law,single,0
+United Arab Emirates,99_NCE,2_non_western,99_NCE,"single; legal origin mixed (Islamic/civil), not in La Porta -> NCE",1
+multi: 14 Asia-Pacific,3_AsiaPac,99_NCE,99_NCE,region homogeneous (all Asia-Pacific incl. Oceania); culture/legal mixed,0
+multi: 15 European,2_Europe,1_western,99_NCE,all-European; legal mixed (UK common law in list),0
+multi: 18 European countries (Ireland,2_Europe,1_western,99_NCE,all-European; Ireland common law -> legal NCE,0
+multi: 18 named European,2_Europe,1_western,99_NCE,all-European frame; 'Other' groups small; legal mixed,1
+multi: 19 countries (Austria,2_Europe,1_western,99_NCE,all-European list; Ireland common law -> legal NCE,0
+multi: 29 countries,99_NCE,99_NCE,99_NCE,global mixed,0
+multi: 31 countries,99_NCE,99_NCE,99_NCE,unenumerated global,0
+multi: 33 countries,99_NCE,99_NCE,99_NCE,unenumerated global,0
+multi: 37 countries,99_NCE,99_NCE,99_NCE,global mixed; dual samples,1
+multi: 47 countries,99_NCE,99_NCE,99_NCE,unenumerated global,0
+multi: EU countries,2_Europe,1_western,99_NCE,European frame; constituents unenumerated -> legal NCE,0
+multi: Europe (EuroStoxx,2_Europe,1_western,99_NCE,European frame; unenumerated,0
+multi: European listed firms,2_Europe,1_western,99_NCE,European frame; unenumerated,0
+multi: European-listed companies,2_Europe,1_western,99_NCE,European frame; unenumerated,0
+multi: G7,99_NCE,99_NCE,99_NCE,region/culture/legal mixed (Japan; civil+common),0
+multi: US + 20 EU,99_NCE,1_western,99_NCE,US+EU: region mixed; culture homogeneous western; legal mixed,0
+"multi: US, Canada",99_NCE,1_western,1_common law,region scheme has no NorthAm class -> NCE; culture/legal homogeneous,0
+"multi: United States, United Kingdom, China, India",99_NCE,99_NCE,99_NCE,China civil + others common -> legal NCE; culture mixed,0
+multi: euro area,2_Europe,1_western,99_NCE,euro area incl. Ireland (common law) -> legal NCE,0
+multi: global (MSCI,99_NCE,99_NCE,99_NCE,global,0
+multi: global bond sample,99_NCE,99_NCE,99_NCE,global,0
+multi: global loan sample,99_NCE,99_NCE,99_NCE,global; composition unreported,0
+multi: issuer countries not enumerated,99_NCE,99_NCE,99_NCE,unenumerated,0
+multi: ~20 emerging market,99_NCE,2_non_western,99_NCE,EM basket; syndication venues != borrower countries; culture per basket,1

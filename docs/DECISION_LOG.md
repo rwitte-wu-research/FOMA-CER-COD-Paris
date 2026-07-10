@@ -535,6 +535,35 @@
 **Next:** DEC-031 (analysis battery; SESOI 0.070) → T0.4 prep → T1. DEC-042 reserved for battery finalization.
 **Files:** data/CER-COD_data_v11.xlsx · scripts/assemble_v11.py · docs/search_protocol_2026-07.md · docs/ruling_session_2026-07-09.md · docs/lueckenlauf_* (4) · docs/dbrun_* (5) · DECISION_LOG · Status.
 
+## DEC-042: v12 established as canonical dataset — moderator layer completed corpus-wide, formula-derivation architecture, row-level country coding, derivation-bug fixes, internal integrity audit (supersedes v11 as analysis input; v11 remains archived per DEC-041)
+
+**Block:** Corpus governance / v11 erratum & finalization · 2026-07-10
+
+**Question:** Post-freeze inspection (author queries 6–13, r01–r18, rr01) surfaced (i) an unconstructable q-layer for 59 legacy studies, (ii) off-list and missing moderator cells, (iii) study-level country coding that ignored within-study subsamples, (iv) two derivation bugs in frozen v11 (pp_start_lag0 implementing the 2017 cut on 115 rows; n_obs stored as text with thousands separators and 176 unadjudicated 'FLAG' cells), and (v) a transparency requirement (author): derived cells traceable via in-file formulas. How is the dataset completed and hardened without touching the frozen extraction core?
+
+**Options considered:** (a) prep-time patches in R against v11; (b) staged rebuild chain with paired verifiers, formula-transparency layer, and a final internal integrity audit; (c) full re-assembly.
+
+**Chosen:** (b) — script chain `patch_v11_1.py` → `build_v11_3.py` → `build_v12.py` (+ `final_integrity_audit.py` as permanent gate), producing `data/CER-COD_data_v12.xlsx`:
+
+1. **q-layer** (S1): v10 carry into lookup (canonical raw layer: q_status 120/120, VHB letters 77/120, JIF 94/120 + `jif_note` for the 26 WP/non-JCR cases); data rows via formula. **q_VHB final rule (author P-09):** WP → `99_NCE`; published A+/A/B/C → `1_VHB high`; published D **or not VHB-listed** → `0_VHB low` → 76/30/14 studies (1,635/524/693 effect rows).
+2. **Country schemes** corpus-wide (region/culture/legal via `country_map`, 66+4 exact-string rules; econ recode of 79 off-list cells) — 2,852/2,852 each.
+3. **Row-level country** (author r12–r14): `d_country` **rejected** as override source (list-truncation artefacts, e.g. Wang 2020 "Australia" = truncated 27-country list); authoritative row-level source = `subsample_dimension/value` via `subsample_country_map` (28 values, per-scheme override, blank = inherit); `row_skey` column; 106 rows keyed; 218 cells corrected (region 68, econ 69, culture 37, legal 44). Exceptions hardcoded: Bannier 2022, Srivisal 2021 (v10 row-level carry).
+4. **Regulation** three-level completed (E1–E4 + `99_NCE` label harmonization incl. industry `mixed`→`99_NCE`); 216/235 legacy gaps rule-filled (`reg_recode_log`, 3 flags).
+5. **Derivation-bug fixes:** `pp_start_lag0` re-derived = 1{start ≥ 2016} (115 cells; frozen-v11 bug — earlier "empirically moot" assessment was based on the 158 adopted rows only and is corrected on the record); `n_obs` format normalization (148 comma-strings); **R-19 provisional (author-approved):** 176 `n_obs` 'FLAG' cells kept as raw text, analysis column E uses n_firms × window-years proxy pending adjudication; COD vocabulary typo `loand`→`loan (interest rate)`.
+6. **Column E / J / K completion** (author r02f1/r03f1, R-16 option b): E = n_obs-if-numeric-else-proxy; J/K linked to `d_sample_start/end`; residual 16 usable rows without any n (2 studies) → Volker list.
+7. **Formula-transparency architecture** (author rr01): 85,244 formula cells in `data` (moderators, E/J/K, full temporal grid L–AE) + 712 in `lookup`; derivation rules reverse-engineered and identity-verified corpus-wide (incl. `pp_share_lag0–3` = continuous shares, cuts 2016–2019; median split = mid > 2013; tertiles > 2011/> 2014 — thresholds frozen as documented corpus constants). Triple check: script re-derivation ≡ cached values ≡ engine recalculation; carried into the prep verifier permanently.
+8. **r17 (author ruling):** 7 studies with stale WP citations are VoR-published, data verified identical; `journal_note` set; q_status/q_vhb already VoR-based (letters B/B/B/A/A present) — no coding change.
+9. **D-03 (author: option b):** `country`, `no_firms_source`, `no_firm-years_source` remain deliberately adopted-only (v10-native raw columns); codebook lines in `derived_manifest`. **D-04 (author confirmed):** the 78 residual flags (15 studies) were adjudicated and booked pre-freeze; pre-adjudication snapshot archived (`docs/residual_flags_pre_adjudication.csv`); zero 'FLAG' cells remain in the five extraction columns.
+10. **Internal integrity audit** (`final_integrity_audit.py`): 31 checks — structure/keys, formula layer (engine + independent recompute), ranges/logic, vocabularies, cross-sheet — **0 FAIL, 2 documented WARN** (R-19 n_obs FLAGs; d_country raw artefacts, deliberately untouched). Audit becomes a mandatory gate before any future freeze.
+
+**Rationale:** Completes the self-contained-file architecture (every analysis field derivable within the workbook, raw vs. derived separated, judgment rows flagged and author/Volker-confirmed), fixes frozen-v11 defects transparently instead of silently, and adds a machine-run integrity gate. All coding decisions were made result-blind (no pooled estimates computed).
+
+**Reviewer-Risk:** *Finance/Econometrics* — post-freeze edits are bounded by scope (moderator/derivation layer only; ES, sample, provenance untouched — content-identity verified), rule-based, and logged cell-exactly; the pp_start and n_obs fixes pre-empt replication failures. *Management/BSE* — subsample-level country coding converts a latent misclassification (24 studies) into a documented strength; the audit trail (map sheets, logs, spot-check list) is submission-grade.
+
+**Consequences:** `data/CER-COD_data_v12.xlsx` is the sole analysis input from T0.4 onward; v11 stays archived. DEC-031 Annex C reads moderators from v12; battery additions per author rulings: `n_firms_variance` sensitivity (r02f2) and background-only country-moderator correlation diagnostic (r15). Prep verifier inherits: formula≡script identity, closed lists, grid identities, audit re-run. Open: R-19 n_obs adjudication; Volker list items E1–E4 (`docs/volker_spotcheck_list.md`); 16 no-n rows.
+
+**Files:** data/CER-COD_data_v12.xlsx · scripts/patch_v11_1.py · scripts/build_v11_3.py · scripts/build_v12.py · scripts/final_integrity_audit.py · docs/country_lookup_extension_v11_1.csv · docs/residual_flags_pre_adjudication.csv · docs/volker_spotcheck_list.md · DECISION_LOG.md
+
 ---
 
 ## Conditional / Pending DECs
