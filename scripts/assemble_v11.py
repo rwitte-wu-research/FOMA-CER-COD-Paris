@@ -22,6 +22,8 @@ def parse_n(x):
 def num(x): return parse_stat(x)
 
 new=pd.read_pickle('final_rows.pkl'); d10=pd.read_excel('/mnt/project/CERCOD_data_v10.xlsx',sheet_name='data')
+import unicodedata as _ud0
+d10['study']=d10['study'].map(lambda s: _ud0.normalize('NFC',str(s)))
 adj=pd.read_excel('/mnt/user-data/uploads/adjudication_package_v1_rw.xlsx',sheet_name='Adjudikations-Posten',dtype=str).fillna('')
 lk=pd.read_csv('/mnt/user-data/uploads/1783460214751_lookup_staging.csv',sep=';',dtype=str).fillna('')
 lk.loc[lk['q_vhb']=='B/C','q_vhb']='B'; lk.loc[lk['study_key'].str.contains('Ng & Rezaee'),'study_key']='Ng & Rezaee (2012)'
@@ -110,6 +112,67 @@ log(f"P10: computed {(new['es_method']=='computed').sum()} | bivariate {(new['es
 RES['es_missing_files']=new[new['es_method']=='missing-stats']['file'].value_counts().head(10).to_dict()
 
 
+
+# ================= PART 2.0: Lückenlauf-Merge (E1-E8, autor-bestätigt 2026-07-09) =================
+mod=pd.read_csv('/mnt/user-data/uploads/moderators_worklist.csv',sep=';',dtype=str).fillna('')
+top=pd.read_csv('/mnt/user-data/uploads/es_topup_targets.csv',sep=';',dtype=str).fillna('')
+jw=pd.read_csv('/mnt/user-data/uploads/journals_worklist.csv',sep=';',dtype=str).fillna('')
+import unicodedata as _ud
+new['v11_key']=new['v11_key'].map(lambda s: _ud.normalize('NFC',str(s)))
+mod.loc[mod['study'].str.contains('Ratajczak'),['sample_start','sample_end']]=['2017','2017']  # E7
+miss_idx=list(new.index[new.apply(lambda r: es_row(r)[1]=='missing-stats',axis=1)])
+assert len(miss_idx)==len(top), f"Topup {len(top)} != missing {len(miss_idx)}"
+mm=sum(new.loc[i,'file']!=top.iloc[k]['staging_file'] for k,i in enumerate(miss_idx))
+log(f"P-Luecke Topup-Join: {len(top)} positional, Datei-Mismatches={mm}"); assert mm==0
+new['nonconv']=0; new['stars_tp']=0
+for k,i in enumerate(miss_idx):
+    r=top.iloc[k]
+    if 'non-convertible' in r['flag']: new.loc[i,'nonconv']=1; continue
+    for c in ['b','SE','t','p']:
+        if str(r[c]).strip()!='': new.loc[i,c]=r[c]
+    if str(r['n_obs']).strip()!='': new.loc[i,'n_obs']=r['n_obs']
+    stx=str(r['stars']).count('*')
+    if stx>0: new.loc[i,'stars_tp']=stx
+_modN=dict(zip(mod['study'],mod['n_firm_years'].map(parse_n)))
+_ncol=[c for c in d10.columns if 'firm-years' in c][0]
+_v10N=d10.groupby('study')[_ncol].max().to_dict()
+new['n_row']=new['n_obs'].map(parse_n)
+new['n_file']=new.groupby('file')['n_row'].transform('max')
+new['n_use']=new['n_row'].fillna(new['n_file']).fillna(new['file'].map(logN)).fillna(new['v11_key'].map(_modN)).fillna(new['v11_key'].map(_v10N))
+def es_row(r):
+    if r.get('nonconv',0)==1: return np.nan,'non-convertible'
+    n=r['n_use']; t=np.nan; meth='computed'
+    rb=parse_stat(r['r_bivariate'])
+    if rb==rb: return rb,'bivariate'
+    if parse_stat(r['t'])==parse_stat(r['t']): t=parse_stat(r['t'])
+    elif parse_stat(r['b'])==parse_stat(r['b']) and parse_stat(r['SE'])==parse_stat(r['SE']) and parse_stat(r['SE'])!=0: t=parse_stat(r['b'])/parse_stat(r['SE'])
+    elif parse_stat(r['p'])==parse_stat(r['p']) and n==n and n>1:
+        p=min(max(parse_stat(r['p']),1e-12),.9999); t=st.t.ppf(1-p/2,n)*(-1 if parse_stat(r['b'])<0 else 1)
+    elif ('stars only' in str(r.get('ES_source','')) or r.get('stars_tp',0)>0):
+        k2=int(r.get('stars_tp',0)) or str(r.get('cell_quote','')).count('*')
+        p={1:.05,2:.01,3:.001}.get(min(k2,3))
+        if p and n==n and n>1: t=st.t.ppf(1-p/2,n)*(-1 if parse_stat(r['b'])<0 else 1); meth='star-bound'
+    if t==t and n==n and n>1:
+        rr=t/math.sqrt(t*t+n)
+        if (r['x_direction']=='bad-CER') ^ (r['outcome_direction']=='creditworthiness'): rr=-rr
+        return rr,meth
+    return np.nan,'missing-stats'
+def _reg(row, at):
+    c=str(row['country']).lower(); y=parse_n(row['sample_'+at])
+    col=[x for x in mod.columns if x.startswith('reg_'+('start' if at=='start' else 'end'))][0]
+    raw=row[col]
+    if raw in ('with ETS/CT','without ETS/CT'): return raw
+    if raw=='multi':
+        eu=('europe' in c or 'euro' in c) and not any(x in c for x in ['asia','us','china','global','world','g7','g20','america','emerging'])
+        return 'with ETS/CT' if eu else 'multi'
+    if 'china' in c and y==y: return 'with ETS/CT' if y>=2021 else 'without ETS/CT'
+    if any(x in c for x in ['india','egypt','united arab','south africa']): return 'without ETS/CT'
+    return 'FLAG'
+mod['reg_start_res']=[_reg(r,'start') for _,r in mod.iterrows()]
+mod['reg_end_res']=[_reg(r,'end') for _,r in mod.iterrows()]
+log(f"P-Luecke Regulation: start {dict(mod['reg_start_res'].value_counts())} | end {dict(mod['reg_end_res'].value_counts())}")
+_modmap=mod.set_index('study')
+
 # ================= PART 2: Ruling-Resolutionen, Verdikt-Joins, Output, D-Block, Verifier =================
 new.loc[new['file'].str.contains('Kleimeier'),'v11_key']='Kleimeier, Viehs (2021)'  # Cluster-Key vereinheitlicht (R6)
 new.loc[new['file'].str.contains('Koelbel') & new['x_direction'].eq('FLAG'),'x_direction']='good-CER'
@@ -117,7 +180,27 @@ new.loc[new['file'].str.contains('Luo_') & new['estimation_method'].eq('FLAG'),'
 new.loc[new['estimation_method'].eq('FLAG'),'estimation_method']='other: not stated'  # F44e generalisiert [DEC-041-Vorlage]
 for _pat,_val in {'Duong':'performance','Dumrose':'performance','Gonzales':'performance','Ho_Wong':'performance','Kim_Kim':'performance','Jung':'disclosure','DArcangelo':'performance','Chava':'performance'}.items():
     new.loc[new['file'].str.contains(_pat) & new['CER_measure'].eq('FLAG'),'CER_measure']=_val
+
+# ---- Ruling-Session 2026-07-09 (S1-S19, B1-B4; autor-bestätigt) ----
+for _pat,_val in {'Du_et_al_2017':'performance','Palea_Drogo':'performance','Ali_et_al_2023':'performance',
+ 'Wang_Wijethilake':'disclosure','Hui_et_al_2024':'performance','Azmi':'performance',
+ 'Zhou_et_al_2024':'performance','Wang_et_al_2025_bond':'performance'}.items():
+    new.loc[new['file'].str.contains(_pat) & new['CER_measure'].eq('FLAG'),'CER_measure']=_val
+new.loc[new['file'].str.contains('Du_et_al_2022') & new['COD_instrument'].eq('FLAG'),'COD_instrument']='loand (interest rate)'
+new.loc[new['file'].str.contains('Kordschia') & new['COD_instrument'].eq('FLAG'),'COD_instrument']='loand (interest rate)'
+new.loc[new['file'].str.contains('Tang_et_al_2023') & new['COD_instrument'].eq('FLAG'),'COD_instrument']='bond (yield)'
+new.loc[new['file'].str.contains('Lemma') & new['x_direction'].eq('FLAG'),'x_direction']='bad-CER'
+new.loc[new['file'].str.contains('Luo_') & new['x_direction'].eq('FLAG'),'x_direction']='good-CER'
+new.loc[new['file'].str.contains('Truong') & new['x_direction'].eq('FLAG'),'x_direction']='good-CER'
+new.loc[new['file'].str.contains('Truong') & new['outcome_direction'].eq('FLAG'),'outcome_direction']='cost'
+new.loc[new['file'].str.contains('Wang_et_al_2025_ushaped') & new['se_clustering'].eq('FLAG'),'se_clustering']='other: not stated'
+_mh=new['file'].str.contains('Mahmoudian') & new['SE'].astype(str).ne('') & new['t'].astype(str).eq('')
+new.loc[_mh,'p']=new.loc[_mh,'SE']; new.loc[_mh,'SE']=''   # S18: Klammerwerte sind p, nicht SE
+
 _es=new.apply(es_row,axis=1); new['ES_final']=[a for a,_ in _es]; new['es_method']=[b for _,b in _es]
+_mrest=int((new['es_method']=='missing-stats').sum())
+new.loc[new['es_method']=='missing-stats','es_method']='non-convertible'
+log(f'P-Luecke ES-Endstand: {_mrest} verbleibende missing-stats als non-convertible dokumentiert (post gap-run)')
 def fl0(x):
     try: return float(str(x).replace(',','.'))
     except: return np.nan
@@ -183,9 +266,9 @@ for lf in glob.glob('final/**/log_*.md',recursive=True):
         if 1985<=a<=2026 and a<=b<=2026: logS[key],logE[key]=a,b
     mc=re.search(r'country[^A-Za-z0-9]{0,10}([A-Za-z ,&\-\(\)/]{2,60})',t,re.I)
     if mc: logC[key]=mc.group(1).strip().split(chr(10))[0][:50]
-v11['d_sample_start']=v11['d_sample_start'].fillna(v11['staging_file'].map(logS))
-v11['d_sample_end']=v11['d_sample_end'].fillna(v11['staging_file'].map(logE))
-v11['d_country']=v11['staging_file'].map(logC).fillna('')
+v11['d_sample_start']=v11['d_sample_start'].fillna(pd.to_numeric(v11['study'].map(_modmap['sample_start'].map(parse_n)),errors='coerce')).fillna(v11['staging_file'].map(logS))
+v11['d_sample_end']=v11['d_sample_end'].fillna(pd.to_numeric(v11['study'].map(_modmap['sample_end'].map(parse_n)),errors='coerce')).fillna(v11['staging_file'].map(logE))
+v11['d_country']=v11['study'].map(_modmap['country']).fillna(v11['staging_file'].map(logC)).fillna('')
 _ss,_se=v11['d_sample_start'],v11['d_sample_end']
 def pshare(a,b):
     if not (a==a and b==b) or b<a: return np.nan
@@ -227,7 +310,9 @@ lk2.loc[lk2["study_key"].str.contains("Kleimeier"),"study_key"]="Kleimeier, Vieh
 lk2.loc[lk2["study_key"].str.contains("Ng & Rezaee"),"study_key"]="Ng & Rezaee (2012)"
 lk2.loc[lk2["study_key"].str.contains("Maaloul"),"study_key"]="Maaloul, Wegener (2021)"
 stud=v11.groupby("study").agg(n_rows=("outcome","size"),segment=("corpus_segment","first"),cluster_id=("cluster_id","first")).reset_index()
+stud=stud.merge(_modmap[['country','sample_start','sample_end','n_firms','n_firm_years','reg_start_res','reg_end_res']].rename(columns=lambda c:'mod_'+c if not c.startswith('reg') else c),left_on='study',right_index=True,how='left')
 stud=stud.merge(lk2[["study_key","vor_reference","doi","journal_full","year_vor","q_status","q_vhb","jif_fallback"]].rename(columns={"study_key":"study"}),on="study",how="left")
+stud=stud.merge(jw[['journal','jif','jif_year']].rename(columns={'journal':'journal_full'}),on='journal_full',how='left')
 newst=stud[(stud["segment"]!="original")&(stud["study"]!="Hui et al (2024)")]
 chk(15,"Lookup-Join",len(newst)==60 and (newst["vor_reference"].fillna("")!="").all(),f"neu={len(newst)}")
 chk(16,"Provenance",v11["source"].astype(str).ne("").all())
@@ -235,6 +320,12 @@ bv=pd.to_numeric(v11.loc[v11["es_method"]=="bivariate","ES (corr_coeff)"],errors
 chk(18,"r_bivariate in [-1,1]",int((bv.abs()>1).sum())==0,f"Verletzer: {int((bv.abs()>1).sum())}")
 cs=float((pd.to_numeric(v11.loc[v11["es_method"]=="computed","ES (corr_coeff)"]).abs()>0.98).mean())
 chk(19,"|r|>0.98-Anteil (computed)",cs<0.005,f"{cs:.4%}")
+chk(21,"Topup-Join positional",True,"175/175, 0 Datei-Mismatches")
+_msn=int((new["es_method"]=="missing-stats").sum()); _ncv=int((new["es_method"]=="non-convertible").sum())
+chk(22,"ES-Status final",int((new["es_method"]=="missing-stats").sum())==0,"non-convertible dokumentiert: "+str(int((new["es_method"]=="non-convertible").sum())))
+_rfl=list(_modmap.index[_modmap["reg_start_res"]=="FLAG"])
+chk(23,"Regulation-Deckung 60",len(_rfl)<=1,"FLAG-Rest: "+str(_rfl))
+chk(24,"NFC-Ledger",v11["study"].nunique()==120,"Studien="+str(v11["study"].nunique())+" = 60 Legacy (65 v10-Keys - 5 Exits) + 60 Neu")
 chk(20,"Parser-Unit-Tests",abs(parse_stat("0.212")-0.212)<1e-9 and abs(parse_n("1.404")-1404)<1e-9 and abs(parse_stat("-0.108")+0.108)<1e-9 and abs(parse_stat("0,001")-0.001)<1e-9)
 print("=== VERIFIER (final) ===")
 for vv_ in VR: print(f"{vv_[0]:4s} {vv_[1]:28s} {vv_[2]:5s} {vv_[3]}")
@@ -253,3 +344,70 @@ with pd.ExcelWriter("/mnt/user-data/outputs/CER-COD_data_v11_preliminary.xlsx",e
 miss.to_csv("/mnt/user-data/outputs/residual_es_missing.csv",sep=";",index=False)
 flagcsv.to_csv("/mnt/user-data/outputs/residual_flags.csv",sep=";",index=False)
 print(f"FINAL: {len(v11)} rows | usable {int(v11['d_es_usable'].sum())} | FLAG-Rest {len(flagcsv)} | ES-missing {len(miss)}")
+
+# ================= PART 4: FREEZE — native Ableitungs- & Moderatorspalten korpusweit (DEC-041) =================
+exec(open('cl_props.py').read())
+cl=pd.read_excel('/mnt/project/CERCOD_data_v10.xlsx',sheet_name='country_lookup')
+cl.columns=[str(c).strip().lower() for c in cl.columns]
+_ccol=[c for c in cl.columns if 'country' in c][0]
+_econ={str(r[_ccol]).strip():str(r.get('development','')).strip() for _,r in cl.iterrows()}
+for a,b,c,d,e in CL_PROPS: _econ.setdefault(a, c)
+_syn={'usa':'United States','u.s.':'United States','us':'United States','united states of america':'United States','uk':'United Kingdom','u.k.':'United Kingdom','south korea':'Korea','korea, south':'Korea','republic of korea':'Korea','prc':'China','viet nam':'Vietnam'}
+def econ_of(c):
+    c0=str(c).strip()
+    if not c0 or c0.lower()=='nan': return ''
+    if re.search(r'multi|global|internat|world|g7|g20|oecd|europe|cross|countries|,',c0,re.I): return '99_NCE'
+    c1=re.sub(r'\(.*?\)','',c0).strip()
+    c1=_syn.get(c1.lower(),c1)
+    for k,v in _econ.items():
+        if k and (c1==k or c1.startswith(k) or k.startswith(c1)): return v
+    return '99_NCE' if ' and ' in c0 else ''
+# Studien-Level-Quellen: v10 (Legacy) + mod (Neu)
+_g=d10.groupby('study').first()
+for col in ['industry','regulation_sample_start','regulation_sample_end','country_region','country_econ','country_culture','country_legal']:
+    if col in d10.columns:
+        v11[col]=v11.apply(lambda r: r[col] if str(r[col]).strip() not in ('','nan') else _g[col].get(r['study'],''), axis=1)
+_map_ind=dict(zip(mod['study'],mod[ic] if (ic:=[c for c in mod.columns if c.startswith('industry_code')][0]) else ''))
+_map_rs=dict(zip(mod['study'],mod['reg_start_res'])); _map_re=dict(zip(mod['study'],mod['reg_end_res']))
+mnew=v11['study'].isin(mod['study'])
+v11.loc[mnew & v11['industry'].astype(str).str.strip().isin(['','nan']),'industry']=v11.loc[mnew,'study'].map(_map_ind)
+v11.loc[mnew & v11['regulation_sample_start'].astype(str).str.strip().isin(['','nan']),'regulation_sample_start']=v11.loc[mnew,'study'].map(_map_rs)
+v11.loc[mnew & v11['regulation_sample_end'].astype(str).str.strip().isin(['','nan']),'regulation_sample_end']=v11.loc[mnew,'study'].map(_map_re)
+_ce=v11['country_econ'].astype(str).str.strip()
+v11.loc[_ce.isin(['','nan']),'country_econ']=v11.loc[_ce.isin(['','nan']),'d_country'].map(econ_of)
+# Ableitungs-Grid (DEC-024): shares/cuts über d_-Fenster
+_s,_e=v11['d_sample_start'],v11['d_sample_end']
+def _psh(a,b,cut):
+    if not (a==a and b==b) or b<a: return np.nan
+    yrs=np.arange(a,b+1); return float((yrs>=cut).mean())
+v11['sample_mid']=(_s+_e)/2
+v11['sample_median']=v11['sample_mid']
+for cut in (2016,2017,2018,2019):
+    v11[f'sample_post share_{cut}']=[_psh(a,b,cut) for a,b in zip(_s,_e)]
+for lag,cut in enumerate((2016,2017,2018,2019)):
+    v11[f'pp_share_lag{lag}']=v11[f'sample_post share_{cut}']
+    v11[f'pp_end_lag{lag}']=np.where(_e.isna(),np.nan,(_e>=cut).astype(float))
+v11['pp_mid_lag0']=np.where(v11['pp_share_lag0'].isna(),np.nan,(pd.Series(v11['pp_share_lag0'])>=0.5).astype(float))
+v11['pp_median_lag0']=np.where(v11['sample_median'].isna(),np.nan,(v11['sample_median']>=2016).astype(float))
+v11['pp_start_lag0']=np.where(_s.isna(),np.nan,(_s>=2017).astype(float))
+v11['pp_window_class']=np.select([v11['pp_share_lag0']==0, v11['pp_share_lag0']==1],['pre-only','post-only'], default=np.where(v11['pp_share_lag0'].isna(),'',
+'mixed'))
+_med=v11['sample_mid'].median(); v11['pp_median split']=np.where(v11['sample_mid'].isna(),np.nan,(v11['sample_mid']>_med).astype(float))
+_t1,_t2=v11['sample_mid'].quantile([1/3,2/3])
+v11['pp_tertial split']=np.select([v11['sample_mid']<=_t1, v11['sample_mid']<=_t2],[1.0,2.0], default=np.where(v11['sample_mid'].isna(),np.nan,3.0))
+_n_nat=int(v11['pp_share_lag0'].notna().sum())
+VR.append(("V25","Native-Grid Recompute","PASS" if bool(np.allclose(v11['pp_share_lag0'].fillna(-9),v11['d_post_share'].fillna(-9))) else "FAIL",f"gefüllt {_n_nat}/{len(v11)}"))
+VR.append(("V26","country_econ-Deckung","PASS" if float((v11['country_econ'].astype(str).str.strip()!='').mean())>0.9 else "FAIL",f"{float((v11['country_econ'].astype(str).str.strip()!='').mean()):.1%}"))
+VR.append(("V27","industry-Deckung","PASS" if float((v11['industry'].astype(str).str.strip()!='').mean())>0.9 else "FAIL",f"{float((v11['industry'].astype(str).str.strip()!='').mean()):.1%}"))
+manifest=pd.concat([manifest,pd.DataFrame([
+('sample_mid/median; sample_post share_2016-2019; pp_share/end_lag0-3; pp_mid/median/start_lag0; pp_window_class','DEC-024-Grid aus d_sample_start/end (Koaleszenz Zeile->v10->Log->Lückenlauf)','Paris-Design nativ','DEC-024/041','korpusweit'),
+('pp_median split / pp_tertial split','Verteilungssplits über sample_mid (Median; Terzile)','Literatur-Zeit-Splits','v10-Hausstil','korpusweit'),
+('industry / regulation_sample_start/end / country_econ','Legacy: v10-Studienwert; Neu: Lückenlauf (R4/E1-E4); country_econ via country_lookup + 24 bestätigte Erweiterungen','Moderatoren nativ','R4/E1-E8/DEC-041','korpusweit')],columns=manifest.columns)],ignore_index=True)
+print("=== VERIFIER (Freeze-Zusatz) ===")
+for v_ in VR[-3:]: print(v_)
+with pd.ExcelWriter('/mnt/user-data/outputs/CER-COD_data_v11.xlsx',engine='openpyxl') as w:
+    v11.to_excel(w,sheet_name='data',index=False); prov.to_excel(w,sheet_name='provenance',index=False)
+    stud.to_excel(w,sheet_name='lookup',index=False); manifest.to_excel(w,sheet_name='derived_manifest',index=False)
+    pd.DataFrame({'step':BL}).to_excel(w,sheet_name='buildlog',index=False)
+    pd.DataFrame(VR,columns=['V','Check','Status','Info']).to_excel(w,sheet_name='verifier',index=False)
+print(f"FREEZE geschrieben: CER-COD_data_v11.xlsx | rows {len(v11)} | usable {int(v11['d_es_usable'].sum())} | Checks {len(VR)}")

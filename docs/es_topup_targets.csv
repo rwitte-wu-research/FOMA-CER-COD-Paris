@@ -1,0 +1,176 @@
+staging_file;v11_key;construct_label_verbatim;ES_source;table_no;b;SE;t;p;n_obs;stars;cell_quote_new;flag
+staging_Azmi_et_al_2021.csv;Azmi et al (2021);E;p-Value available;Table 8;-2.4697;;;0.793;251;;"ESG −2.4697 (0.793) [column (2) E; table note: 'We note p-values in the parentheses below each coefficient']";"full-sample: Table 8 prints no N; 251 = Total in Table 2 ('number of sample observations by headquartering country', column header 'No. of banks')"
+staging_Bhattacharya_Sharma_2019.csv;Bhattacharya & Sharma (2019);Environmental score;FLAG;Table III;1.790;;;<0.05;122;*;"Environmental score 1.790* ... Number of observations 122 [Notes: *Significant at 5% level of Significance]; text Step 3: 'environment score having direct but moderately significant relationship with creditworthiness (b = 1.790, p < 0.05)'";"FLAG: value printed under 'Wald Chi Square' row-block heading in Table III; in-text reports it as b"
+staging_Boermans_et_al_2023.csv;Boermans et al (2023);Emission Intensity_f,t-1;Regression Cofficient and Standard Error  available;Table C1;0.040;0.019;;;34,520;**;"Emission Intensityf,t-1 0.040** (0.019) [Table C1, column (4) EU]; Observations 34,520; note: table prints a second, duplicated parenthetical row (0.076) (0.066) (0.058) (0.043) under columns (1)-(4)";
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 5;0.000;0.000;;;363;;Environment 0.000 (0.000);
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 5;−0.000;0.000;;;363;;Environment −0.000 (0.000);
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Scope 1;Regression Cofficient and Standard Error  available;Table 5;0.000;0.000;;;2110;;"Scope 1 0.000 (0.000) [Table 5, model (3), NFRD subsample]; Observations 2110; Note: Standard errors in parentheses. *p < 0.10. **p < 0.05. ***p < 0.01.";non-convertible: printed at 3 dp, no t/p/stars distinguishable
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 5;−0.000;0.000;;;2110;**;Environment −0.000** (0.000);
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Scope 1;Regression Cofficient and Standard Error  available;Table 5;0.000;0.000;;;2110;;"Scope 1 0.000 (0.000) [Table 5, model (4), NFRD subsample]; Observations 2110; Note: Standard errors in parentheses. *p < 0.10. **p < 0.05. ***p < 0.01.";non-convertible: printed at 3 dp, no t/p/stars distinguishable
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 5;−0.000;0.000;;;2110;**;Environment −0.000** (0.000);
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 6;−0.000;0.000;;;328;;Environment −0.000 (0.000);
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 6;−0.000;0.000;;;328;*;Environment −0.000* (0.000);
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Scope 1–2;Regression Cofficient and Standard Error  available;Table 6;0.000;0.000;;;2029;;"Scope 1-2 0.000 (0.000) [Table 6, model (7), NFRD column block]; Observations 2029; Note: Standard errors in parentheses. *p < 0.10, **p < 0.05, ***p < 0.01.";non-convertible: printed at 3 dp, no t/p/stars distinguishable
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 6;−0.000;0.000;;;2029;***;Environment −0.000*** (0.000);
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Scope 1–2;Regression Cofficient and Standard Error  available;Table 6;0.000;0.000;;;2029;;"Scope 1-2 0.000 (0.000) [Table 6, model (8), NFRD column block]; Observations 2029; Note: Standard errors in parentheses. *p < 0.10, **p < 0.05, ***p < 0.01.";non-convertible: printed at 3 dp, no t/p/stars distinguishable
+staging_Cicchini_et_al_2026.csv;Cicchini et al (2026);Environment;Regression Cofficient and Standard Error  available;Table 6;−0.000;0.000;;;2029;***;Environment −0.000*** (0.000);
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 4;-0.001;0.000;;;514;**;EID - -0.001** (0.000) -0.001* (0.000) -0.001** (0.000);
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 4;-0.001;0.000;;;514;*;EID - -0.001** (0.000) -0.001* (0.000) -0.001** (0.000);
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 4;-0.001;0.000;;;514;**;EID - -0.001** (0.000) -0.001* (0.000) -0.001** (0.000);
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);I1;Regression Cofficient and Standard Error  available;Table 5;-0.0005;0.0000;;;514;***;"I1 -0.0005*** (0.0000) [Table 5, Panel A GLS-RE, model (1)]; Obs. 514";non-convertible: SE printed as 0.0000 at 4 dp
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);I9;Regression Cofficient and Standard Error  available;Table 5;-0.0002;0.0000;;;514;***;"I9 -0.0002*** (0.0000) [Table 5, Panel A GLS-RE, model (9)]; Obs. 514";non-convertible: SE printed as 0.0000 at 4 dp
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EDI_XIn;Regression Cofficient and Standard Error  available;Table 5;-0.0011;0.0000;;;514;***;"EDI_XIn -0.0011*** (0.0000) [Table 5, Panel B FGLS, model (3)]; Obs. 514";non-convertible: SE printed as 0.0000 at 4 dp
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);I5;Regression Cofficient and Standard Error  available;Table 5;-0.0001;0.0000;;;514;***;"I5 -0.0001*** (0.0000) [Table 5, Panel B FGLS, model (5)]; Obs. 514";non-convertible: SE printed as 0.0000 at 4 dp
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 7;-0.002;0.000;;;514;***;EID - -0.002*** (0.000) -0.001*** (0.000) -0.002*** (0.000);
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 7;-0.001;0.000;;;514;***;EID - -0.002*** (0.000) -0.001*** (0.000) -0.002*** (0.000);
+staging_Fonseka_et_al_2019_energy.csv;Fonseka et al (2019a);EID;Regression Cofficient and Standard Error  available;Table 7;-0.002;0.000;;;514;***;EID - -0.002*** (0.000) -0.001*** (0.000) -0.002*** (0.000);
+staging_Ge_Liu_2015.csv;Ge, Liu (2015);Environment;FLAG;Table 5;-3.58;;;;4260;;"Environment −3.58 [Panel A col (1)]; No. of observations 4260";
+staging_Ge_Liu_2015.csv;Ge, Liu (2015);Environment Strengths;FLAG;Table 5;-6.38;;;;4260;*;"Environment Strengths −6.38* [Panel B col (1)]; No. of observations 4260";
+staging_Ge_Liu_2015.csv;Ge, Liu (2015);Environment Concerns;FLAG;Table 5;1.81;;;;4260;;"Environment ... Concerns 1.81 [Panel B col (1)]; No. of observations 4260";
+staging_Hu_et_al_2024.csv;Hu et al (2024);ENV;FLAG;Section 6.1 (in-text);0.1230;;;;243,259;;we construct Oster's identifiable set, with β̇ for US (EU) samples being 0.1230 (0.0912);"full-sample: N not printed in sentence; 243,259 = US sample Observations from Table 4"
+staging_Hu_et_al_2024.csv;Hu et al (2024);ENV;FLAG;Section 6.1 (in-text);0.0912;;;;104,671;;we construct Oster's identifiable set, with β̇ for US (EU) samples being 0.1230 (0.0912);"full-sample: N not printed in sentence; 104,671 = EU sample Observations from Table 4"
+staging_Johnson_2020.csv;Johnson (2020);E;b with significance stars only;Table 2;-0.024;;;;478;;E -0.101 -0.024 -0.016 [Cost of debt column (One-way fixed effects): -0.024, no stars];"full-sample: N not printed in Table 2; text states 'data were available for 478 firm-year observations'"
+staging_Johnson_2020.csv;Johnson (2020);E;b with significance stars only;Table 4;-0.003;;;;478;;E -0.363*** -0.003 -0.232 [Cost of debt column (Two-way random effects): -0.003, no stars];"full-sample: consumer goods sector N not printed; 478 firm-year observations = whole-sample figure from text"
+staging_Johnson_2020.csv;Johnson (2020);E;b with significance stars only;Table 7;0.014;;;;478;;E 0.063 0.014 0.092 [Cost of debt column (One-way random effects): 0.014, no stars];"full-sample: industrials sector N not printed; 478 firm-year observations = whole-sample figure from text"
+staging_Jung_et_al_2018.csv;Jung et al (2016);CARBON;FLAG;untabulated (text);;;;;;;However, while the coefficient on CARBON is positive, it is not significant at conventional levels.;non-convertible: untabulated S&P_RAT robustness reports only sign and non-significance for CARBON, no statistic printed
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VI;2.4800;;;0.0086;;***;EMISSIONS + 2.4800 (0.0086)*** 7.2900 (0.0044)***;
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VI;7.2900;;;0.0044;;***;EMISSIONS + 2.4800 (0.0086)*** 7.2900 (0.0044)***;
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VIII;7.8105;;;0.0000;;***;EMISSIONS + 7.8105 (0.0000)*** 3.4105 (0.0989)* 1.6205 (0.9246) 0.0001 (0.6834);
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VIII;3.4105;;;0.0989;;*;EMISSIONS + 7.8105 (0.0000)*** 3.4105 (0.0989)* 1.6205 (0.9246) 0.0001 (0.6834);
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VIII;1.6205;;;0.9246;;;EMISSIONS + 7.8105 (0.0000)*** 3.4105 (0.0989)* 1.6205 (0.9246) 0.0001 (0.6834);
+staging_Kumar_Firoz_2018.csv;Kumar & Firoz (2018);EMISSIONS;p-Value available;Table VIII;0.0001;;;0.6834;;;EMISSIONS + 7.8105 (0.0000)*** 3.4105 (0.0989)* 1.6205 (0.9246) 0.0001 (0.6834);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 3;-0.0372;;;;9233;***;DISCLOSURE −0.0372*** (Unmatched);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 3;-0.0519;;;;3586;***;DISCLOSURE −0.0519*** (One-to-one matching);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 3;-0.0486;;;;4514;***;DISCLOSURE −0.0486*** (One-to-two matching);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 3;-0.0447;;;;4989;***;DISCLOSURE −0.0447*** (One-to-three matching);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 3;0.0012;;;;3316;**;DCO2 0.0012** (Scope 1 emissions);
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 3;0.0012;;;;3316;**;TCO2 0.0012** (Sum of Scope 1 and Scope 2 emissions);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 4;-0.0409;;;;7591;***;DISCLOSURE −0.0409*** (Unmatched);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 4;-0.0405;;;;2104;**;DISCLOSURE −0.0405** (One-to-one matching);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 4;-0.0439;;;;2940;***;DISCLOSURE −0.0439*** (One-to-two matching);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 4;-0.0404;;;;3396;***;DISCLOSURE −0.0404*** (One-to-three matching);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 4;0.0016;;;;2539;**;DCO2 0.0016**;
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 4;0.0021;;;;2539;***;TCO2 0.0021***;
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 4;0.0012;;;;3316;**;DCO2 0.0012** (Panel C, with IMR 0.0388**);
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 4;0.0012;;;;3316;**;TCO2 0.0012** (Panel C, with IMR 0.0390**);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5;-0.0261;;;;6338;**;DISCLOSURE −0.0261** (Not top 5%);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5;0.0178;;;;298;;DISCLOSURE 0.0178 (Top 5%);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5;0.0013;;;;2588;**;DCO2 0.0013** (Not top 5%);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5;0.0003;;;;269;;DCO2 0.0003 (Top 5%);
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5;0.0010;;;;2588;**;TCO2 0.0010** (Not top 5%);
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5;-0.0002;;;;269;;TCO2 −0.0002 (Top 5%);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5;-0.0345;;;;283;;DISCLOSURE −0.0345 ((1) Low);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5;-0.0270;;;;7167;**;DISCLOSURE −0.0270** ((2) Medium);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5;-0.0460;;;;1783;*;DISCLOSURE −0.0460* ((3) High);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5;0.0059;;;;686;*;DCO2 0.0059* ((4) Low);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5;0.0020;;;;1731;*;DCO2 0.0020* ((5) Medium);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5;0.0010;;;;899;;DCO2 0.0010 ((6) High);
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5;0.0024;;;;686;;TCO2 0.0024 ((7) Low);
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5;0.0024;;;;1731;**;TCO2 0.0024** ((8) Medium);
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5;0.0006;;;;899;;TCO2 0.0006 ((9) High);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5;-0.0916;;;;2994;***;DISCLOSURE −0.0916*** ((1) Low);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5;-0.0127;;;;3165;;DISCLOSURE −0.0127 ((2) Medium);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DISCLOSURE;FLAG;Table 5;-0.0311;;;;3074;;DISCLOSURE −0.0311 ((3) High);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5;0.0001;;;;1011;;DCO2 0.0001 ((4) Low);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5;0.0020;;;;1195;**;DCO2 0.0020** ((5) Medium);
+staging_Lin_et_al_2025.csv;Lin et al (2025);DCO2;FLAG;Table 5;-0.0016;;;;1110;**;DCO2 −0.0016** ((6) High);
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5;-0.0001;;;;1011;;TCO2 −0.0001 ((7) Low);
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5;0.0021;;;;1195;**;TCO2 0.0021** ((8) Medium);
+staging_Lin_et_al_2025.csv;Lin et al (2025);TCO2;FLAG;Table 5;0.0002;;;;1110;;TCO2 0.0002 ((9) High);
+staging_Ng_Rezaee_unknown.csv;Ng & Rezaee (2012);ENVt-1;Correlation coefficient available;Table 3;;;;;5702;;"Panel D: Correlation Matrix - Sustainability Sample: CostDebtt row x ENVt-1 column (upper triangle): 0.01; ENVt-1 row x CostDebtt column (lower triangle): -0.07***";"FLAG: two conflicting correlations printed and no note identifies which triangle is Pearson vs Spearman; full-sample: N=5702 from Panel C header ('Sample with sustainability disclosure (N=5702)'), not printed for Panel D"
+staging_Ould_Daoud_Ellili_2020.csv;Ould Daoud Ellili (2020);ES;T-Statistic available;Table A2;-0.0020;;-2.26;;;**;ES −0.0020 ** (−2.26) [Table A2 column (2)];
+staging_Ould_Daoud_Ellili_2020.csv;Ould Daoud Ellili (2020);ES;T-Statistic available;Table A2;-0.0029;;-2.51;;;**;ES −0.0029** (−2.51) [Table A2 column (3)];
+staging_Ould_Daoud_Ellili_2020.csv;Ould Daoud Ellili (2020);ES;T-Statistic available;Table A6;-0.0032;;-1.34;;;;ES −0.0032 (−1.34) [Table A6 column (2)];
+staging_Piechocka-Kaluzna_et_al_2021.csv;Piechocka-Kałużna et al (2021);E;T-Statistic available;Table 4;-0.056;0.044;-1.258;0.209;;;E -0.056 0.044 0.000 0.000 -1.258 0.209;"b/SE transcribed as standardized b* and its SE as printed; unstandardized b column prints 0.000 (SE 0.000)"
+staging_Piechocka-Kaluzna_et_al_2021.csv;Piechocka-Kałużna et al (2021);E;T-Statistic available;Table 4;-0.143;0.043;-3.319;0.001;;;E -0.143 0.043 0.000 0.000 -3.319 0.001;"b/SE transcribed as standardized b* and its SE as printed; unstandardized b column prints 0.000 (SE 0.000)"
+staging_Piechocka-Kaluzna_et_al_2021.csv;Piechocka-Kałużna et al (2021);E;T-Statistic available;Table 4;-0.097;0.043;-2.266;0.024;;;E -0.097 0.043 0.000 0.000 -2.266 0.024;"b/SE transcribed as standardized b* and its SE as printed; unstandardized b column prints 0.000 (SE 0.000)"
+staging_Piechocka-Kaluzna_et_al_2021.csv;Piechocka-Kałużna et al (2021);E;T-Statistic available;Table 4;-0.131;0.043;-3.058;0.002;;;E -0.131 0.043 0.000 0.000 -3.058 0.002;"b/SE transcribed as standardized b* and its SE as printed; unstandardized b column prints 0.000 (SE 0.000)"
+staging_Piechocka-Kaluzna_et_al_2021.csv;Piechocka-Kałużna et al (2021);E;T-Statistic available;Table 4;-0.127;0.044;-2.897;0.004;;;E -0.127 0.044 0.000 0.000 -2.897 0.004;"b/SE transcribed as standardized b* and its SE as printed; unstandardized b column prints 0.000 (SE 0.000)"
+staging_Polebennikov_et_al_2016.csv;Polbennikov et al (2016);Env Score (bp per std);T-Statistic available;Exhibit 13;-1.5;;-0.84;;;;Env Score (bp per std) -1.5 -0.84;
+staging_Polebennikov_et_al_2016.csv;Polbennikov et al (2016);Env Score (bp per std);T-Statistic available;Exhibit 13;-1.7;;-0.99;;;;Env Score (bp per std) -1.7 -0.99;
+staging_Polebennikov_et_al_2016.csv;Polbennikov et al (2016);Env Score (bp per std);T-Statistic available;Exhibit 13;-2.1;;-6.37;;;;Env Score (bp per std) -2.1 -6.37;
+staging_Polebennikov_et_al_2016.csv;Polbennikov et al (2016);Env Score (bp per std);T-Statistic available;Exhibit 13;-1.7;;-4.23;;;;Env Score (bp per std) -1.7 -4.23;
+staging_Ratajczak_Mikolajewicz_2021.csv;Ratajczak & Mikolajewicz (2021);log_CSR Environmental;FLAG;Table 3;-0.126;0.061;;0.137;300;;log_CSR Environmental −0.126 (0.061) [0.137];"FLAG: parentheses labeled 'standard deviations' in table note, not standard errors; full-sample: model N not printed (pairwise deletion), 300 companies per Section 2.1"
+staging_Ratajczak_Mikolajewicz_2021.csv;Ratajczak & Mikolajewicz (2021);log_CSR Environmental;FLAG;Table 4;-0.096;0.081;;0.276;300;;log_CSR Environmental −0.096 (0.081) [0.276];"FLAG: parentheses labeled 'standard deviations' in table note, not standard errors; full-sample: model N not printed (pairwise deletion), 300 companies per Section 2.1"
+staging_Ratajczak_Mikolajewicz_2021.csv;Ratajczak & Mikolajewicz (2021);log_CSR Environmental;FLAG;Table 4;-0.163;0.072;;0.057;300;;"log_CSR Environmental −0.163 (0.072) [0.057]; results text: 'environmental (beta = –0.163, p = 0.057)'";"FLAG: parentheses labeled 'standard deviations' in table note, not standard errors; full-sample: model N not printed (pairwise deletion), 300 companies per Section 2.1"
+staging_Salvi_et_al_2021.csv;Salvi et al (2021);Environmental Score;FLAG;Table 8;0.005;;;;904;;"Environmental Score – 0.005 ... (0.000) [Civil law, stakeholder-scores column]; N 904";"FLAG: Table 8 has no footnote defining parentheses (SE vs p-value ambiguous; only note: 'In bold we can find the key CSP measures')"
+staging_Salvi_et_al_2021.csv;Salvi et al (2021);Environmental Score;FLAG;Table 8;-0.000;;;;3141;;"Environmental Score – − 0.000 ... (0.000) [Common law, stakeholder-scores column]; N 3141";"FLAG: Table 8 has no footnote defining parentheses (SE vs p-value ambiguous; only note: 'In bold we can find the key CSP measures')"
+staging_Temiz_2022.csv;Temiz (2022);EnvPer;FLAG;Table 4;-0.0003;0.000;;;4,152;***;"EnvPer −0.0003*** (0.000) [column (1) COD]; Observations 4,152";"FLAG: Table 4 note reverses star mapping ('***,**and * show significance at 10, 5 and 1% respectively'); in-text states b = −0.0003, p < 0.01"
+staging_Temiz_2022.csv;Temiz (2022);ResRed Score;FLAG;Table 5;-0.0003;0.000;;;4,152;***;"ResRed Score −0.0003*** (0.000) [COD column]; Observations 4,152";"FLAG: Table 5 note states '*** and ** show significance at 10 and 5% respectively' (mapping inconsistent); in-text states p < 0.01"
+staging_Temiz_2022.csv;Temiz (2022);Emission Score;FLAG;Table 5;-0.0002;0.000;;;4,152;***;"Emission Score −0.0002*** (0.000) [COD column]; Observations 4,152";"FLAG: Table 5 note states '*** and ** show significance at 10 and 5% respectively' (mapping inconsistent); in-text states p < 0.01"
+staging_Temiz_2022.csv;Temiz (2022);EnvProd Score;FLAG;Table 5;-0.0001;0.000;;;4,152;***;"EnvProd Score −0.0001*** (0.000) [COD column]; Observations 4,152";"FLAG: Table 5 note states '*** and ** show significance at 10 and 5% respectively' (mapping inconsistent); in-text states p < 0.01"
+staging_Truong_Kim_2019.csv;Truong, Kim (2019);environment (CSR_ENV);T-Statistic available;Table 4;-0.136;;-1.64;;;;CSR -0.136 (-1.64);
+staging_Truong_Kim_2019.csv;Truong, Kim (2019);environment (CSR_ENV);T-Statistic available;Table 4;-0.234;;-1.38;;;;CSR -0.234 (-1.38);
+staging_Truong_Kim_2019.csv;Truong, Kim (2019);environment (CSR_ENV);T-Statistic available;Table A1;-0.837;;-1.51;;;;CSR -0.837 (-1.51);
+staging_Truong_Kim_2019.csv;Truong, Kim (2019);environment (CSR_ENV);T-Statistic available;Table A1;-2.024;;-1.78;;;*;CSR -2.024 * (-1.78);
+staging_Truong_Kim_2019.csv;Truong, Kim (2019);environment (CSR_ENV);T-Statistic available;Table A1;-2.258;;-1.88;;;*;CSR -2.258 * (-1.88);
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 5;0.006;;;;138;;"TCO2 0.006 [Table 5, Model 1, Non-European Country, COUNTRY=NO]; N 138; only coefficients printed (Coef. columns, no SE/t)";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 5;0.028;;;;138;;"TCO2 0.028 [Table 5, Model 1, Non-European Country, COUNTRY=YES]; N 138; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 5;0.010;;;;138;;"DCO2 0.010 [Table 5, Model 2, Non-European Country, COUNTRY=NO]; N 138; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 5;0.018;;;;138;;"DCO2 0.018 [Table 5, Model 2, Non-European Country, COUNTRY=YES]; N 138; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 6;-0.004;;;;73;;"TCO2 -0.004 [Table 6, Model 1, RULELAW < Median, COUNTRY=NO]; N 73; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 6;0.527;;;;73;;"TCO2 0.527 [Table 6, Model 1, RULELAW < Median, COUNTRY=YES]; N 73; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 6;-0.267;;;;73;;"DCO2 -0.267 [Table 6, Model 2, RULELAW < Median, COUNTRY=NO]; N 73; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 6;0.275;;;;73;;"DCO2 0.275 [Table 6, Model 2, RULELAW < Median, COUNTRY=YES]; N 73; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 7;-0.005;;;;172;;"TCO2 -0.005 [Table 7, Model 1, CREDITRIGHT < Median, COUNTRY=NO]; N 172; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);TCO2;b with significance stars only;Table 7;-0.001;;;;172;;"TCO2 -0.001 [Table 7, Model 1, CREDITRIGHT < Median, COUNTRY=YES]; N 172; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 7;0.001;;;;172;;"DCO2 0.001 [Table 7, Model 2, CREDITRIGHT < Median, COUNTRY=NO]; N 172; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Wang_et_al_2020.csv;Wang et al (2020);DCO2;b with significance stars only;Table 7;-0.005;;;;172;;"DCO2 -0.005 [Table 7, Model 2, CREDITRIGHT < Median, COUNTRY=YES]; N 172; only coefficients printed";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.102;;;;2566;;carbonemi_1 0.102;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;-0.035;;;;2354;;carbonemi_1 -0.035;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.039;;;;2643;;carbonemi_1 0.039;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.028;;;;2970;;carbonemi_1 0.028;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.060;;;;6304;;carbonemi_1 0.060;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.081;;;;5325;;carbonemi_1 0.081;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.109;;;;2566;;carbonemi_2 -0.109;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.088;;;;2354;;carbonemi_2 0.088;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.026;;;;2643;;carbonemi_2 -0.026;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.041;;;;2970;;carbonemi_2 0.041;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.045;;;;6304;;carbonemi_2 0.045;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.048;;;;5325;;carbonemi_2 -0.048;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.072;;;;2566;;carbonemi_1 0.072;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.010;;;;2354;;carbonemi_1 0.010;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.064;;;;2643;;carbonemi_1 0.064;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.060;;;;2970;;carbonemi_1 0.060;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.013;;;;2566;;carbonemi_2 -0.013;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.007;;;;2354;;carbonemi_2 -0.007;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.140;;;;2643;;carbonemi_2 0.140;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.038;;;;2970;;carbonemi_2 0.038;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.033;;;;6304;;carbonemi_2 0.033;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.062;;;;5844;;carbonemi_2 0.062;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.123;;;;513;;carbonemi_2 0.123;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.034;;;;5325;;carbonemi_2 -0.034;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.048;;;;2566;;carbonemi_1 0.048;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.018;;;;2354;;carbonemi_1 0.018;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.059;;;;2643;;carbonemi_1 0.059;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.069;;;;2970;;carbonemi_1 0.069;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.015;;;;2566;;carbonemi_2 0.015;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.014;;;;2354;;carbonemi_2 0.014;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.132;;;;2643;;carbonemi_2 0.132;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.003;;;;2970;;carbonemi_2 -0.003;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.010;;;;6304;;carbonemi_2 0.010;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.155;;;;513;;carbonemi_2 0.155;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.046;;;;5325;;carbonemi_2 -0.046;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.032;;;;2566;;carbonemi_1 0.032;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.012;;;;2354;;carbonemi_1 0.012;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.053;;;;2643;;carbonemi_1 0.053;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_1;b with significance stars only;Table 9;0.067;;;;2970;;carbonemi_1 0.067;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.004;;;;2566;;carbonemi_2 -0.004;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.009;;;;2354;;carbonemi_2 0.009;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.127;;;;2643;;carbonemi_2 0.127;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.002;;;;2970;;carbonemi_2 -0.002;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.013;;;;6304;;carbonemi_2 0.013;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;0.153;;;;513;;carbonemi_2 0.153;
+staging_Zhang_et_al_2023.csv;Zhang et al (2023);carbonemi_2;b with significance stars only;Table 9;-0.036;;;;5325;;carbonemi_2 -0.036;
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 8;0.0366;;;;1986;;"ENVSCORE 0.0366 [Table 8, Size - Q1, dimensions column]; N 1986; note: The superscripts *, **, and *** indicate significance at the 10%, 5%, and 1% levels, respectively.";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 8;-0.0073;;;;1994;;"ENVSCORE -0.0073 [Table 8, Size - Q2, dimensions column]; N 1994";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 8;-0.0423;;;;1952;;"ENVSCORE -0.0423 [Table 8, Size - Q3, dimensions column]; N 1952";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 8;-0.0225;;;;1867;;"ENVSCORE -0.0225 [Table 8, Size - Q4, dimensions column]; N 1867";"non-convertible: coefficient printed without significance stars; table reports b only"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9;-0.0073;;;;18627;;"ENVSCORE -0.0073 [Table 9, Energy column]; note: The superscripts *, **, and *** indicate significance at the 10%, 5%, and 1% levels, respectively.";"non-convertible: coefficient printed without significance stars; full-sample: Table 9 prints no per-column N; 18627 = 'There are 18627 firm-year observations between 2000 and 2013' (text)"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9;-0.04;;;;18627;;ENVSCORE -0.04 [Table 9, Consumer Discretionary column];"non-convertible: coefficient printed without significance stars; full-sample: Table 9 prints no per-column N; 18627 firm-year observations from text"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9;-0.0393;;;;18627;;ENVSCORE -0.0393 [Table 9, Consumer Staples column];"non-convertible: coefficient printed without significance stars; full-sample: Table 9 prints no per-column N; 18627 firm-year observations from text"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9;-0.0641;;;;18627;;ENVSCORE -0.0641 [Table 9, Health Care column];"non-convertible: coefficient printed without significance stars; full-sample: Table 9 prints no per-column N; 18627 firm-year observations from text"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9;-0.0751;;;;18627;;ENVSCORE -0.0751 [Table 9, Information Technology column];"non-convertible: coefficient printed without significance stars; full-sample: Table 9 prints no per-column N; 18627 firm-year observations from text"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9;-0.0154;;;;18627;;ENVSCORE -0.0154 [Table 9, Communication Services column];"non-convertible: coefficient printed without significance stars; full-sample: Table 9 prints no per-column N; 18627 firm-year observations from text"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9;-0.0059;;;;18627;;ENVSCORE -0.0059 [Table 9, Utilities column];"non-convertible: coefficient printed without significance stars; full-sample: Table 9 prints no per-column N; 18627 firm-year observations from text"
+staging_Zheng_2021.csv;Zheng (2021);ENVSCORE;b with significance stars only;Table 9;-0.0637;;;;18627;;ENVSCORE -0.0637 [Table 9, Real Estate column];"non-convertible: coefficient printed without significance stars; full-sample: Table 9 prints no per-column N; 18627 firm-year observations from text"
