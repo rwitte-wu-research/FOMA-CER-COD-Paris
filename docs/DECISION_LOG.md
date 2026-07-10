@@ -603,6 +603,33 @@
 
 **Files:** DECISION_LOG.md · analysis_plan.md (update with T0.4 commit) · data/CER-COD_data_v12.xlsx · R/00-T0.4-prep spec (next step) · Status workbook.
 
+## DEC-031a: Battery walk-through amendments (author review session, blocks A–H) — moderator inventory recut, robustness catalogue finalized, conditional upgrades pre-registered, figure inventory fixed
+
+**Block:** Methodology finalization (amendment to DEC-031) · 2026-07-10
+
+**Question:** Joint author–reviewer walk-through of the locked battery (blocks A–H) before T0.4: which adjustments are adopted while still result-blind?
+
+**Options considered:** (a) leave DEC-031 untouched and handle adjustments ad hoc; (b) single amendment entry bundling all walk-through rulings (chosen — no estimates exist, so every change is uncontaminated and cheap to log now).
+
+**Chosen (author rulings, all 2026-07-10):**
+1. **Moderator inventory recut (narrative vs technical):** Block C = narrative moderators only — CER_measure, COD_instrument, industry, regulation3, country_region, country_econ, country_culture, country_legal (each univariate: main-effects + Paris-interaction model, formal between-group F-test, CR2/Satterthwaite, <3-cluster cells descriptive-only). Technical checks q_VHB, field, ES_measure, es_method move to the robustness catalogue (G); **q_status moves to Block D** as the grey-literature selection panel.
+2. **corpus_segment removed entirely** (univariate panel AND `segment_original_only` spec). Retention as on-demand specification with a prepared response-letter answer ("segment robustness available on request") — same mechanism as D31.3.
+3. **`cluster_study` spec removed:** all comparable analyses run uniformly at cluster level; consistency claim becomes a Methods sentence (2 multi-study clusters, 118 vs 120 units).
+4. **Robustness catalogue additions/exclusions:** NEW `one_per_cluster_median` (assumption-free aggregation check next to the primary rho-based Borenstein aggregation), `outlier_mad` (Leys et al. 2013 MAD-based second identification), `trim_1_99` (symmetric trimming as counterpart to winsorizing). EXPLICITLY EXCLUDED with citations: trim-and-fill (unreliable under heterogeneity, Carter et al. 2019), ±k·SD rules and SAMD (mean/SD themselves outlier-distorted; superseded by model-based studentized residuals — Leys et al. 2013; Viechtbauer).
+5. **Conditional upgrades pre-registered** (adjudicated mechanically by `design_quantities_v12.csv`, not by results): (i) clean-window comparison upgrades from descriptive to full inference iff design-only Satterthwaite df ≥ 5 on v12; (ii) 3PSM/p-uniform* enter the pre/post bias split (D4) iff the post cell holds ≥ 20 studies; until then D4 = FAT-PET-PEESE only, same PET→PEESE rule as the full corpus.
+6. **Inference conventions:** subgroup rows report own estimate + CI with formal between-group tests; NO pairwise spec-vs-headline significance testing (no valid SE for nested-subset differences) — joint specification inference runs via the N5 spec-curve permutation (Simonsohn et al. 2020).
+7. **Figure inventory (T1/B/H):** caterpillar plot of all cluster aggregates (appendix) · labelled study-level forest plot, one effect per cluster with CIs and pooled reference line (appendix, full page) · cumulative MA as the main-text time figure (N10).
+8. **G reporting principle:** manuscript text reports each robustness result exactly once in its narrative home (A/B/D/F); the G text section carries only checks without such a home; appendix table + machine-readable long CSV remain COMPLETE with a "reported in §x.y" cross-reference column (spec-curve requires the full specification space).
+9. **Implementation note (B1):** the headline binary is the `pp_mid_lag0` column (mid ≥ 2015.5 ⟺ post_share_2016 ≥ 0.5, ties→Post); `pp_share_lag0` is the continuous dose regressor (rr01 finding); `sample_median` and median/tertile splits stay outside the Paris suite (generic time splits per DEC-024).
+
+**Rationale:** Sharpens the storyline (narrative vs technical separation), removes zero-information rows, adds cheap orthogonal checks, and converts two potential post-hoc temptations (clean-window inference, split-sample selection models) into pre-registered design-fact conditions — all before any estimate exists.
+
+**Reviewer-Risk:** *Finance/Econometrics* — exclusions of trim-and-fill/±SD/SAMD are citation-backed, pre-empting "why not X" one-liners; conditional upgrades are mechanically adjudicated. *Management/BSE* — Block C now reads as a clean theory-driven moderator story; grey literature sits where a selection-minded referee looks for it (D).
+
+**Consequences:** Status workbook gains the `Analyse_Batterie` sheet (per-analysis tracking A1–H11, this DEC's numbering); analysis_plan §§7/9 update ships with the T0.4 commit; on-demand register now holds provenance specs (D31.3) + corpus_segment; Pending-D unchanged.
+
+**Files:** DECISION_LOG.md · docs/CER-COD_Status.xlsx (`Analyse_Batterie` sheet) · analysis_plan.md (with T0.4 commit).
+
 ---
 
 ## Conditional / Pending DECs
