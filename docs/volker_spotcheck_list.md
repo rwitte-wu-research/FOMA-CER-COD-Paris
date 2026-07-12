@@ -39,10 +39,10 @@ Status: "confirmed" = author-approved (rulings P-05, r21, E-10/E-23); kept here 
 | 4 | DE | Developed Europe → region 2_Europe, econ 1_developed, culture western | confirmed |
 | 5 | North America | region 99_NCE, culture western (US+Canada presumed) | confirmed |
 
-## E. OPEN items for Volker
-| # | Item | Question |
+## E. Items — CLOSED by author ruling 2026-07-10 (DEC-042a): dataset locked as-is, no changes
+| # | Item | Disposition (author ruling) |
 |---|------|----------|
-| 1 | Subsample values "Central" / "Eastern" / "Western" (n=3 rows) | Which geography? Currently inherit paper level (R-20) |
-| 2 | n_obs = 'FLAG' (176 cells; R-19) | Adjudicate raw n_obs; col E currently uses n_firms x window-years proxy |
-| 3 | d_country truncation artefacts (raw layer, D4-WARN) | Optional hygiene pass in staging exports; no analysis impact (column not used for derivation) |
-| 4 | 16 usable-ES rows without any n (Ould Daoud Ellili 2020; Piechocka-Kałużna et al 2021) | Re-check papers for firm counts; else rows drop from estimation |
+| 1 | Subsample values "Central" / "Eastern" / "Western" (n=3 rows) | CLOSED — paper-level inheritance final |
+| 2 | n_obs = 'FLAG' (176 cells; R-19) | CLOSED — R-19 proxy treatment final; cover: no_nobs_proxyfill sensitivity |
+| 3 | d_country truncation artefacts (raw layer, D4-WARN) | CLOSED — raw layer stays as-is (no analysis impact) |
+| 4 | 16 usable-ES rows without any n (Ould Daoud Ellili 2020; Piechocka-Kałużna et al 2021) | CLOSED — permanent drop; effective estimation set = 2,714/2,730 |

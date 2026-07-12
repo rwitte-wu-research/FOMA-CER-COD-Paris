@@ -197,3 +197,23 @@ Fifteen pre-designated analyses (Status tab `Null_Battery`, GO 2026-07-04) guard
 - Numbering: **DEC-030 = search update** (this entry); **DEC-031 = battery-input fixation** (SESOI values per F27v2, multiverse factor space, p-curve rule, permutation B) — logged after v11. Prior references to "DEC-030 = battery inputs" are superseded.
 - CER-construct gate codified (carbon-based measures IN as executed; climate-risk exposure/perception OUT) [F32v2].
 - Consolidated screening list (4-engine union): see Status `Update_Scoping`; pre-window completeness flags (Maaloul 2018; Kleimeier & Viehs 2016/18; Caragnano 2020) → PRISMA documentation, not corpus reopening.
+
+---
+
+## Addendum A — v12 / DEC-031-family supersessions (2026-07-12, ships with the T0.4 commit)
+
+This addendum supersedes the affected statements above. Where a section conflicts with this addendum, **the addendum governs**; full authority remains with the DECISION_LOG entries cited.
+
+**A.1 Data (supersedes §1).** Canonical input: `data/CER-COD_data_v12.xlsx` [DEC-042]. Corpus 2,852 rows · 120 studies · 119 cluster_ids. Usable ES 2,730; **effective estimation set 2,713** (− 1 duplicate tag − 16 no-n rows) over **115 studies / 114 clusters**; five studies drop fully at the estimation filter (Johnson 2020; Kumar & Firoz 2018; Ould Daoud Ellili 2020; Piechocka-Kałużna et al. 2021; Polbennikov et al. 2016) [DEC-042a]. Sample-size basis = column E (n_obs if numeric, else n_firms × window-years; 297 proxy rows incl. 134 FLAG-based) [R-16b/R-19, DEC-042a]. All quantities re-derived mechanically in `output/design_quantities_v12.csv` (T0.4, verifier v2 28/28).
+
+**A.2 Inference unit (supersedes `cluster = study` snippets in §§3–8).** All nesting and CR2 clustering on **cluster_id** (`~1 | cluster_id/study/esid`) [DEC-031 D31.1]. `cluster_study` spec removed [DEC-031a.3].
+
+**A.3 Paris coding (clarifies §6).** Headline binary = `pp_mid_lag0` (mid ≥ 2015.5 ⟺ post-share ≥ 0.5, ties→Post); `pp_share_lag0` is the **continuous** dose regressor (≡ share_2016) [DEC-031a.9]. Transfer rule NOT triggered: design df(pp_mid) = 31.9 [T0.4]. Pre-registered conditional upgrades both **fired** [DEC-031a.5; T0.4]: clean-window comparison carries full inference (df = 12.3 ≥ 5); 3PSM + p-uniform* run in the pre/post bias split (post cell 31 ≥ 20 studies).
+
+**A.4 Moderators (supersedes §7 architecture).** Two-stage per DEC-031 D31.5 / DEC-031a.1: Stage 1 univariate panels for the narrative set (CER_measure, COD_instrument, industry, regulation3, 4 country schemes); technical checks (q_VHB, field, ES_measure, es_method) live in the robustness catalogue; q_status = grey-literature panel in the bias block; corpus_segment removed (on-demand) [DEC-031a.2]. Stage 2 unified composition = Pending-D → DEC-043 (session after T0.4, before T7 stage 2).
+
+**A.5 Robustness catalogue (supersedes §9 list).** Current spec set per DEC-031 Annex G + DEC-031a.4: adds `no_starbound`, `no_nobs_proxyfill`, `n_firms_variance`, `one_per_cluster_median`, `outlier_mad`, `trim_1_99`; removes `cluster_study`, `segment_original_only`, provenance specs (on-demand). Trim-and-fill, ±SD, SAMD excluded with citations.
+
+**A.6 Null battery inputs (supersedes §13 placeholders).** All N-inputs fixed [DEC-031 Annex H]; N3 priors per **DEC-031b**: PSMA defaults (primary) + COE-companion-informed Normal(μ = −0.041 Fisher-z, σ = 0.021) + wide (σ = 0.042); Zarea-informed prior dropped. N15 within-study set on v12 = {Li et al. 2022} (73 studies span the break; 72 pool across it) [T0.4].
+
+**A.7 Execution.** Canonical runs = Claude Code via Rscript **with paired verifier** (exit code; outputs committed); RStudio = interactive inspection (process decision, Setup tab, 2026-07-12). Prep = `R/00_prep.R` + `R/00_verify_prep.R` (v2, 28 checks) replacing the `R/01_prep.R` naming in §1.

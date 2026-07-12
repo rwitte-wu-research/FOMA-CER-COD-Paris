@@ -630,6 +630,50 @@
 
 **Files:** DECISION_LOG.md · docs/CER-COD_Status.xlsx (`Analyse_Batterie` sheet) · analysis_plan.md (with T0.4 commit).
 
+## DEC-031b: N3 informed-prior source swapped — COE companion replaces Zarea; last external pending eliminated
+
+**Block:** Methodology finalization (amendment to DEC-031 Annex H) · 2026-07-10
+
+**Question:** Author challenge to the N3 "Zarea-informed" RoBMA prior: Zarea et al. (2026) is ESG–bank *financial performance*, off-construct for a cost-of-debt prior. Author's proposed substitute — within-study Paris-split coefficients from our own v12 corpus — was examined and rejected.
+
+**Options considered:** (a) keep Zarea-informed prior (external but off-construct); (b) own within-study split coefficients (on-construct but **inadmissible**: those effects are part of the data N3 updates on — forming the prior from the likelihood data double-counts evidence and mechanically biases the Bayes factor; the only clean variant would remove those rows from estimation, sacrificing data for nothing); (c) COE-companion-informed prior (Witte et al., BSE): external to this dataset (logged overlap check: 5/66 studies, zero shared effect sizes, disjoint estimands), on-adjacent-construct (cost of *capital*), published, and extractable from PK — no external pending.
+
+**Chosen:** (c), author-approved. N3 prior sets fixed a priori:
+- **Set 1 (primary):** RoBMA-PSMA defaults (unchanged).
+- **Set 2 (COE-informed):** effect prior under H1 = Normal(μ = −0.041 [Fisher-z scale; z(−0.041) ≈ −0.0410], σ = 0.021), where μ = COE-companion pooled effect (Table 2 Overall: r = −0.041, 95% CI [−0.043, −0.039], N = 75, k = 1,139) and σ = the companion's between-study dispersion derived from its prediction interval [−0.083, 0.000] (PI half-width/2 ≈ τ ≈ 0.021).
+- **Set 3 (wide sensitivity):** same μ, σ doubled (0.042) — transferability-uncertainty check across the equity→debt domain.
+- Zarea-informed prior DROPPED (off-construct; bank-profitability estimate is not a defensible debt-pricing prior location). N8 (Zarea transplantation) and N15 (within-study display) unaffected — the author's recollection of "using our split papers" maps onto N15, which remains descriptive-only.
+
+**Rationale:** Priors must be external to the likelihood data (hard requirement, not preference); the COE companion is the closest defensible external anchor, and sourcing it removes the battery's last external pending — every N-input is now numerically fixed.
+
+**Reviewer-Risk:** *Finance/Econometrics* — cost-of-capital-adjacent prior is the natural expectation source; prior-robustness across three sets is RoBMA best practice. *Management/BSE* — self-citation of the companion is already required by the novelty positioning (DEC-011); using it as prior anchor is consistent, with the 5-study/zero-effect-overlap disclosure repeated in the N3 note.
+
+**Consequences:** DEC-031 Annex H N3 line superseded by the three sets above; Status `Analyse_Batterie` H2 remark updated ("PENDING Zarea" → "inputs fixed, DEC-031b"); no other battery element touched.
+
+**Files:** DECISION_LOG.md · docs/CER-COD_Status.xlsx (H2 remark) · R/07-battery (N3 implementation).
+
+---
+
+## DEC-042a: Volker list E1–E4 closed by author ruling — dataset locked as-is, no further data changes before analysis
+
+**Block:** Corpus governance (closure of DEC-042 open items) · 2026-07-10
+
+**Question:** Disposition of the four open items in `docs/volker_spotcheck_list.md` §E.
+
+**Chosen (author ruling, all four "bestätigt — keine Veränderung"):**
+- **E1** Central/Eastern/Western subsample rows (3): paper-level inheritance is FINAL (no map extension).
+- **E2** n_obs 'FLAG' cells (176): the R-19 treatment is promoted from provisional to FINAL — column E carries the n_firms × window-years proxy; raw cells keep the honest 'FLAG' marker; no adjudication pass. Analytical cover: `no_nobs_proxyfill` sensitivity + reported counts; response-letter answer = that sensitivity.
+- **E3** d_country truncation artefacts: raw layer stays untouched (column not used for any derivation; documented D4-WARN).
+- **E4** 16 usable-ES rows without any n (Ould Daoud Ellili 2020; Piechocka-Kałużna et al. 2021): permanent drop from estimation. **Effective estimation set fixed: 2,713 of 2,730 usable effects** (2,730 − 1 duplicate-tagged row − 16 no-n rows; all three figures reported in Methods). Cluster inventory: 119 cluster_ids over 120 studies (one multi-study cluster: Sandra/Ofogbe; Kleimeier–Viehs runs under a single study key).
+
+**Rationale:** All four states are transparent, logged, and analytically covered; the author weighs closure and a stable input above marginal completeness gains. v12 is final as committed (63356a7); any future correction would be a v12.x erratum with its own DEC.
+
+**Reviewer-Risk:** *Finance/Econometrics* — the proxy-n block (176 rows) is the only substantive exposure; the pre-registered exclusion sensitivity is the standing answer. *Management/BSE* — negligible.
+
+**Consequences:** `docs/volker_spotcheck_list.md` §E statuses → "closed by author ruling 2026-07-10"; T0.4 codes the estimation-set definition (2,713) as an asserted constant; no open data items remain before analysis.
+
+**Files:** DECISION_LOG.md · docs/volker_spotcheck_list.md · R/00-T0.4-prep.
+
 ---
 
 ## Conditional / Pending DECs

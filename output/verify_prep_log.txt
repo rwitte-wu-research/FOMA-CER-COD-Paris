@@ -1,0 +1,30 @@
+T0.4 verifier v2 — 2026-07-12 08:57:40.525532
+V1a  PASS corpus rows == 2852
+V1b  PASS usable == 2730
+V1c  PASS estimation set == 2713 (fresh recount)
+V1d  PASS RDS n == 2713
+V1e  PASS non-convertible 122 / duplicate 1 / usable-no-n 16
+V2a  PASS share_2016 independent re-derivation
+V2b  PASS pp_mid independent (mid >= 2015.5)
+V2c  PASS pp_start independent (start >= 2016; R-18)
+V2d  PASS median split independent (> 2013 frozen)
+V2e  PASS tertile split independent (2011/2014 frozen)
+V3   PASS ALL 12 closed lists (incl. column existence)
+V4a  PASS required columns EXIST in RDS (ids + 13 factors + zi/vi/n_eff)
+V4b  PASS zi finite; vi > 0
+V4c  PASS zi == atanh(r); vi == 1/(n_eff-3)
+V4d  PASS no NA in ids AND all 13 factor columns (non-vacuous)
+V4e  PASS starbound: corpus 99; RDS flags consistent
+V4f  PASS RDS cluster_id matches lookup mapping study-by-study
+V5a  PASS cells (k + post-studies) match CSV for ALL 10 codings
+V5b  PASS upgrade adjudication rows present
+V5c  PASS df_paris_design finite for all 10 codings
+V6a  PASS sample_median == sample_mid
+V6b  PASS pp_share_lag0 == share_2016 (continuous identity)
+V6c  PASS end_lag0 == 1 <=> share_2016 > 0
+V6d  PASS pp_start == 1 <=> share_2016 == 1 (clean_post)
+V6e  PASS window_class rule re-run
+V7a  PASS estimation set: 115 studies / 114 clusters
+V7b  PASS exactly the 5 documented studies drop fully at S4
+V7c  PASS N15 within-study set == {Li et al (2022)} under headline coding
+RESULT: ALL PASS
