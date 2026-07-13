@@ -1,260 +1,257 @@
 # =============================================================================
-# 01_verify_outputs.R — paired verifier for 01_prep.R (T0.4)
-# Independently re-checks the prepared dataset: it RE-READS the raw .xlsx and
-# RE-DERIVES the expected label tallies, then compares against the processed
-# output — it never trusts 01_prep.R's own asserts. Numbered checks O1..O12 plus
-# a row-conservation check, each PASS / FAIL / FLAG. FLAG = a data-integrity
-# item surfaced for the Volker extraction check (its count constant must still
-# hold, else FAIL). Ends with a "k/k PASS" line + the FLAG list.
-#
-# Clone-safe: data/processed/* is gitignored, so when the processed output is
-# absent the dependent checks SKIP (never FAIL).
+# R/01_verify_outputs.R -- paired verifier for R/01_core.R (T1, Block A)
+# Checks O1-O21, numbered PASS/FAIL; exit status 1 on any FAIL.
+# ORACLE INDEPENDENCE: this script does NOT source 01_core.R. Constants below
+# are intentionally duplicated. dat_prep schema is BINDING (author ruling
+# 2026-07-12, R/00_prep.R list contract: pr$dat / pr$n / pr$seed).
+# Convention: verifier = oracle for the Claude-Code run [Setup tab; Addendum A.7].
 # =============================================================================
 
-# SECTION 1 — Harness -----------------------------------------------------------
-suppressMessages({
-  library(here); library(readxl); library(readr); library(dplyr); library(stringr)
-})
+# ---- duplicated config (keep in sync with 01_core.R) ---------------------------
+PATH_DAT_PREP <- here::here("output", "dat_prep.rds")
+DIR_OUT <- here::here("output"); DIR_FIG <- file.path(DIR_OUT, "figures")
+REQUIRED_COLS <- c("zi", "vi", "cluster_id", "study", "esid",
+                   "pp_mid_lag0", "n_eff")   # binding schema
+K_ES <- 2713L; K_STUDY <- 115L; K_CLUSTER <- 114L; K_STUDY_POST <- 31L
+RHO_SET <- c(0.6, 0.4, 0.8)
+SD_COD_BP_GRID <- c(100, 150, 200); SMALL_BENCH_R <- 0.07
 
-.results <- list()   # one record per executed (non-skipped) check
-.flags   <- character(0)
+RES_PATH  <- file.path(DIR_OUT, "T1_results.csv")
+META_PATH <- file.path(DIR_OUT, "T1_run_meta.txt")
+FIGS <- c(file.path(DIR_FIG, "T1_A7_caterpillar_cluster.pdf"),
+          file.path(DIR_FIG, "T1_A7_caterpillar_cluster.png"),
+          file.path(DIR_FIG, "T1_A8_forest_study.pdf"))
 
-# check(): pass -> PASS (or FLAG when flag=TRUE); !pass -> FAIL; skip -> SKIP.
-# A held FLAG counts toward k/k exactly like a PASS, and its detail is appended
-# to the FLAG list printed in the summary.
-check <- function(id, pass, detail, skip = FALSE, flag = FALSE) {
-  status <- if (skip) "SKIP"
-            else if (!isTRUE(pass)) "FAIL"
-            else if (flag) "FLAG" else "PASS"
-  cat(sprintf("[%-4s] %s — %s\n", id, status, detail))
-  if (!skip) .results[[length(.results) + 1]] <<- list(id = id, pass = isTRUE(pass))
-  if (status == "FLAG") .flags[[length(.flags) + 1]] <<- sprintf("%s: %s", id, detail)
-  invisible(status)
+SCHEMA <- c("analysis_id", "spec", "subset", "metric", "estimator", "rho",
+            "k_es", "k_study", "k_cluster",
+            "est_z", "se_z", "t_stat", "df", "p",
+            "ci_lb_z", "ci_ub_z", "pi_lb_z", "pi_ub_z",
+            "est_r", "ci_lb_r", "ci_ub_r", "pi_lb_r", "pi_ub_r",
+            "sigma2_cluster", "sigma2_study", "sigma2_esid",
+            "pct_cluster", "pct_study", "pct_esid", "pct_sampling", "typical_v",
+            "value", "ms_input", "ms_label", "note")
+
+EXPECTED_SPECS <- rbind(
+  c("A1", "headline"), c("A2", "var_decomposition"),
+  c("A3", "pi_overall"), c("A3", "pi_pre"), c("A3", "pi_post"),
+  c("A4", "rho_0.4"), c("A4", "rho_0.8"),
+  c("A5", "one_effect_per_cluster"), c("A5", "uwls3"),
+  c("A5", "hs_es_level"), c("A5", "waap_uwls"),
+  c("A6", "bp_per_1sd_sd100"), c("A6", "bp_per_1sd_sd150"),
+  c("A6", "bp_per_1sd_sd200"), c("A6", "small_benchmark_ratio"))
+
+# ---- harness -------------------------------------------------------------------
+results <- character(0); n_fail <- 0L
+check <- function(id, ok, desc, detail = "") {
+  status <- if (isTRUE(ok)) "PASS" else "FAIL"
+  if (!isTRUE(ok)) n_fail <<- n_fail + 1L
+  line <- sprintf("%-4s %s -- %s%s", id, status, desc,
+                  if (nzchar(detail)) paste0(" [", detail, "]") else "")
+  results[[length(results) + 1L]] <<- line
+  cat(line, "\n")
+}
+near <- function(a, b, tol) all(is.finite(a) & is.finite(b)) && all(abs(a - b) <= tol)
+
+# ---- O1 files ------------------------------------------------------------------
+paths <- c(RES_PATH, META_PATH, FIGS)
+check("O1", all(file.exists(paths)), "all output files exist",
+      paste(basename(paths)[!file.exists(paths)], collapse = ", "))
+if (!file.exists(RES_PATH)) { cat("ABORT: results CSV missing.\n"); quit(status = 1L) }
+
+res <- read.csv(RES_PATH, stringsAsFactors = FALSE)
+
+# ---- O2 schema -----------------------------------------------------------------
+check("O2", identical(names(res), SCHEMA), "CSV schema exact (names + order)",
+      paste(setdiff(SCHEMA, names(res)), collapse = ", "))
+
+# ---- O3 spec inventory ----------------------------------------------------------
+got <- paste(res$analysis_id, res$spec, sep = "::")
+exp <- paste(EXPECTED_SPECS[, 1], EXPECTED_SPECS[, 2], sep = "::")
+check("O3", identical(sort(got), sort(exp)) && !anyDuplicated(got),
+      sprintf("spec inventory complete (%d rows), no duplicates", length(exp)),
+      paste(c(setdiff(exp, got), setdiff(got, exp)), collapse = ", "))
+
+row_of <- function(aid, sp) res[res$analysis_id == aid & res$spec == sp, , drop = FALSE]
+hl <- row_of("A1", "headline")
+
+# ---- O4 headline / full-set k --------------------------------------------------
+full3l <- res[res$subset == "all" & res$estimator %in%
+                c("3LMA-RVE_CR2", "3LMA-RVE_REML"), ]
+check("O4", nrow(hl) == 1 &&
+        hl$k_es == K_ES && hl$k_study == K_STUDY && hl$k_cluster == K_CLUSTER &&
+        all(full3l$k_es == K_ES & full3l$k_study == K_STUDY &
+              full3l$k_cluster == K_CLUSTER),
+      "k identities on full-set 3LMA rows (2713/115/114) [DEC-042a]")
+
+# ---- O5 period cells ------------------------------------------------------------
+pre <- row_of("A3", "pi_pre"); post <- row_of("A3", "pi_post")
+check("O5", nrow(pre) == 1 && nrow(post) == 1 &&
+        (pre$k_es + post$k_es) == K_ES &&
+        post$k_study == K_STUDY_POST &&
+        pre$k_study >= 1 && pre$k_study <= K_STUDY &&
+        post$k_cluster >= 1,
+      "period cells: k_es(pre)+k_es(post)=2713; post studies = 31 [Addendum A.3]",
+      sprintf("pre %s/%s, post %s/%s", pre$k_es, pre$k_study, post$k_es, post$k_study))
+
+# ---- O6 est within CI ------------------------------------------------------------
+zrows <- res[!is.na(res$est_z) & !is.na(res$ci_lb_z) & !is.na(res$ci_ub_z), ]
+rrows <- res[!is.na(res$est_r) & !is.na(res$ci_lb_r) & !is.na(res$ci_ub_r), ]
+check("O6", all(zrows$ci_lb_z < zrows$est_z & zrows$est_z < zrows$ci_ub_z) &&
+        all(rrows$ci_lb_r < rrows$est_r & rrows$est_r < rrows$ci_ub_r),
+      "estimate strictly inside its CI (z and r scales), all applicable rows")
+
+# ---- O7 PI wider than CI ----------------------------------------------------------
+pirows <- res[!is.na(res$pi_lb_z) & !is.na(res$ci_lb_z), ]
+check("O7", all(pirows$pi_lb_z <= pirows$ci_lb_z & pirows$pi_ub_z >= pirows$ci_ub_z),
+      "PI encloses CI wherever both present (F55 construction)")
+
+# ---- O8 variance decomposition ------------------------------------------------------
+a2 <- row_of("A2", "var_decomposition")
+pct_sum <- a2$pct_cluster + a2$pct_study + a2$pct_esid + a2$pct_sampling
+check("O8", nrow(a2) == 1 &&
+        all(c(a2$sigma2_cluster, a2$sigma2_study, a2$sigma2_esid) >= 0) &&
+        near(pct_sum, 1, 1e-8) && a2$typical_v > 0,
+      "A2: sigma2 >= 0; pct shares sum to 1; typical_v > 0",
+      sprintf("pct_sum = %.10f", pct_sum))
+
+# ---- O9 rho grid ---------------------------------------------------------------------
+rhos <- sort(res$rho[res$analysis_id %in% c("A1", "A4")])
+check("O9", identical(rhos, sort(RHO_SET)), "rho set on A1+A4 = {0.4, 0.6, 0.8}",
+      paste(rhos, collapse = ", "))
+
+# ---- O10 tanh consistency --------------------------------------------------------------
+both <- res[!is.na(res$est_z) & !is.na(res$est_r), ]
+ok10 <- near(both$est_r, tanh(both$est_z), 1e-10)
+cib  <- res[!is.na(res$ci_lb_z) & !is.na(res$ci_lb_r), ]
+ok10b <- near(cib$ci_lb_r, tanh(cib$ci_lb_z), 1e-10) &&
+         near(cib$ci_ub_r, tanh(cib$ci_ub_z), 1e-10)
+check("O10", ok10 && ok10b, "r == tanh(z) identity on estimates and CI endpoints")
+
+# ---- reload dat_prep for recomputation checks (O21 emitted at the end) ------------------
+pr_ok <- FALSE
+if (file.exists(PATH_DAT_PREP)) {
+  pr <- readRDS(PATH_DAT_PREP)
+  pr_ok <- is.list(pr) && !is.null(pr$dat) &&
+           identical(as.integer(pr$n), K_ES) &&
+           identical(as.integer(pr$seed), 20260710L) &&
+           all(REQUIRED_COLS %in% names(pr$dat))
+}
+if (pr_ok) {
+  dr <- pr$dat
+  d  <- data.frame(yi = as.numeric(dr$zi), vi = as.numeric(dr$vi),
+                   cluster = factor(dr$cluster_id), study = factor(dr$study),
+                   period = as.integer(as.character(dr$pp_mid_lag0)),
+                   n_eff = as.numeric(dr$n_eff))
 }
 
-require_input <- function(id, path) {
-  if (file.exists(path)) return(TRUE)
-  check(id, NA, sprintf("input not present, skipped: %s", path), skip = TRUE)
-  FALSE
-}
+if (pr_ok) {
+  r_h <- tanh(d$yi)
+  t_i <- r_h * sqrt(d$n_eff) / sqrt(1 - r_h^2)
+  rp3 <- t_i / sqrt(t_i^2 + d$n_eff + 3)
+  v3  <- (1 - rp3^2) / (d$n_eff + 3)
+  w3  <- 1 / v3
 
-# SECTION 2 — Expected constants ------------------------------------------------
-# Re-stated here (not imported from 01_prep.R) so the verifier is an independent
-# witness to the same contract.
-RAW_XLSX  <- here::here("data", "CER-COD_data_v1.xlsx")
-RAW_SHEET <- "Tabelle1"
-RDS_PATH  <- here::here("data", "processed", "cer_cod_prepared.rds")
-CSV_PATH  <- here::here("data", "processed", "cer_cod_prepared.csv")
-DICT_PATH <- here::here("docs", "data_dictionary.md")
+  # ---- O11 UWLS+3 identity ----
+  u3_ref <- sum(w3 * rp3) / sum(w3)
+  u3_row <- row_of("A5", "uwls3")
+  check("O11", nrow(u3_row) == 1 && near(u3_row$est_r, u3_ref, 1e-8),
+        "UWLS+3 point estimate == independent weighted-mean recomputation",
+        sprintf("ref %.10f vs csv %.10f", u3_ref, u3_row$est_r))
 
-EXPECT_ROWS <- 1306L; EXPECT_COLS <- 17L; EXPECT_STUDIES <- 66L
-YEAR_MIN <- 2010L; YEAR_MAX <- 2024L
-EXTREME_R_FLAG <- 0.99; N_SMALL_THRESH <- 10L
-EXPECT_NONINT  <- 699L         # F2 non-integer n
-EXPECT_NSMALL  <- 9L           # F3 n < 10
-EXPECT_NEXTREME <- 2L          # F1
-EXPECT_MEDIAN_N <- 289L        # rounded
-EXPECT_SHARE_LT200 <- 37.4     # percent
+  # ---- O12 HS identity ----
+  rbar_ref <- sum(d$n_eff * r_h) / sum(d$n_eff)
+  se_ref   <- sqrt(sum(d$n_eff * (r_h - rbar_ref)^2) / sum(d$n_eff) / length(r_h))
+  hs_row <- row_of("A5", "hs_es_level")
+  ok12 <- nrow(hs_row) == 1 && near(hs_row$est_r, rbar_ref, 1e-10) &&
+          near(hs_row$ci_ub_r - hs_row$est_r, 1.96 * se_ref, 1e-8)
+  check("O12", ok12, "HS bare-bones estimate + CI half-width recomputation")
 
-EXPECT_CER <- c(Performance = 1063L, Disclosure = 243L)
-EXPECT_COD <- c(interest = 631L, rating = 300L, yields = 233L, derivativ = 142L)
-EXPECT_ES  <- c(bivariate = 1270L, partial = 36L)
-EXPECT_IND <- c(`1` = 185L, `0` = 1121L)
-EXPECT_JQ  <- c(HIGH = 551L, LOW = 755L)
-# (post / pre) splits and their raw label scheme.
-EXPECT_PARIS <- list(
-  post_paris  = list(post = 728L, pre = 578L, one = "1_Post", zero = "0_Pre", raw = "event_sample end_lag0"),
-  post_lag1   = list(post = 562L, pre = 744L, one = "1_Post", zero = "0_Pre", raw = "event_sample end_lag1"),
-  post_lag2   = list(post = 506L, pre = 800L, one = "1_Post", zero = "0_Pre", raw = "event_sample end_lag2"),
-  post_lag3   = list(post = 252L, pre = 1054L, one = "1_Post", zero = "0_Pre", raw = "event_sample end_lag3"),
-  post_median = list(post = 686L, pre = 620L, one = "Post", zero = "Pre", raw = "event_sample median_lag0"),
-  post_mean   = list(post = 945L, pre = 361L, one = "Post", zero = "Pre", raw = "event_sample mean_lag0")
-)
-EXPECT_REG_START <- c(`1` = 746L, `0` = 297L, `9` = 182L, `NA` = 81L)
-EXPECT_REG_END   <- c(`0` = 691L, `1` = 337L, `9` = 278L)
-
-# SECTION 3 — Re-read raw (independent witness) ---------------------------------
-have_raw <- file.exists(RAW_XLSX)
-if (have_raw) raw <- readxl::read_excel(RAW_XLSX, sheet = RAW_SHEET)
-
-# O1 — raw input exists; 1306×17; 66 studies.
-if (have_raw) {
-  ok <- nrow(raw) == EXPECT_ROWS && ncol(raw) == EXPECT_COLS &&
-        dplyr::n_distinct(raw$study) == EXPECT_STUDIES
-  check("O1", ok, sprintf("raw %d×%d, %d studies",
-                          nrow(raw), ncol(raw), dplyr::n_distinct(raw$study)))
-} else {
-  check("O1", FALSE, sprintf("raw input missing: %s", RAW_XLSX))
-}
-
-# SECTION 4 — Load processed output ---------------------------------------------
-have_proc <- file.exists(RDS_PATH)
-if (have_proc) dat <- readRDS(RDS_PATH)
-
-# O2 — z/vz/sez all finite; vz > 0 everywhere.
-if (require_input("O2", RDS_PATH)) {
-  ok <- all(is.finite(dat$z)) && all(is.finite(dat$vz)) &&
-        all(is.finite(dat$sez)) && all(dat$vz > 0)
-  check("O2", ok, sprintf("z/vz/sez finite; min vz = %.4g", min(dat$vz)))
-}
-
-# O3 — post_paris ∈ {0,1}; 728 post / 578 pre; bijective vs raw end_lag0.
-if (have_proc && have_raw) {
-  e <- EXPECT_PARIS$post_paris
-  raw_one  <- sum(raw[[e$raw]] == e$one)
-  raw_zero <- sum(raw[[e$raw]] == e$zero)
-  ok <- all(dat$post_paris %in% c(0L, 1L)) &&
-        sum(dat$post_paris == 1L) == e$post && sum(dat$post_paris == 0L) == e$pre &&
-        sum(dat$post_paris == 1L) == raw_one && sum(dat$post_paris == 0L) == raw_zero
-  check("O3", ok, sprintf("post=%d pre=%d; bijective vs raw (%d/%d)",
-                          sum(dat$post_paris == 1L), sum(dat$post_paris == 0L),
-                          raw_one, raw_zero))
-} else if (!have_proc) {
-  check("O3", NA, "processed output absent", skip = TRUE)
-} else {
-  check("O3", FALSE, "raw absent — cannot verify bijection")
-}
-
-# O4 — lag1/2/3, median, mean recodes bijective vs raw (post/pre counts).
-if (have_proc && have_raw) {
-  details <- c(); all_ok <- TRUE
-  for (col in c("post_lag1", "post_lag2", "post_lag3", "post_median", "post_mean")) {
-    e <- EXPECT_PARIS[[col]]
-    raw_one  <- sum(raw[[e$raw]] == e$one)
-    raw_zero <- sum(raw[[e$raw]] == e$zero)
-    ok <- sum(dat[[col]] == 1L) == e$post && sum(dat[[col]] == 0L) == e$pre &&
-          sum(dat[[col]] == 1L) == raw_one && sum(dat[[col]] == 0L) == raw_zero
-    all_ok <- all_ok && ok
-    details <- c(details, sprintf("%s %d/%d", sub("post_", "", col),
-                                  sum(dat[[col]] == 1L), sum(dat[[col]] == 0L)))
+  # ---- O14 WAAP logic ----
+  n_pow_ref <- sum(sqrt(v3) <= abs(u3_ref) / 2.8)
+  wa <- row_of("A5", "waap_uwls")
+  if (n_pow_ref >= 2L) {
+    ok14 <- nrow(wa) == 1 && wa$k_es == n_pow_ref
+    det14 <- sprintf("powered = %d; csv k_es = %s", n_pow_ref, wa$k_es)
+  } else {
+    ok14 <- nrow(wa) == 1 && grepl("reduces to UWLS", wa$note, fixed = TRUE) &&
+            near(wa$est_r, u3_row$est_r, 1e-10)
+    det14 <- sprintf("powered = %d -> fallback path", n_pow_ref)
   }
-  check("O4", all_ok, paste(details, collapse = " · "))
-} else if (!have_proc) {
-  check("O4", NA, "processed output absent", skip = TRUE)
+  check("O14", ok14, "WAAP: powered-count / fallback consistency vs recomputation", det14)
 } else {
-  check("O4", FALSE, "raw absent — cannot verify bijection")
+  check("O11", FALSE, "UWLS+3 recomputation (dat_prep contract unavailable)")
+  check("O12", FALSE, "HS recomputation (dat_prep contract unavailable)")
+  check("O14", FALSE, "WAAP recomputation (dat_prep contract unavailable)")
 }
 
-# O5 — pub_year resolved for all 66 studies; range ⊆ [2010, 2024].
-if (require_input("O5", RDS_PATH)) {
-  by_study <- dat |> dplyr::distinct(study, pub_year)
-  ok <- nrow(by_study) == EXPECT_STUDIES &&
-        all(!is.na(dat$pub_year)) &&
-        min(dat$pub_year) >= YEAR_MIN && max(dat$pub_year) <= YEAR_MAX
-  check("O5", ok, sprintf("66 studies resolved; range [%d, %d]",
-                          min(dat$pub_year), max(dat$pub_year)))
-}
+# ---- O13 one-effect-per-cluster ------------------------------------------------------
+opc <- row_of("A5", "one_effect_per_cluster")
+check("O13", nrow(opc) == 1 && opc$k_es == K_CLUSTER && opc$k_cluster == K_CLUSTER,
+      "one_effect_per_cluster: k_es == k_cluster == 114")
 
-# O6 — factor level counts == constants.
-if (require_input("O6", RDS_PATH)) {
-  cnt <- function(x, lvl) sum(x == lvl)
-  es_ok  <- cnt(dat$es_type, "bivariate") == EXPECT_ES[["bivariate"]] &&
-            cnt(dat$es_type, "partial")   == EXPECT_ES[["partial"]]
-  cer_ok <- all(vapply(names(EXPECT_CER),
-                       function(l) cnt(dat$cer_type, l) == EXPECT_CER[[l]], logical(1)))
-  cod_ok <- all(vapply(names(EXPECT_COD),
-                       function(l) cnt(dat$cod_instrument, l) == EXPECT_COD[[l]], logical(1)))
-  ind_ok <- sum(dat$sensitive_industry == 1L) == EXPECT_IND[["1"]] &&
-            sum(dat$sensitive_industry == 0L) == EXPECT_IND[["0"]]
-  jq_ok  <- sum(dat$journal_high == 1L) == EXPECT_JQ[["HIGH"]] &&
-            sum(dat$journal_high == 0L) == EXPECT_JQ[["LOW"]]
-  check("O6", es_ok && cer_ok && cod_ok && ind_ok && jq_ok,
-        "es 1270/36 · cer 1063/243 · cod 631/300/233/142 · ind 185/1121 · jq 551/755")
+# ---- O15 A6 translation identities ----------------------------------------------------
+ok15 <- TRUE; det15 <- ""
+for (sd_bp in SD_COD_BP_GRID) {
+  rw <- row_of("A6", sprintf("bp_per_1sd_sd%d", sd_bp))
+  if (nrow(rw) != 1 || !near(rw$value, hl$est_r * sd_bp, 1e-10)) {
+    ok15 <- FALSE; det15 <- paste0(det15, "sd", sd_bp, " ") }
+  if (nrow(rw) == 1 && !grepl("PENDING DEC-012a", rw$note, fixed = TRUE)) {
+    ok15 <- FALSE; det15 <- paste0(det15, "DEC-012a-flag-missing ") }
 }
+bench <- row_of("A6", "small_benchmark_ratio")
+if (nrow(bench) != 1 || !near(bench$value, hl$est_r / SMALL_BENCH_R, 1e-10)) ok15 <- FALSE
+check("O15", ok15, "A6: bp rows == est_r * SD grid; DEC-012a flag present; benchmark ratio",
+      det15)
 
-# O7 FLAG — non-integer n count == 699; print head + the 9 smallest.
-if (require_input("O7", RDS_PATH)) {
-  is_frac <- abs(dat$n - round(dat$n)) > 1e-9
-  n_frac  <- sum(is_frac)
-  check("O7", n_frac == EXPECT_NONINT,
-        sprintf("non-integer n = %d (%.1f%%)", n_frac, 100 * n_frac / nrow(dat)),
-        flag = TRUE)
-  cat("        head(non-integer n):\n")
-  print(utils::head(dat |> dplyr::filter(is_frac) |>
-                      dplyr::select(esid, study, r, n), 5))
-  cat("        9 smallest n:\n")
-  print(dat |> dplyr::arrange(n) |> dplyr::slice_head(n = 9) |>
-          dplyr::select(esid, study, r, n))
+# ---- O16 figures nonzero / PDF headers -------------------------------------------------
+ok16 <- all(file.exists(FIGS)) && all(file.info(FIGS)$size > 5000)
+for (f in FIGS[grepl("\\.pdf$", FIGS)]) {
+  if (file.exists(f)) {
+    hdr <- readBin(f, "raw", n = 4L)
+    if (!identical(rawToChar(hdr), "%PDF")) ok16 <- FALSE
+  }
 }
+check("O16", ok16, "figures exist, > 5 KB, PDFs carry %PDF header")
 
-# O8 FLAG — extremes present (2 rows): study + r + n each.
-if (require_input("O8", RDS_PATH)) {
-  ext <- dat |> dplyr::filter(abs(r) > EXTREME_R_FLAG) |>
-    dplyr::select(esid, study, r, n) |> dplyr::arrange(r)
-  check("O8", nrow(ext) == EXPECT_NEXTREME,
-        sprintf("%d extreme |r| > %.2f rows present", nrow(ext), EXTREME_R_FLAG),
-        flag = TRUE)
-  print(as.data.frame(ext))
-}
+# ---- O17 run meta ----------------------------------------------------------------------
+if (file.exists(META_PATH)) {
+  meta <- readLines(META_PATH, warn = FALSE)
+  ok17 <- any(grepl("md5", meta)) && any(grepl("sessionInfo", meta)) &&
+          any(grepl("metafor", meta)) && any(grepl("clubSandwich", meta))
+} else ok17 <- FALSE
+check("O17", ok17, "run meta: dat_prep md5 + sessionInfo + package stamp present")
 
-# O9 FLAG — n < 10 count == 9.
-if (require_input("O9", RDS_PATH)) {
-  n_small <- sum(dat$n < N_SMALL_THRESH)
-  check("O9", n_small == EXPECT_NSMALL,
-        sprintf("n < %d count = %d", N_SMALL_THRESH, n_small), flag = TRUE)
-}
+# ---- O18 Satterthwaite df floor --------------------------------------------------------
+dfr <- res$df[!is.na(res$df) & res$estimator != "RE_REML_KnHa"]
+check("O18", all(dfr >= 4), "CR2 Satterthwaite df >= 4 on all robust-inference rows",
+      sprintf("min df = %.2f", suppressWarnings(min(dfr))))
 
-# O10 — regulation raw carried; value counts == constants.
-if (require_input("O10", RDS_PATH)) {
-  rs <- table(as.character(dat$regulation_start))
-  re <- table(as.character(dat$regulation_end))
-  gs <- function(t, l) if (l %in% names(t)) as.integer(t[[l]]) else 0L
-  rs_ok <- all(vapply(names(EXPECT_REG_START),
-                      function(l) gs(rs, l) == EXPECT_REG_START[[l]], logical(1)))
-  re_ok <- all(vapply(names(EXPECT_REG_END),
-                      function(l) gs(re, l) == EXPECT_REG_END[[l]], logical(1)))
-  is_factor <- is.factor(dat$regulation_start) && is.factor(dat$regulation_end)
-  check("O10", rs_ok && re_ok && is_factor,
-        "start 746/297/182/81 · end 691/337/278 (raw factors)")
-}
+# ---- O19 completeness -------------------------------------------------------------------
+core3l <- res[res$estimator == "3LMA-RVE_CR2", ]
+est_rows <- res[res$analysis_id != "A2", ]   # A2 = decomposition row, carries no estimate
+check("O19", !anyNA(est_rows$est_r) &&
+        !anyNA(core3l$est_z) && !anyNA(core3l$se_z) &&
+        !anyNA(core3l$ci_lb_z) && !anyNA(core3l$ci_ub_z),
+      "no NA in est_r on estimate rows; 3LMA rows complete (est/se/CI on z scale)")
 
-# O11 — n-distribution stats == constants.
-if (require_input("O11", RDS_PATH)) {
-  med   <- median(dat$n)
-  share <- 100 * mean(dat$n < 200)
-  ok <- round(med) == EXPECT_MEDIAN_N && abs(share - EXPECT_SHARE_LT200) < 0.05
-  check("O11", ok, sprintf("median n = %.2f (≈%d); share n<200 = %.1f%%",
-                           med, EXPECT_MEDIAN_N, share))
-}
+# ---- O20 A3-overall == A1 identity -------------------------------------------------------
+a3o <- row_of("A3", "pi_overall")
+check("O20", nrow(a3o) == 1 &&
+        near(a3o$est_z, hl$est_z, 1e-12) &&
+        near(a3o$pi_lb_z, hl$pi_lb_z, 1e-12) &&
+        near(a3o$pi_ub_z, hl$pi_ub_z, 1e-12),
+      "A3 pi_overall row identical to A1 fit (est + PI bounds)")
 
-# O12 — output files written; dictionary present and contains F1-F4.
-rds_ok  <- file.exists(RDS_PATH)
-csv_ok  <- file.exists(CSV_PATH)
-dict_ok <- file.exists(DICT_PATH)
-if (dict_ok) {
-  dict_txt <- paste(readLines(DICT_PATH, warn = FALSE), collapse = "\n")
-  flags_present <- all(vapply(c("F1", "F2", "F3", "F4"),
-                              function(f) grepl(f, dict_txt, fixed = TRUE), logical(1)))
-} else flags_present <- FALSE
-# rds/csv are gitignored: SKIP that part on a fresh clone, else require them.
-if (!rds_ok && !csv_ok) {
-  check("O12", dict_ok && flags_present,
-        sprintf("dictionary present w/ F1-F4 = %s; processed files absent (clone)",
-                dict_ok && flags_present))
-} else {
-  check("O12", rds_ok && csv_ok && dict_ok && flags_present,
-        sprintf("rds=%s csv=%s dict=%s (F1-F4=%s)",
-                rds_ok, csv_ok, dict_ok, flags_present))
-}
+# ---- O21 dat_prep re-assert ----------------------------------------------------------------
+check("O21", pr_ok && nrow(d) == K_ES &&
+        nlevels(droplevels(d$study)) == K_STUDY &&
+        nlevels(droplevels(d$cluster)) == K_CLUSTER &&
+        all(d$period %in% c(0L, 1L)),
+      "dat_prep list contract (pr$n=2713, pr$seed=20260710, schema) + 2713/115/114; period binary")
 
-# Row conservation — no silent drops: nrow_out == 1306.
-if (require_input("ROW", RDS_PATH)) {
-  check("ROW", nrow(dat) == EXPECT_ROWS,
-        sprintf("nrow(out) = %d (== %d expected)", nrow(dat), EXPECT_ROWS))
-}
-
-# SECTION 5 — Summary -----------------------------------------------------------
-.k_total  <- length(.results)
-.k_passed <- sum(vapply(.results, function(r) r$pass, logical(1)))
-cat(strrep("-", 80), "\n", sep = "")
-cat(sprintf("%d/%d PASS\n", .k_passed, .k_total))
-if (.k_passed < .k_total) {
-  failed <- vapply(Filter(function(r) !r$pass, .results),
-                   function(r) r$id, character(1))
-  cat("FAILED:", paste(failed, collapse = ", "), "\n")
-}
-if (length(.flags) > 0) {
-  cat("FLAGS (surfaced for the Volker extraction check):\n")
-  for (f in .flags) cat("  -", f, "\n")
-}
-cat(strrep("=", 80), "\n", sep = "")
+# ---- summary ------------------------------------------------------------------------------
+cat("\n============================================================\n")
+cat(sprintf("T1 VERIFY: %d/%d PASS%s\n", length(results) - n_fail, length(results),
+            if (n_fail) sprintf(" -- %d FAIL", n_fail) else ""))
+cat("============================================================\n")
+if (n_fail > 0L) quit(status = 1L)

@@ -676,6 +676,29 @@
 
 ---
 
+## DEC-012a: Economic translation operationalized — instrument-level SD(COD) benchmarks (amendment to DEC-012; closes F53)
+
+**Block:** Methodology finalization (amendment to DEC-012) · 2026-07-12
+
+**Question:** DEC-012 fixes the goal (translate the pooled r into basis points of COD with an honest magnitude statement) but neither the formula nor the benchmark constants; T1/A6 needs both, and the draft's "only marginal reductions in borrowing costs" line is exactly the unquantified soft spot DEC-012 was opened to close.
+
+**Options considered:** (a) extract SD(COD) descriptives from the corpus' primary studies under a pre-fixed rule; (b) cite an external canonical spread reference; (c) constant-free reporting only (Doucouliagos-0.07 ratio plus a "wrong scale" statement, permitted by DEC-012).
+
+**Chosen:** (a), author-ruled 2026-07-12. Pre-fixed extraction rule: **all** corpus studies reporting a standard deviation of the COD outcome in bp-convertible units enter; benchmark = **median SD per instrument** (loan / bond / CDS separately); treatment uniform as "Δ COD in bp per 1-SD change in CER" = tanh(z_pooled) × SD_COD_bp(instrument). Extraction = Volker mini-task (appended to the spot-check list; task text below). The rule is fixed before any constant is seen. Until extraction lands, `R/01_core.R` carries a generic placeholder grid {100, 150, 200} bp, hard-flagged "PENDING DEC-012a" in the CSV note field (verifier O15 asserts the flag); once constants exist, A6 rows re-key to `bp_per_1sd_{loan,bond,cds}` via a deterministic constants-patch re-run. The constant-free Doucouliagos ratio row (`small_benchmark_ratio`) stays regardless. The T1 run does not block; the manuscript economic-significance line does, until this entry's constants are filled (log-first).
+
+**Rationale:** BSE expects magnitude in decision terms (DEC-012 rationale); corpus-derived instrument-specific SDs are the defensible scale anchor — loan spreads, bond spreads and CDS premia have materially different dispersion, and one pooled SD would blur exactly the heterogeneity the paper documents. Median over mean guards against outlier descriptives. Fixing rule before numbers preserves the result-blind posture on the constants.
+
+**Reviewer-Risk:** *Finance/Econometrics* — instrument-level SDs pre-empt the "one SD across three markets?" objection; the mapping (partial r × SD of the outcome) is the transparent first-order approximation and is labelled as such, not sold as a structural elasticity. *Management/BSE* — practical-implications referees receive bp per instrument; the honest-magnitude framing carries the null story rather than undermining it.
+
+**Consequences:** Volker mini-task on the spot-check list (text below); manuscript economic-significance line blocked until constants exist; `R/01_core.R` flag renamed TO-RULE-F53 → PENDING DEC-012a; verifier O15 checks flag presence; F53 closed; F-register F53–F56 closed overall (F54/F55/F56 as conventions, see R/01_core.R comments and analysis_plan Addendum A.8).
+
+**Files:** DECISION_LOG.md · R/01_core.R · R/01_verify_outputs.R · analysis_plan.md (Addendum A.8, same commit) · docs/volker_spotcheck_list.md · manuscript (results/discussion, later).
+
+**Volker mini-task (verbatim for the spot-check list):**
+> **DEC-012a extraction — SD(COD) benchmarks.** For each of the 120 v12 studies: does the paper report a standard deviation of its COD outcome variable in bp-convertible units (descriptives table)? If yes, record: study key · instrument class (loan / bond / CDS) · reported SD as printed · unit as printed · bp conversion applied (×100 for percentage points; ×1 for bp; document anything else) · table/page pointer. Deliverable: per instrument class, the **median SD in bp** and the count of contributing studies. No effect estimates are read or recorded.
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
