@@ -15,7 +15,7 @@ You are executing the **canonical T1 run** of this project. Working directory = 
 
 ## Frozen zone (NEVER change)
 - All statistical logic: model formulas, `random = ~ 1 | cluster/study/esid`, V imputation on **cluster_id** (F56), rho values {0.6, 0.4, 0.8}, estimator definitions (one-per-cluster + KnHa; UWLS+3 per Stanley et al. 2024; HS; WAAP threshold |UWLS+3|/2.8), the PI formula (all three variance components; F55), the bp-translation formula.
-- All constants: `K_ES = 2713`, `K_STUDY = 115`, `K_CLUSTER = 114`, `K_STUDY_POST = 31`, `SEED = 20260710`, `SD_COD_BP_GRID = {100, 150, 200}` (PENDING DEC-012a — placeholders are intentional), `SMALL_BENCH_R = 0.07`.
+- All constants: `K_ES = 2713`, `K_STUDY = 115`, `K_CLUSTER = 114`, `K_STUDY_POST = 31`, `K_PERIOD_NA = 8` (period NAs in `pp_mid_lag0` are a design fact per DEC-042b, not an error), `SEED = 20260710`, `SD_COD_BP_GRID = {100, 150, 200}` (PENDING DEC-012a — placeholders are intentional), `SMALL_BENCH_R = 0.07`.
 - CSV schema (35 columns), spec labels, the 15-row expected-spec inventory, figure filenames/dimensions.
 - Verifier check logic: check numbering, tolerances, expected values, flag strings (`"PENDING DEC-012a"`, `"reduces to UWLS"`). API-signature fixes are permitted in the verifier under the same fix-zone rule; nothing else.
 - dat_prep handling: the schema is **binding** (author ruling 2026-07-12; R/00_prep.R list contract `pr$dat` / `pr$n` / `pr$seed`). A schema mismatch is a STOP condition, not a patch target.

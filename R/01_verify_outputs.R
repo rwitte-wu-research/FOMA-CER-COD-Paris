@@ -13,6 +13,7 @@ DIR_OUT <- here::here("output"); DIR_FIG <- file.path(DIR_OUT, "figures")
 REQUIRED_COLS <- c("zi", "vi", "cluster_id", "study", "esid",
                    "pp_mid_lag0", "n_eff")   # binding schema
 K_ES <- 2713L; K_STUDY <- 115L; K_CLUSTER <- 114L; K_STUDY_POST <- 31L
+K_PERIOD_NA <- 8L; K_PERIOD_NA_STUDY <- 2L  # [DEC-042b]
 RHO_SET <- c(0.6, 0.4, 0.8)
 SD_COD_BP_GRID <- c(100, 150, 200); SMALL_BENCH_R <- 0.07
 
@@ -86,11 +87,11 @@ check("O4", nrow(hl) == 1 &&
 # ---- O5 period cells ------------------------------------------------------------
 pre <- row_of("A3", "pi_pre"); post <- row_of("A3", "pi_post")
 check("O5", nrow(pre) == 1 && nrow(post) == 1 &&
-        (pre$k_es + post$k_es) == K_ES &&
+        (pre$k_es + post$k_es) == K_ES - K_PERIOD_NA &&
         post$k_study == K_STUDY_POST &&
         pre$k_study >= 1 && pre$k_study <= K_STUDY &&
         post$k_cluster >= 1,
-      "period cells: k_es(pre)+k_es(post)=2713; post studies = 31 [Addendum A.3]",
+      "period cells: k_es(pre)+k_es(post) = 2705 (= 2713 - 8 NA [DEC-042b]); post studies = 31",
       sprintf("pre %s/%s, post %s/%s", pre$k_es, pre$k_study, post$k_es, post$k_study))
 
 # ---- O6 est within CI ------------------------------------------------------------
@@ -246,8 +247,10 @@ check("O20", nrow(a3o) == 1 &&
 check("O21", pr_ok && nrow(d) == K_ES &&
         nlevels(droplevels(d$study)) == K_STUDY &&
         nlevels(droplevels(d$cluster)) == K_CLUSTER &&
-        all(d$period %in% c(0L, 1L)),
-      "dat_prep list contract (pr$n=2713, pr$seed=20260710, schema) + 2713/115/114; period binary")
+        all(d$period[!is.na(d$period)] %in% c(0L, 1L)) &&
+        sum(is.na(d$period)) == K_PERIOD_NA &&
+        length(unique(d$study[is.na(d$period)])) == K_PERIOD_NA_STUDY,
+      "dat_prep contract (pr$n/seed/schema) + 2713/115/114; period 0/1 with exactly 8 NA / 2 studies [DEC-042b]")
 
 # ---- summary ------------------------------------------------------------------------------
 cat("\n============================================================\n")

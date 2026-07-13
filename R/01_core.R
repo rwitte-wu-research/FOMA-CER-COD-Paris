@@ -14,6 +14,9 @@
 #   [DEC-012/DEC-012a] A6 economic translation (bp); extraction rule fixed
 #              (instrument-level median SD(COD): loan/bond/CDS; Volker task);
 #              constants PENDING DEC-012a -- placeholder grid, hard-flagged.
+#   [DEC-042b] 8 ES / 2 studies without recoverable sample windows: period
+#              NAs are a DESIGN FACT; listwise exclusion from period/dose
+#              cells only (A3: pre+post = 2,705); estimation set unchanged.
 #   Author rulings 2026-07-12 (Gate 2): F53 -> DEC-012a (pending constants);
 #              F54 ES-level HS/WAAP; F55 PI incl. omega^2 (plan Addendum A.8);
 #              F56 V blocks on cluster_id (sample overlap, substantive).
@@ -47,6 +50,7 @@ REQUIRED_COLS <- c("zi", "vi", "cluster_id", "study", "esid",
 
 # Asserted design constants [DEC-042a; Addendum A.1/A.3] -- run stops on mismatch
 K_ES <- 2713L; K_STUDY <- 115L; K_CLUSTER <- 114L; K_STUDY_POST <- 31L
+K_PERIOD_NA <- 8L; K_PERIOD_NA_STUDY <- 2L  # window-undefined ES/studies [DEC-042b]
 
 RHO_HEADLINE <- 0.6                # [DEC-017]
 RHO_GRID     <- c(0.4, 0.8)        # [E1 / battery A4]
@@ -107,7 +111,10 @@ stopifnot(
   "NA in yi/vi"            = !anyNA(d$yi) && !anyNA(d$vi),
   "non-positive vi"        = all(d$vi > 0),
   "NA/invalid n_eff"       = all(is.finite(d$n_eff) & d$n_eff > 3),
-  "period not in {0,1}"    = all(d$period %in% c(0L, 1L)),
+  "period values outside {0,1,NA}" = all(d$period[!is.na(d$period)] %in% c(0L, 1L)),
+  "period NA count != 8 [DEC-042b]" = sum(is.na(d$period)) == K_PERIOD_NA,
+  "period NA studies != 2 [DEC-042b]" =
+    length(unique(d$study[is.na(d$period)])) == K_PERIOD_NA_STUDY,
   "NA cluster/study/esid"  = !anyNA(d$cluster) && !anyNA(d$study) && !anyNA(d$esid)
 )
 # Estimation-set identity [DEC-042a] -- STRICT: no silent filtering here.
@@ -236,7 +243,7 @@ rows$A3_overall <- new_row(analysis_id = "A3", spec = "pi_overall", subset = "al
 
 for (pp in c(0L, 1L)) {
   lab <- if (pp == 0L) "pre" else "post"
-  dp  <- droplevels(d[d$period == pp, , drop = FALSE])
+  dp  <- droplevels(d[!is.na(d$period) & d$period == pp, , drop = FALSE])  # defined cells only [DEC-042b]
   mp  <- fit_3lma(dp, RHO_HEADLINE)
   sp  <- rob_stats(mp, dp)
   ppi <- pi_bounds(sp$est, sp$se, sp$df, sum(sp$sigma2))
@@ -253,7 +260,7 @@ for (pp in c(0L, 1L)) {
     sigma2_cluster = sp$sigma2[1], sigma2_study = sp$sigma2[2],
     sigma2_esid = sp$sigma2[3],
     ms_input = TRUE, ms_label = paste0("pi_", lab),
-    note = "Descriptive per-period fit on pp_mid_lag0 subset; straddling studies appear in both cells (design fact); NO between-group test here (that is B1) [DEC-031a.6].")
+    note = "Descriptive per-period fit on pp_mid_lag0 subset; straddling studies appear in both cells (design fact); 8 ES / 2 studies with undefined windows excluded listwise [DEC-042b]; NO between-group test here (that is B1) [DEC-031a.6].")
 }
 
 # ---- 7. A4 -- rho sensitivity --------------------------------------------------
@@ -439,6 +446,8 @@ meta <- c(
   sprintf("pr$n / pr$seed: %s / %s (contract asserted)", pr$n, pr$seed),
   sprintf("rows/studies/clusters: %d / %d / %d", nrow(d),
           nlevels(d$study), nlevels(d$cluster)),
+  sprintf("period NA [DEC-042b]: %d ES / %d studies (design fact)",
+          sum(is.na(d$period)), length(unique(d$study[is.na(d$period)]))),
   sprintf("seed: %d (T1 deterministic; set defensively)", SEED),
   sprintf("SD_COD_BP_GRID (PLACEHOLDER, PENDING DEC-012a): %s",
           paste(SD_COD_BP_GRID, collapse = ", ")),

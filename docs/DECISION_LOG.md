@@ -699,6 +699,26 @@
 
 ---
 
+## DEC-042b: Period-cell domain — 8 ES (2 studies) without recoverable sample windows (amendment to DEC-042a; unblocks T1)
+
+**Block:** Data design clarification (amendment to DEC-042/042a) · 2026-07-13
+
+**Question:** The canonical prep object carries 8 effect sizes (Bhattacharya & Sharma 2019: 2 ES; Ng & Rezaee 2012: 6 ES) whose sample windows are unrecoverable after the full v11 coalescing cascade (row → v10 study → log study-block → gap run); all window-derived Paris codings (`pp_mid_lag0`, `pp_share_lag0`, `pp_window_class`, `sample_start/mid/end`) are NA for these rows. T1 halted at its input-contract assert (period completeness) — an assumption the scripts encoded but no DEC had ruled. How do period/dose analyses treat these rows?
+
+**Options considered:** (a) NA as design fact — retain in the estimation set, listwise exclusion from period/dose cells only, counts pinned and disclosed; (b) source-PDF re-extraction and v13 data patch; (c) imputation (e.g., publication year minus a lag); (d) full removal from the estimation set.
+
+**Chosen:** (a), author-ruled 2026-07-13. The estimation set stays 2,713 ES / 115 studies / 114 clusters [DEC-042a untouched]; the 8 ES enter all non-period analyses (T1: A1/A2/A4–A8, and analogues in later blocks) and drop listwise from any cell defined on a window-derived coding: T1/A3 pre + post = 2,705 ES; the same rule binds Block B period/dose cells ex ante. Pinned constants: K_PERIOD_NA = 8 ES over 2 studies (asserted in R/01_core.R, re-asserted in the verifier). Disclosure: CSV note fields on the A3 rows now; one Methods sentence at write-up. Optional, at author discretion: a no-data-change sight-check of the two source PDFs for the response-letter arsenal — any finding never reopens the v12 lock.
+
+**Rationale:** 0.3% of ES across two studies decides nothing, while a v13 patch would reopen the DEC-042 freeze (re-prep, re-T0.4) out of all proportion; imputation would contaminate exactly the coding hygiene DEC-024 established; full removal would alter the headline estimand without cause. Listwise exclusion on undefined cells is the standard, transparent treatment and keeps every analysis on its maximal defined domain.
+
+**Reviewer-Risk:** *Finance/Econometrics* — a "missing not at random?" probe is conceivable (papers without reported windows may differ systematically); the disclosure names both studies and the 8/2,713 magnitude, and Block-B leverage checks (LOSO on the post cell) bound any influence. *Management/BSE* — negligible; the transparency sentence suffices.
+
+**Consequences:** R/01_core.R input contract relaxed to "period ∈ {0,1} or NA with counts == 8 ES / 2 studies"; A3 subsets fit on defined cells; verifier O5 redefined (pre + post = 2,705; post studies = 31 unchanged) and O21 extended (NA counts); docs/cc_prompt_T1.md frozen-constants list extended by K_PERIOD_NA = 8; T1 re-run required; Block B cell definitions inherit the rule.
+
+**Files:** docs/DECISION_LOG.md · R/01_core.R · R/01_verify_outputs.R · docs/analysis_plan.md (A.3 sentence) · docs/cc_prompt_T1.md · manuscript (Methods, later).
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
