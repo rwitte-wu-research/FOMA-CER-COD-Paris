@@ -222,10 +222,23 @@ if (file.exists(META_PATH)) {
 } else ok17 <- FALSE
 check("O17", ok17, "run meta: dat_prep md5 + sessionInfo + package stamp present")
 
-# ---- O18 Satterthwaite df floor --------------------------------------------------------
-dfr <- res$df[!is.na(res$df) & res$estimator != "RE_REML_KnHa"]
-check("O18", all(dfr >= 4), "CR2 Satterthwaite df >= 4 on all robust-inference rows",
-      sprintf("min df = %.2f", suppressWarnings(min(dfr))))
+# ---- O18 Satterthwaite df floors, two-tier [F57, author ruling 2026-07-13] --------------
+#  (i) hard floor df >= 4 on all 3LMA-RVE_CR2 rows (inference-bearing);
+# (ii) uwls3 / waap_uwls: df finite & > 1 AND note carries the unconditional
+#      F57 concentration disclosure. df < 4 there is a disclosed finding
+#      (weight concentration), not a defect; CI flagged unreliable (Tipton),
+#      inference burden per F54.
+df_3l <- res$df[!is.na(res$df) & res$estimator == "3LMA-RVE_CR2"]
+ok18a <- length(df_3l) > 0 && all(df_3l >= 4)
+ap <- res[res$spec %in% c("uwls3", "waap_uwls"), ]
+ok18b <- nrow(ap) == 2 && all(is.finite(ap$df)) && all(ap$df > 1) &&
+         all(grepl("F57 disclosure", ap$note, fixed = TRUE)) &&
+         all(grepl("top-cluster weight share", ap$note, fixed = TRUE))
+check("O18", ok18a && ok18b,
+      "df floors: 3LMA rows >= 4 (hard); uwls3/waap df finite > 1 + F57 disclosure in notes",
+      sprintf("min 3LMA df = %.2f; appendix df = %s",
+              suppressWarnings(min(df_3l)),
+              paste(sprintf("%.2f", ap$df), collapse = ", ")))
 
 # ---- O19 completeness -------------------------------------------------------------------
 core3l <- res[res$estimator == "3LMA-RVE_CR2", ]

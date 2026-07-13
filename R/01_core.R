@@ -20,6 +20,9 @@
 #   Author rulings 2026-07-12 (Gate 2): F53 -> DEC-012a (pending constants);
 #              F54 ES-level HS/WAAP; F55 PI incl. omega^2 (plan Addendum A.8);
 #              F56 V blocks on cluster_id (sample overlap, substantive).
+#   F57 (author ruling 2026-07-13): UWLS+3/WAAP CR2 df < 4 is a DISCLOSED
+#              FINDING (weight concentration), not a defect; unconditional
+#              concentration disclosure in A5 notes; verifier O18 two-tier.
 #   UWLS+3: Stanley et al. (2024, RSM) Eq. (2)/(4)/(9) -- rp3 = t/sqrt(t^2+df+3),
 #              var3 = (1-rp3^2)/(df+3) = 1/(t^2+df+3); df ~= n_eff [F21/DEC-028].
 #   HS:     Stanley et al. (2025) Eq. (9)-(11), bare-bones n-weighted.
@@ -310,6 +313,18 @@ ct_u3 <- clubSandwich::coef_test(f_u3, vcov = "CR2", cluster = d$cluster,
                                  test = "Satterthwaite")
 ci_u3 <- clubSandwich::conf_int(f_u3, vcov = "CR2", cluster = d$cluster)
 u3_est <- as.numeric(ct_u3$beta[1])
+# F57 [author ruling 2026-07-13]: unconditional concentration disclosure --
+# cluster shares of the UWLS+3 precision weights, written into the A5 notes
+# REGARDLESS of their values (no result-dependent branching). Rationale:
+# Satterthwaite df tracks the effective number of independent clusters behind
+# the weighted mean; with FE-type weights (~ n_eff + 3) a mega-sample cluster
+# can dominate, and df < 4 renders the CI unreliable (Tipton). The point
+# estimate is the A5 deliverable; inference burden per F54 rests on
+# one_effect_per_cluster + the 3LMA family.
+w_cl <- tapply(w3, d$cluster, sum)
+w_sh <- sort(as.numeric(w_cl) / sum(w_cl), decreasing = TRUE)
+top1_share <- w_sh[1]; top2_share <- sum(w_sh[1:2])
+u3_df <- pick_df(ct_u3)[1]
 rows$A5_uwls3 <- new_row(analysis_id = "A5", spec = "uwls3", subset = "all",
   metric = "PCC_r", estimator = "UWLS+3_CR2", rho = NA,
   k_es = k1$k_es, k_study = k1$k_study, k_cluster = k1$k_cluster,
@@ -319,7 +334,7 @@ rows$A5_uwls3 <- new_row(analysis_id = "A5", spec = "uwls3", subset = "all",
   ci_lb_z = atanh(as.numeric(ci_u3$CI_L[1])), ci_ub_z = atanh(as.numeric(ci_u3$CI_U[1])),
   est_r = u3_est, ci_lb_r = as.numeric(ci_u3$CI_L[1]), ci_ub_r = as.numeric(ci_u3$CI_U[1]),
   ms_input = FALSE, ms_label = NA,
-  note = sprintf("rp3=t/sqrt(t^2+n_eff+3), var3=1/(t^2+n_eff+3) [Stanley et al. 2024 Eq 2/4/9; df~=n_eff per F21]; CR2 on cluster_id [plan par.5]; conventional UWLS SE = %.6f.", se_conv))
+  note = sprintf("rp3=t/sqrt(t^2+n_eff+3), var3=1/(t^2+n_eff+3) [Stanley et al. 2024 Eq 2/4/9; df~=n_eff per F21]; CR2 on cluster_id [plan par.5]; conventional UWLS SE = %.6f. F57 disclosure (unconditional): CR2 df_Satt = %.2f; top-cluster weight share = %.1f%%; top-2 = %.1f%%. CI below df 4 unreliable (Tipton); inference burden per F54 on one_effect_per_cluster + 3LMA family.", se_conv, u3_df, 100 * top1_share, 100 * top2_share))
 
 # (c) HS bare-bones [Stanley et al. 2025 Eq 9-11] -- appendix (F54 convention)
 n_i   <- d$n_eff
@@ -354,16 +369,23 @@ if (n_pow >= 2L) {
     est_r = as.numeric(ct_w$beta[1]),
     ci_lb_r = as.numeric(ci_w$CI_L[1]), ci_ub_r = as.numeric(ci_w$CI_U[1]),
     ms_input = FALSE, ms_label = NA,
-    note = sprintf("Adequately powered: SE_i <= |UWLS+3|/2.8; k_powered = %d of %d ES.", n_pow, k1$k_es))
+    note = {
+      w_cl_w <- tapply(w3[powered], cl_w, sum)
+      w_sh_w <- sort(as.numeric(w_cl_w) / sum(w_cl_w), decreasing = TRUE)
+      sprintf("Adequately powered: SE_i <= |UWLS+3|/2.8; k_powered = %d of %d ES. F57 disclosure (unconditional): CR2 df_Satt = %.2f; top-cluster weight share = %.1f%%; top-2 = %.1f%% (powered subset).",
+              n_pow, k1$k_es, pick_df(ct_w)[1], 100 * w_sh_w[1], 100 * sum(w_sh_w[1:2]))
+    })
 } else {
   rows$A5_waap <- new_row(analysis_id = "A5", spec = "waap_uwls", subset = "all",
     metric = "PCC_r", estimator = "WAAP_fallback_UWLS", rho = NA,
     k_es = k1$k_es, k_study = k1$k_study, k_cluster = k1$k_cluster,
     est_z = atanh(u3_est), est_r = u3_est,
+    t_stat = as.numeric(ct_u3$tstat[1]), df = u3_df,
+    p = as.numeric(ct_u3$p_Satt[1]),
     ci_lb_r = as.numeric(ci_u3$CI_L[1]), ci_ub_r = as.numeric(ci_u3$CI_U[1]),
     ci_lb_z = atanh(as.numeric(ci_u3$CI_L[1])), ci_ub_z = atanh(as.numeric(ci_u3$CI_U[1])),
     ms_input = FALSE, ms_label = NA,
-    note = sprintf("WAAP-UWLS: %d adequately powered (<2) -> reduces to UWLS+3 [Stanley et al. 2017]. Power statement feeds the null narrative (Ioannidis et al. 2017).", n_pow))
+    note = sprintf("WAAP-UWLS: %d adequately powered (<2) -> reduces to UWLS+3 [Stanley et al. 2017]. Power statement feeds the null narrative (Ioannidis et al. 2017). F57 disclosure (unconditional): CR2 df_Satt = %.2f; top-cluster weight share = %.1f%%; top-2 = %.1f%% (full set; fallback inherits uwls3 inference).", n_pow, u3_df, 100 * top1_share, 100 * top2_share))
 }
 
 # ---- 9. A6 -- economic translation (DEC-012/012a; constants pending) -----------
