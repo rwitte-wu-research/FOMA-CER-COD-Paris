@@ -1,0 +1,64 @@
+T2 run meta -- 2026-07-14 19:58:04 CEST
+spec: docs/T2_spec.md (FROZEN Rev. 2026-07-13b, F58 erratum: 96 rows)
+dat_prep path: C:/R_Projects/FOMA-CER-COD-Paris/output/dat_prep.rds
+dat_prep md5:  6702ef3dc45fe0b693b13f50ebd1576b
+pr$n / pr$seed: 2713 / 20260710 (contract asserted)
+constants: K_ES=2713 K_STUDY=115 K_CLUSTER=114 K_PERIOD_NA=8 K_STUDY_POST=31 RHO=0.6 SEED=20260710
+
+per-coding NA counts [DEC-042b generalized; asserted 8 / same 2 studies]:
+  pp_mid_lag0      NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+  pp_median_lag0   NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+  pp_end_lag0      NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+  pp_end_lag1      NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+  pp_end_lag2      NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+  pp_end_lag3      NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+  share_2016       NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+  share_2017       NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+  share_2018       NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+  share_2019       NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+  pp_window_class  NA = 8 over 2 studies (Bhattacharya & Sharma (2019) | Ng & Rezaee (2012))
+
+P5 clean-window level mapping (permitted in-run adaptation, resolved from data + design_quantities_v12.csv): pure-pre = "pre-only" (611 ES), pure-post = "post-only" (318 ES); excluded level(s): "mixed"; clean-cell total k = 929
+P2 INFO: prep columns pp_share_lag1..3 are numerically identical to share_2017..2019 (checked: max|diff| = 0); NOT used as regressors -- B3 recuts computed in-script as share_201x >= 0.5, ties->Post [DEC-024]
+P1 assert passed: pp_share_lag0 == share_2016 (tol 1e-12), 41 distinct values (continuous)
+P3 assert passed: (share_2016 >= 0.5, ties->Post) reproduces pp_mid_lag0 exactly on the 2,705 defined rows
+P4 assert passed: pp_median_lag0 vs pp_mid_lag0 disagreements = 79, all at share_2016 == 0.5 (ties->Pre variant)
+
+free-field label conventions (unpinned by spec; fixed a priori here):
+  subset = 'defined' (complete cases on coding) for full-domain coding models;
+  'clean_cells' for clean_window; study key for loso_post / post_dominance rows;
+  'post_cell' for loso_post_summary; 'end_post'/'defined' for disclosures.
+  term = 'weight_share' on post_dominance rows; 'value' on disclosure rows.
+  LOSO rows: k_es = remaining complete cases on coding; k_study/k_cluster =
+  remaining sample after whole-study drop (115 - 1 = 114 studies).
+
+runtime: 19.7 min
+
+sessionInfo():
+R version 4.6.1 (2026-06-24 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26200)
+
+Matrix products: default
+  LAPACK version 3.12.1
+
+locale:
+[1] LC_COLLATE=German_Austria.utf8  LC_CTYPE=German_Austria.utf8   
+[3] LC_MONETARY=German_Austria.utf8 LC_NUMERIC=C                   
+[5] LC_TIME=German_Austria.utf8    
+
+time zone: Europe/Vienna
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices datasets  utils     methods   base     
+
+other attached packages:
+[1] clubSandwich_0.7.0  metafor_5.0-1       numDeriv_2016.8-1.1
+[4] metadat_1.6-0       Matrix_1.7-5       
+
+loaded via a namespace (and not attached):
+ [1] digest_0.6.39   lattice_0.22-9  zoo_1.8-15      lifecycle_1.0.5
+ [5] cli_3.6.6       mathjaxr_2.0-0  grid_4.6.1      sandwich_3.1-1 
+ [9] renv_1.2.3      compiler_4.6.1  rprojroot_2.1.1 here_1.0.2     
+[13] tools_4.6.1     nlme_3.1-169    rlang_1.2.0    
