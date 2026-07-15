@@ -11,7 +11,7 @@ Rscript R/08_identification.R
 Rscript R/08_verify_outputs.R
 ```
 
-**Success criterion:** run 1 passes all input-contract asserts and writes `output/T8_results.csv` (83 rows × 36 columns), `output/T8_run_meta.txt`, `output/T8_sessionInfo.txt`; run 2 prints **27/27 PASS** and exits **0**.
+**Success criterion:** run 1 passes all input-contract asserts and writes `output/T8_results.csv` (83 rows × 36 columns) and `output/T8_run_meta.txt` (md5, pins, convergence certificates, sessionInfo appended per W3); run 2 prints **27/27 PASS** and exits **0**.
 
 ## Frozen zone — do not modify under any circumstances
 
