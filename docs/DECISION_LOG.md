@@ -719,6 +719,75 @@
 
 ---
 
+## DEC-024a: Placebo-year recode rule — canonical share_Y formula for Y = 2008–2015 (extends DEC-024 / T2 pin P2; closes F60)
+
+**Block:** Methodology finalization (amendment to DEC-024) · 2026-07-14
+
+**Question:** Battery B4 pins placebo break years 2008–2015, but v12/dat_prep carry share and binary codings only for Y = 2016–2019; no rule fixed how the eight placebo cuts are constructed (F60, opened in the T8 session 2026-07-14).
+
+**Options considered:** (a) in-script recompute from the canonical share_Y formula with the DEC-024 tie rule, identity-gated at Y = 2016; (b) new derived columns via a v13 data patch; (c) mid-rule shortcut (sample_mid ≥ Y − 0.5) without share reconstruction.
+
+**Chosen:** (a), author-ruled 2026-07-14 (precedent: T2 pin P2). share_Y = clip((d_sample_end − Y + 1)/(d_sample_end − d_sample_start + 1), 0, 1); pp_Y = 1{share_Y ≥ 0.5}, ties→Post [DEC-024]; the share rule is asserted equivalent to the mid rule (sample_mid ≥ Y − 0.5) for every cutoff 2008–2016; an identity gate at Y = 2016 must reproduce `pp_share_lag0` (±1e-9) and `pp_mid_lag0` (0 mismatches) before any placebo fit runs. Post-cell sizes pinned as design constants (v12-derived, result-blind, 2026-07-14; ES/studies/clusters): 2008: 2,367/100/99 · 2009: 2,345/99/98 · 2010: 2,326/98/97 · 2011: 2,077/93/92 · 2012: 1,769/82/81 · 2013: 1,486/69/69 · 2014: 1,269/55/55 · 2015: 784/38/38 — re-derived and equality-checked by the verifier (O9) and echoed in `T8_run_meta.txt`.
+
+**Rationale:** In-script derivation from the manifest formula keeps v12 locked (no v13 patch), makes the recode auditable against two independent parameterizations (share vs. mid), and the 2016 identity gate proves formula fidelity on the one cutoff with canonical columns before it is trusted on the eight without.
+
+**Reviewer-Risk:** *Finance/Econometrics* — "are placebo cuts constructed identically to the real cut?" is answered by the identity gate; the smallest cell (pre side at Y = 2008: 13 clusters) clears the RVE small-cell threshold. *Management/BSE* — none beyond B4's own communication.
+
+**Consequences:** R/08_identification.R implements the recode with hard asserts; R/08_verify_outputs.R O9–O11 re-derive and pin the cells; F60 closed; no data-file change.
+
+**Files:** docs/DECISION_LOG.md · R/08_identification.R · R/08_verify_outputs.R.
+
+---
+
+## DEC-031c: Pre-trend guard for differential exposure (Move 5) — M-pre as the sole pre-registered addition; fully interacted and stratum-segmented variants to the on-demand register (closes F59)
+
+**Block:** Methodology finalization (amendment to DEC-031 D31.5 / DEC-031a.1) · 2026-07-15
+
+**Question:** Move 5 (differential exposure, DiD-like) runs via the C3/C4 Paris interactions (T7 Stage 1) per author ruling; its parallel-trends-analog component — do high- and low-exposure strata already trend apart *before* 2016? — was left unhomed (F59, opened in the T8 session 2026-07-14). Where and in what form does the pre-trend check live?
+
+**Options considered:** (i) pre-window interaction only (`zi ~ time × exposure` on pre-2016 data) — the guard proper; (ii) segmented MR per exposure stratum; (iii) forgo + parallel-trends caveat; (iv) both interaction forms pre-registered — pre-window plus a fully interacted pre+post model (author proposal 2026-07-15, provisionally coded R1); (v) = R2: M-pre as the sole pre-registered addition, the plain D31.5 interaction stays the panel form, the fully interacted model (M-full) and option (ii) move entirely to the on-demand register.
+
+**Chosen:** (v), author-ruled 2026-07-15. Ruling basis recorded explicitly: after both readings of the shorthand "a) + b)" (2026-07-15) were spelled out, the author selected R2 with reasons, so the shorthand carries no ambiguity into this log. Pinned specification, homed in the C3/C4 spec (T7 Stage 1):
+
+- **M-pre (pre-trend guard, inferential):** domain = dose/period cells with `pp_mid_lag0 == 0` (majority-pre windows; 1,994 ES / 83 studies / 82 clusters — the same coding the DiD it protects runs on); model `zi ~ ts_knot × exposure`, `ts_knot = sample_mid − 2015.5`; one model per exposure dimension: industry (C3) and regulation3 (C4); 3L-RVE spine, CR2/Satterthwaite on cluster_id. The joint HTZ Wald on the interaction block = the pre-trend test; per-level interaction terms reported alongside. Partial-exposure contamination of majority-pre windows disclosed via the pre-cell group-mean share (≈ 0.14 [T2/B7 recompute]); the clean-window variant (share = 0; 27 clusters) is executable on demand, not pre-registered (df cost without identification gain).
+- **Panel form untouched:** the D31.5 univariate Paris-interaction model for C3/C4 stays exactly as locked — zero amendment surface.
+- **On-demand register (D31.3 mechanism):** (1) M-full = `zi ~ ts_knot * pp_mid_lag0 * exposure` on the full dose/period domain; (2) stratum-wise segmented MR. Prepared response-letter line: "fully interacted / fully stratified variants available; their incremental post-side terms ride on 3 (industry-sensitive) resp. 6 (regulation-without-ETS/CT) post clusters and are descriptive under the pre-registered df rule."
+
+**Rationale (author's decision criterion, severity-ordered):** For a null-securing paper the pre-registered battery admits only what carries identification content with real degrees of freedom. M-pre qualifies (82 pre clusters, ~16 years of window variation, a genuine HTZ Wald); M-full's increment over {M-pre + the plain D31.5 interaction} sits exactly in the ex-ante df-dead cells (industry-sensitive × post = 3 clusters; regulation-without-ETS/CT × post = 6; v12 design cells, result-blind). (1) *C4 df protection (severest point):* `pp_mid_lag0` is exactly the step function 1{ts_knot ≥ 0}; over the short post support the level jump and the slope change are near-collinear, so estimating the level-shift block conditional on trend and triple terms inflates its SE and compresses its Satterthwaite df precisely on the one inferentially viable Move-5 contrast — the risk is that it falls to the descriptive rule through parameterization, not data. Under R2 the C4 interaction keeps its best df chance while the guard runs separately where df exist. (2) *Internal consistency:* the false-positive argument that removed option (ii) applies symmetrically to M-full — the df rule suppresses p-values, not the narrative burden of unstable descriptive triple-interaction point estimates inside the main battery. (3) *Estimand uniformity:* under R1 the C3/C4 row would measure a trend-conditional knot jump while C1/C2 and C5–C8 measure the unconditional post shift; R2 keeps one estimand across all eight panels and reopens nothing in locked D31.5. (4) The DiD referee's substantive demand is the pre-trend check, which M-pre delivers inferentially; the anticipated "why no fully interacted model?" is met by the pre-registered on-demand register plus the design-cell table.
+
+**Reviewer-Risk:** *Finance/Econometrics* — the pre-trend guard is precisely what a DiD-minded referee demands; disclosing the 3-cluster industry post cell ex ante under a mechanical rule pre-empts "you ran inference where you had none"; an avoidance charge fails against a register that is itself pre-registered and whose incremental terms are demonstrably df-dead. *Management/BSE* — panel symmetry keeps the moderator story uniform; the text should carry, not hide, that Move 5's inferential weight rests on C4 (regulation, 14/6/11 post clusters).
+
+**Consequences:** C3/C4 spec (T7 Stage 1) gains M-pre only; D31.5 panel form untouched; M-full and stratum segmentation enter the on-demand register with the prepared response-letter line; expected-descriptive cells pinned ex ante (industry-sensitive post = 3 Cl; regulation-without-ETS/CT post = 6 Cl); Pending-C verdict wording should anticipate that even C3's plain interaction may fall to the descriptive rule; F59 closed; T8 scripts unaffected (entry binds T7; ships log-first with the T8 Gate-2 commit).
+
+**Files:** docs/DECISION_LOG.md · docs/analysis_plan.md (Addendum A.10) · T7 spec + scripts (later) · CERCOD_Status.xlsx (Analyse_Batterie C3/C4 remark, T8 commit 2).
+
+---
+
+## DEC-031d: B5 composition-control covariate set — three categorical of the five §6-disclosed drift dimensions; anchor, flags, and verdict criterion pinned (closes F61)
+
+**Block:** Methodology finalization (amendment to DEC-031 Battery B) · 2026-07-15
+
+**Question:** Battery B5 (composition control, Move 4 core) fixes the *role* — test whether the post-2016 time effect is an artifact of changed study composition — but no covariate list; Pending-D/DEC-043 governs the *unified* moderator model (T7 Stage 2), not the identification control. Which covariates enter B5, decided before any B-block estimate exists?
+
+**Options considered:** (a) the categorical §6 drift set {country_region, COD_instrument, CER_measure}; (b) = (a) + industry; (c) the full narrative inventory (8 moderators); (d) defer to DEC-043.
+
+**Chosen:** (a), author-approved 2026-07-15 with five binding conditions (author's log-ready line adopted): *"Claude recommendation: concur with (a). Conditions: (1) drift-set clause corrected to 'three categorical of five disclosed drifts' with the channel assignment for window/n; (2) industry rationale replaced (selection rule primary; main effect ≠ interaction); (3) domain-matched binary anchor added; B8 pair pinned as race vs. trend_composition, same domain; (4) verifier: df-transfer rule on pp, per-coefficient df report, domain constancy, provenance of the 2,713→2,705 delta; (5) verdict criterion = Δβ + adjusted CI vs. SESOI, not p-survival."* Pinned implementation:
+
+- **Covariates** = `country_region + COD_instrument + CER_measure`; reference levels {1_US, loan (interest rate), performance}; 99_NCE retained as own factor level (domain stays 2,705/113/112; smallest covariate cell = CDS with 11 clusters). Two pre-registered models: `composition_adj` (`zi ~ pp_mid_lag0 + set`) and `trend_composition` (`zi ~ sample_mid_c + pp_mid_lag0 + set` — the final identification model, feeding B8).
+- **Drift-set clause (condition 1):** §6 discloses **five** post-cell drift dimensions. The three categorical ones enter B5. The two continuous §6 drifts are handled through their pre-assigned channels, not as B5 covariates: sample size / precision enters via the variance–weighting machinery and the T5 selection battery (a precision regressor on the RHS is PET logic — selection correction, not composition control — and would conflate the two estimands), while window length is a property of the temporal measurement itself, governed by `sample_mid_c` in `trend_composition` plus the §6 attenuation disclosure.
+- **Anchor (condition 3):** the domain-matched binary anchor is B4/`break_only` on the identical 2,705 domain; no third model is required — T2/B1 itself ran on 2,705 (cell_pre 1,994 / cell_post 711 / diff k = 2,705), a premise correction to the condition-3 input note (which assumed 2,713); verifier O15 binds the anchor to T2/B1 at full precision, and `delta_vs_break_only` carries the Δβ read-out. **B8 Oster pair pinned:** uncontrolled = `race` (time trend held in both models), controlled = `trend_composition`, same domain [F61-P1] — the design variable (time) belongs in both regressions; proportional selection runs over the covariate set, not over the running variable of the identification.
+- **Industry excluded — corrected hierarchy (condition 2):** (i) *selection rule, primary:* industry is not among the §6-disclosed drift dimensions and so fails the a-priori selection criterion; (ii) its 3-cluster post cell would add extrapolation noise, not control; (iii) *estimand separation:* a B5 main effect would standardize the post cell along the exposure margin whose differential response C3 is designed to test — a genuinely exposure-driven Paris response coinciding with compositional tilt would be pre-labeled "artifact" before C3 runs. (The earlier draft's "would partial out the heterogeneity Move 5 tests" is retracted: a main effect does not absorb an interaction estimated in a separate model.)
+
+**Rationale:** A control set equal to the pre-existing §6 disclosure leaves no room for specification search — the covariates were named before any estimate existed. Parsimony protects the null-securing posture (each additional covariate row is a chance false positive the paper must then explain). The Pending-D boundary stays intact: B5 is identification, not moderation — **without prejudice to DEC-043**: every unified variant, including ones containing industry, remains pre-registerable and unconstrained by this entry. Two-layer defense: documented drift → controlled in B5; undocumented drift → bounded in B8.
+
+**Reviewer-Risk:** *Finance/Econometrics* — "your own table lists five dimensions, you control three" is answered a priori by the channel assignment; "why not industry?" by the selection rule, the cell-size fact, and the estimand-separation argument; the mechanical SE inflation from drift-correlated controls is defused by the pre-fixed effect-size-based verdict criterion (condition 5), closing the "null by construction" objection. *Management/BSE* — clean narrative arc: composition named in §6, controlled in B5, moderated in Block C; no covariate does double duty.
+
+**Consequences:** `B5_COVARS`/`B5_REFS`/`B5_LEVELS` binding in R/08_identification.R (v4); B8 pair = race vs. trend_composition [F61-P1]; DEC-024 transfer-rule flags applied mechanically to both B5 `pp_mid_lag0` rows, 99_NCE dummies flagged "not interpreted", provenance of the 2,713→2,705 delta (8 ES / 2 studies / 2 clusters) carried in the design rows [F61-P2]; verdict read-out coded on the result rows — Δβ (z and r scale) + adjusted CI vs. the SESOI band (|r| = 0.070 primary, |Δr| = 0.05 secondary per DEC-031 Block E), expressly not p-survival [F61-P3]; verifier O24 enforces all flags; §6 inference-home sentence superseded via analysis_plan Addendum A.10; F61 closed with the Gate-2 GO 2026-07-15; DEC-043/Pending-D untouched.
+
+**Files:** docs/DECISION_LOG.md · docs/analysis_plan.md (A.9/A.10) · R/08_identification.R · R/08_verify_outputs.R · docs/cc_prompt_T8.md · CERCOD_Status.xlsx (B5 remark, T8 commit 2).
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
