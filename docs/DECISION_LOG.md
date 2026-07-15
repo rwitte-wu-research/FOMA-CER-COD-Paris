@@ -788,6 +788,26 @@
 
 ---
 
+## DEC-031e: T8 execution amendment — break-only model in the T2/B1 cell-means parameterization after nlminb false convergence; fit3l intercept-only repair (closes the 2026-07-15 S5 halt)
+
+**Block:** Methodology finalization (execution amendment to DEC-031 Battery B / T8) · 2026-07-15
+
+**Question:** The canonical T8 run halted per protocol (STOP S5): `mB <- fit3l(~ pp_mid_lag0)` — the B4 break-only model — fails REML certification (nlminb convergence = 1), deterministically and in isolation (16 of 17 fits converge, including the eight structurally identical single-dummy placebos and the race model nesting the same regressor). A status-only probe also surfaced a latent second failure the run never reached: `fit3l(NULL)` for the B8 pseudo-R² baseline errors under the pinned metafor 5.0.1 ("mods argument is NULL"). Both remedies lie in the frozen zone. How does T8 proceed within Gate 2?
+
+**Options considered:** (A) reparameterize mB to the T2/B1 cell-means form (`~ 0 + factor`) with the post-minus-pre CR2 contrast, plus the trivial `~ 1` repair for the baseline; (B) an optimizer ladder in the spine helper (nlminb → fallback, first certified convergence wins, per-model disclosure); (C) fix σ²_study at the boundary; (D) inject starting values.
+
+**Chosen:** (A), author-ruled 2026-07-15, with three acceptance conditions — all discharged in package 1b: (1) *mB$-migration proof:* `grep -n 'mB\$'` on v5 shows only `mB$sigma2` (parameterization-invariant); `b_abs["2016"]` and `delta_vs_break_only` read the contrast estimate; B8 draws on the race model per DEC-031d/F61-P1, so no Oster input touches mB. (2) *run_meta auditability:* convergence certificates for all 17 fits (tag, optimizer, certification) plus the sentence "mB: cell-means parameterization per DEC-031e" are written to `T8_run_meta.txt`. (3) *Verifier byte-identity:* R/08_verify_outputs.R is untouched — md5 1212deb5b60b40c200a69a79cf7bd4fb (LF, as shipped), not part of the 1b commit. Also pinned: **the ruling itself is result-blind** — it rests solely on convergence codes and the committed precedent; the diagnostic probe was status-only, and no mB estimates were seen by anyone before the ruling.
+
+**Rationale:** This is convergence **to** the committed convention, not an ad-hoc asymmetry: T2 estimated all coding models in cell-means form — the T8 dummy form was the actual (new) deviation. `~ 0 + factor` and `~ dummy` span the same column space; the REML surface over the variance components is identical, only the optimizer path differs — at a σ²_study boundary documented since T1. The committed T2/B1 fit proves the likelihood is solvable on exactly this configuration (same 2,705 domain, same V construction, same random structure, same renv library), which upgrades verifier O15 from an equivalence to an identity anchor. (B) is rejected *for T8*: empirically unverified for mB (risk of a second halt cycle) and new spine machinery for a problem A solves with precedent; the question is homed as **F62** — optimizer-fallback convention for the T7 spine, ruled in the T7 spec session where it genuinely arises over dozens of fits. (C) alters the model; (D) is circular (starting values from T2 estimates would breach result-blindness).
+
+**Reviewer-Risk:** *Finance/Econometrics* — "why does one model use a different parameterization?" inverts to "B4 uses the T2 parameterization of the identical estimand"; optimizer fragility at a variance boundary is a known REML phenomenon, disclosed via the run_meta certificates; the placebo fits remain dummy-parameterized (all converge), and the rank comparison operates on estimand-identical quantities. *Management/BSE* — invisible at manuscript level.
+
+**Consequences:** R/08_identification.R v5: mB cell-means with a custom two-row construction (terms `intercept`/`pp_mid_lag0`, all frozen note anchors, N_ROWS = 83 unchanged); `b_abs` and `delta_vs_break_only` migrated to the contrast; `fit3l(~ 1)` baseline repair; `fit3l` gains a tag + convergence-log side channel feeding run_meta. Verifier and docs/cc_prompt_T8.md unchanged. F62 opened (T7-spine optimizer convention). Bilateral error log +3: fit3l(NULL) implementation bug [Claude]; parameterization fragility not anticipated despite committed T2 cell-means evidence in-context [Claude]; fit3l(NULL) passed two review cycles unflagged [author]. CC re-run with the unchanged prompt; expectation 27/27.
+
+**Files:** docs/DECISION_LOG.md · R/08_identification.R (v5) · output/T8_run_meta.txt (certificates, at run time).
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).

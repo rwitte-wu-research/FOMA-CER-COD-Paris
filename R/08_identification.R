@@ -151,10 +151,15 @@ sub$ts_knot <- sub$sample_mid - KNOT      # segmented-MR time (knot-invariant)
 # ------------------------------ 2. Spine helpers ----------------------
 V6 <- impute_covariance_matrix(vi = sub$vi, cluster = sub$cluster_id, r = RHO)
 
-fit3l <- function(fml) {
-  rma.mv(yi = zi, V = V6, mods = fml,
-         random = ~ 1 | cluster_id/study/esid,
-         data = sub, sparse = TRUE, method = "REML")
+FIT_LOG <- character(0)   # [DEC-031e] convergence certificates -> run_meta
+fit3l <- function(fml, tag = NULL) {
+  m <- rma.mv(yi = zi, V = V6, mods = fml,
+              random = ~ 1 | cluster_id/study/esid,
+              data = sub, sparse = TRUE, method = "REML")
+  lab <- tag %||% paste(deparse(fml), collapse = " ")
+  FIT_LOG <<- c(FIT_LOG, sprintf(
+    "%s -- optimizer nlminb; converged (metafor-certified: rma.mv halts unless code 0)", lab))
+  m
 }
 vcr <- function(m) vcovCR(m, cluster = sub$cluster_id, type = "CR2")
 
@@ -315,7 +320,7 @@ rows <- c(rows, list(
 
 # ------------------------------ 4. B2 — dose model --------------------
 nD <- mnote("~ sample_mid_c + pp_share_lag0")
-mD <- fit3l(~ sample_mid_c + pp_share_lag0)
+mD <- fit3l(~ sample_mid_c + pp_share_lag0, tag = "dose_linear")
 rows <- c(rows, coef_rows(
   mD, "B2", "dose_linear", nD,
   ms = "pp_share_lag0",
@@ -324,7 +329,7 @@ rows <- c(rows, coef_rows(
 rows <- c(rows, pred_contrast_rows(mD, "B2", "dose_linear", nD))
 
 nDq <- mnote("~ sample_mid_c + pp_share_lag0 + I(pp_share_lag0^2)")
-mDq <- fit3l(~ sample_mid_c + pp_share_lag0 + I(pp_share_lag0^2))
+mDq <- fit3l(~ sample_mid_c + pp_share_lag0 + I(pp_share_lag0^2), tag = "dose_quadratic")
 crQ <- coef_rows(mDq, "B2", "dose_quadratic", nDq,
   note_map = c("I(pp_share_lag0^2)" = "quadratic-in-share check [DEC-024]"))
 for (i in seq_along(crQ)) {
@@ -339,20 +344,43 @@ rows <- c(rows, list(wald_row(
 
 # ------------------------------ 5. B4 — trend vs break ----------------
 nT <- mnote("~ sample_mid_c")
-mT <- fit3l(~ sample_mid_c)
+mT <- fit3l(~ sample_mid_c, tag = "trend_only")
 rows <- c(rows, coef_rows(mT, "B4", "trend_only", nT,
   note_map = c(sample_mid_c = "secular drift, no break term")))
 
-nB <- mnote("~ pp_mid_lag0")
-mB <- fit3l(~ pp_mid_lag0)
-rows <- c(rows, coef_rows(
-  mB, "B4", "break_only", nB,
-  note_map = c(
-    intercept = "pre-cell mean; parameterization-equivalent to T2/B1 cell_pre (~0+factor(coding))",
-    pp_mid_lag0 = "equals T2/B1 paris_mid diff (verifier identity O15); realized vs design df disclosure: design df = 31.9 [T0.4]; difference of Fisher-z means; no tanh transform of differences")))
+# [DEC-031e] break_only in the T2/B1 cell-means parameterization: the dummy
+# form (~ pp_mid_lag0) hit nlminb false convergence at the sigma2_study
+# boundary (S5 halt 2026-07-15); identical likelihood, committed-convergent
+# precedent = T2/B1. Terms, notes anchors, row count unchanged.
+sub$pp_cell <- factor(sub$pp_mid_lag0, levels = c(0, 1))
+nB <- mnote("~ 0 + pp_cell (cell-means [DEC-031e]; estimand identical to ~ pp_mid_lag0)")
+mB  <- fit3l(~ 0 + pp_cell, tag = "break_only (cell-means per DEC-031e)")
+ctB <- coef_test(mB, vcov = vcr(mB), test = "Satterthwaite")
+ciB <- conf_int(mB, vcov = vcr(mB), level = .95)
+dfB <- ctB$df_Satt %||% ctB$df
+pB  <- ctB$p_Satt  %||% ctB$p
+lcB <- linear_contrast(mB, vcov = vcr(mB),
+                       contrasts = rbind(diff = c(-1, 1)), level = .95)
+dfD <- lcB$df %||% lcB$df_Satt
+pD  <- 2 * stats::pt(-abs(lcB$Est / lcB$SE), df = dfD)
+rows <- c(rows, list(
+  row_base("B4", "break_only", "intercept", metric = "Fisher_z",
+           est_z = ctB$beta[1], se_z = ctB$SE[1], t_stat = ctB$tstat[1],
+           df = dfB[1], p = pB[1],
+           ci_lb_z = ciB$CI_L[1], ci_ub_z = ciB$CI_U[1],
+           est_r = tanh(ctB$beta[1]), ci_lb_r = tanh(ciB$CI_L[1]),
+           ci_ub_r = tanh(ciB$CI_U[1]), sigma2 = mB$sigma2,
+           note = paste0(nB, "; pre-cell mean; parameterization-identical to T2/B1 cell_pre (~0+factor(coding))")),
+  row_base("B4", "break_only", "pp_mid_lag0", metric = "Fisher_z",
+           est_z = lcB$Est[1], se_z = lcB$SE[1],
+           t_stat = lcB$Est[1] / lcB$SE[1], df = dfD[1], p = pD[1],
+           ci_lb_z = lcB$CI_L[1], ci_ub_z = lcB$CI_U[1],
+           sigma2 = mB$sigma2,
+           note = paste0(nB, "; post-minus-pre contrast (-1, +1) = T2/B1 paris_mid diff, verifier identity O15; cell-means parameterization per DEC-031e; realized vs design df disclosure: design df = 31.9 [T0.4]; difference of Fisher-z means; no tanh transform of differences"))
+))
 
 nR <- mnote("~ sample_mid_c + pp_mid_lag0")
-mR <- fit3l(~ sample_mid_c + pp_mid_lag0)
+mR <- fit3l(~ sample_mid_c + pp_mid_lag0, tag = "race")
 rows <- c(rows, coef_rows(
   mR, "B4", "race", nR,
   ms = c("sample_mid_c", "pp_mid_lag0"),
@@ -369,7 +397,7 @@ for (Y in PLACEBO_YEARS) {
   kC <- length(unique(sub$cluster_id[ppY == 1]))
   plc_pin <- rbind(plc_pin, data.frame(Y = Y, es = kA, st = kS, cl = kC))
   nP <- mnote(sprintf("~ pp_break_%d", Y))
-  mP <- fit3l(~ pp_break_tmp)
+  mP <- fit3l(~ pp_break_tmp, tag = sprintf("placebo_%d (pp_break_%d)", Y, Y))
   cr <- coef_rows(mP, "B4", sprintf("placebo_%d", Y), nP)
   cr[[2]]$term <- sprintf("pp_break_%d", Y)
   cr[[2]]$note <- paste0(
@@ -379,7 +407,7 @@ for (Y in PLACEBO_YEARS) {
   rows <- c(rows, cr)
 }
 sub$pp_break_tmp <- NULL
-b_abs["2016"] <- abs(as.numeric(mB$beta["pp_mid_lag0", 1]))
+b_abs["2016"] <- abs(as.numeric(lcB$Est[1]))            # [DEC-031e] contrast estimate
 rk <- as.integer(rank(-b_abs, ties.method = "min")[["2016"]])
 rows <- c(rows, list(scalar_row(
   "B4", "placebo_summary", "rank_2016_abs_break", metric = "rank",
@@ -391,7 +419,7 @@ rows <- c(rows, list(scalar_row(
 
 # Segmented meta-regression (ITS; Move 2), knot-invariant parameterization
 nS <- mnote("~ ts_knot * pp_mid_lag0 (ts_knot = sample_mid - 2015.5)")
-mS <- fit3l(~ ts_knot * pp_mid_lag0)
+mS <- fit3l(~ ts_knot * pp_mid_lag0, tag = "segmented")
 crS <- coef_rows(mS, "B4", "segmented", nS,
   ms = "pp_mid_lag0",
   ms_lab = c(pp_mid_lag0 = "seg_level_shift"))
@@ -410,7 +438,7 @@ rows <- c(rows, list(wald_row(
 
 # ------------------------------ 6. B5 — composition control -----------
 nC <- mnote("~ pp_mid_lag0 + country_region + COD_instrument + CER_measure")
-mC <- fit3l(stats::reformulate(c("pp_mid_lag0", B5_COVARS)))
+mC <- fit3l(stats::reformulate(c("pp_mid_lag0", B5_COVARS)), tag = "composition_adj")
 rows <- c(rows, coef_rows(mC, "B5", "composition_adj", nC,
   ms = "pp_mid_lag0", ms_lab = c(pp_mid_lag0 = "paris_comp_adj"),
   note_map = c(pp_mid_lag0 = "Move 4 core: Paris net of composition {region, instrument, CER measure} [F61; Section 6 drift disclosure]; difference of Fisher-z means")))
@@ -418,14 +446,14 @@ idx_comp_C <- which(!(names(coef(mC)) %in% c("intrcpt", "pp_mid_lag0")))
 rows <- c(rows, list(wald_row(
   mC, idx = idx_comp_C, "B5", "composition_adj", "wald_composition_joint", nC,
   h0 = "H0: all composition coefficients = 0")))
-d_unadj <- as.numeric(mC$beta["pp_mid_lag0", 1] - mB$beta["pp_mid_lag0", 1])
+d_unadj <- as.numeric(mC$beta["pp_mid_lag0", 1]) - as.numeric(lcB$Est[1])  # [DEC-031e]
 rows <- c(rows, list(scalar_row(
   "B5", "composition_adj", "delta_vs_break_only", metric = "Fisher_z",
   estimator = "3LMA-RVE_CR2", rho = RHO, value = d_unadj,
   note = "composition-adjusted minus unadjusted Paris coefficient (z-scale); anchor = break_only on the identical 2,705 domain [F61-P1]; verdict read-out: delta-beta + adjusted CI vs SESOI band (|r| = 0.070 primary, |delta r| = 0.05 secondary), not p-survival [F61-P3]")))
 
 nF <- mnote("~ sample_mid_c + pp_mid_lag0 + country_region + COD_instrument + CER_measure")
-mF <- fit3l(stats::reformulate(c("sample_mid_c", "pp_mid_lag0", B5_COVARS)))
+mF <- fit3l(stats::reformulate(c("sample_mid_c", "pp_mid_lag0", B5_COVARS)), tag = "trend_composition")
 rows <- c(rows, coef_rows(mF, "B5", "trend_composition", nF,
   ms = "pp_mid_lag0", ms_lab = c(pp_mid_lag0 = "paris_final_model"),
   note_map = c(pp_mid_lag0 = "final identification model: trend + composition [Identifikation tab, Move 7 target]; difference of Fisher-z means")))
@@ -453,7 +481,7 @@ for (i in seq_along(rows)) {
 }
 
 # ------------------------------ 7. B8 — bounding ----------------------
-m0 <- fit3l(NULL)  # intercept-only on the same subset (R2 baseline only;
+m0 <- fit3l(~ 1, tag = "intercept_only (R2 baseline)")  # [DEC-031e] metafor 5.0.1 rejects passed-through NULL mods; intercept-only on the same subset (R2 baseline only;
                    # its estimate is deliberately not written to the CSV)
 S0 <- sum(m0$sigma2); SU <- sum(mR$sigma2); SC <- sum(mF$sigma2)   # [F61-P1] uncontrolled = race
 R2u <- 1 - SU / S0; R2c <- 1 - SC / S0
@@ -550,6 +578,9 @@ meta <- c(                                                  # [W3]
           paste(sprintf("%s=%s", names(B5_REFS), B5_REFS), collapse = "; ")),
   "F61 scope: B5 covariates = Move-4 drift set {region, instrument, CER measure}; without prejudice to DEC-043 (unified composition).",
   "F61-P1 Oster pair: uncontrolled = race, controlled = trend_composition (same 2,705 domain); delta anchor = break_only.",
+  "mB: cell-means parameterization per DEC-031e (dummy form hit nlminb false convergence at the sigma2_study boundary, S5 halt 2026-07-15; ruling result-blind).",
+  sprintf("Convergence certificates (%d fits):", length(FIT_LOG)),
+  paste0("  ", FIT_LOG),
   sprintf("F60 placebo post cells (in-script recode, ties->Post): %s",
           paste(sprintf("%d: %d/%d/%d", plc_pin$Y, plc_pin$es, plc_pin$st,
                         plc_pin$cl), collapse = "; ")),
