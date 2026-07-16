@@ -808,6 +808,32 @@
 
 ---
 
+## DEC-031f: Convergence protocol for the 3L-RVE spine — parameterization-first, evidenced optimizer ladder, fallback tolerance tier (closes F62)
+
+**Block:** Methodology finalization (spine convention, all future rma.mv runs) · 2026-07-16
+
+**Question:** F62 (opened in DEC-031e): which pre-registered, result-blind convention governs REML certification failures on the 3-level spine? Originally homed to the T7 spec session; the author moved it forward on 2026-07-16 — justification: D/T5 and the E block run on the same spine *before* T7, the DEC-031e evidence is fresh in context, and the ruling was made conditional on an evidence probe (discharging the "empirically unverified" objection that removed the ladder in DEC-031e).
+
+**Options considered:** (a) status quo — per-case halt cycles with ad-hoc amendments (does not scale; looks discretionary ex post); (b) an unverified ladder (rejected in DEC-031e, unchanged); (c) parameterization-first plus an evidence-based ladder with a fallback tolerance tier; (d) fixing sigma2_study / injecting starting values (rejected in DEC-031e, unchanged).
+
+**Chosen:** (c), author-ruled 2026-07-16 on the scratchpad probe (t7_ladder_probe.R, md5 141AFB593DF82799BCEA5F332D11E4EE; no repo changes; run from repo root, renv library). Pinned rules:
+- **R1 — parameterization first:** factor-only models (incl. period × moderator panels) run in cell-means by default [T2 convention; DEC-031e; probe P2/P3].
+- **R2 — ladder** for models with continuous regressors: `nlminb → optim/BFGS → optim/Nelder-Mead`, order fixed a priori, first metafor-certified fit wins; all base-R (no lockfile change).
+- **R3 — disclosure:** optimizer per fit in the run_meta certificates [DEC-031e mechanism]; every fallback-produced row carries a note flag.
+- **R4 — tolerance tier (probe-derived):** cross-optimizer / cross-parameterization identity checks at **1e-5** absolute on coefficients; same-optimizer replication anchors stay at 1e-6/machine precision.
+- **R5 — stop:** all rungs fail → S-stop and parameterization review before any further remedy (T8 lesson).
+- **R6 — per-run control fit (recommended hardening):** one nlminb-converged model re-fit under BFGS, assert |Δβ| < 1e-5, logged in run_meta.
+
+**Rationale (probe evidence):** P1 replicated the known nlminb failure (mB dummy) and both ladder rungs certified, landing 2.41e-6 (BFGS) / 2.55e-6 (Nelder-Mead) from the committed T8 anchor — 0.013% of the SE, substantively identical, mutually consistent to 1.4e-7, but not bit-identical: on the flat sigma2_study boundary different optimizers stop at marginally different points, which is exactly what R4 converts from a future verifier surprise into a pinned rule. P2: cell-means certifies under the default. P3 (status-only): all four T7-shaped panel fits certify — the fragility does not currently reproduce there, so the ladder is a safety net, expected to fire rarely; R1 keeps the source-level remedy primary. This scales the DEC-031e single-case fix into a convention before D/T5 touches the spine.
+
+**Reviewer-Risk:** *Finance/Econometrics* — "did you shop optimizers?" is answered by the deterministic a-priori order, per-fit disclosure, and the provenance of this ruling (T7-shaped probe fits status-only; P1 compared only against an already-committed value). "Are fallback fits comparable?" is answered by R4 with the measured delta. *Management/BSE* — invisible.
+
+**Consequences:** Binds all future rma.mv runs (D/T5, E, T7, H); implementation lands per run script (spine helper gains a control/ladder loop; certificate lines extended by the optimizer actually used). F62 closed — the F register is empty. T7-spec inherits R1 plus a new task: pin period × level cell inventories ex ante (F60 pattern) — the probe's redundant-predictor warnings show empty cells exist in cell-means interaction fits. The probe file stays uncommitted (scratchpad convention); housekeeping: the untracked working-tree copy R/t7_ladder_probe.R is to be deleted or moved out of the repo (git-add hazard).
+
+**Files:** docs/DECISION_LOG.md · docs/analysis_plan.md (Addendum A.11) · future run scripts (D/T5 onward).
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
