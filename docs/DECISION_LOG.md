@@ -863,6 +863,29 @@
 
 **Files:** docs/DECISION_LOG.md · docs/analysis_plan.md (A.12) · R/05_bias.R · R/05_verify_outputs.R · docs/cc_prompt_T5.md · renv.lock · docs/CER-COD_Status.xlsx (post-run touch) · output/T5_results.csv, output/T5_run_meta.txt, output/T5_results_workbook.xlsx (post-run).
 
+## DEC-044: Pending-C resolved — strategic framing A (null/debunking), two-tier claim ladder, N1/N3 language gate
+
+**Block:** Strategic framing / positioning (resolves Pending-C) · 2026-07-19
+
+**Question:** Which strategic framing governs the manuscript — A (null/debunking) or C (contingency) — now that the Pending-C resolution condition (Tier-1 T1–T3 and the T8 identification battery) is met and the pinned trigger question is answerable with T5 in hand?
+
+**Options considered:** (a) Framing A with a differentiated claim ladder; (b) framing C anchored on residual heterogeneity and the yet-unrun T7 moderators; (c) defer until after T7/H.
+
+**Chosen (author ruling 2026-07-19): (a) Framing A.**
+- **Trigger answered three-fold negative** ("do industry / bank-Paris effects survive 3LMA-RVE and PET and the trend-vs-break race?"): (i) 3LMA-RVE — Paris moderation is a precise null: diff_z = +0.010 [−0.028; +0.049], p = .582; the CI edge lies inside the secondary SESOI band (|Δr| = 0.05) [T2/B1 @ 20a4e90]. (ii) Race — double null (trend p = .113; break +0.026, p = .306), placebo rank 2016 = 7/9, segmented joint p = .525, dose joint p = .207, composition Δβ = +0.002, bounding E-values 1.19/1.43 (masks 1.42/1.53) [T8 @ 62d80d4]. (iii) PET — corrected pooled estimates small: PET −0.043, PEESE −0.055 (rule-selected; both < SESOI 0.070); selection models ≈ 0 and ns (3PSM +0.012 ≍ p-uniform* +0.012); grey contrast +0.002, p = .928; 3PSM LRT p = .025 [T5 @ 60756bb].
+- **Two-tier claim ladder (pinned):** Tier 1 — the Paris-moderation claim is a hard null (seven identification moves converge; CI inside the secondary SESOI band). Tier 2 — the pooled association is "statistically detectable but economically negligible", NOT "null": r = −0.059 is significant, 0.84× the Doucouliagos small benchmark, and the CI edge (−0.086) exceeds the ±0.070 band — a formal TOST at ±0.07 is expected to fail; the A-claim rests on magnitude plus selection fragility (selection models remove even the sign's support), never on a pooled-null assertion.
+- **Language gate (pinned):** abstract-level "evidence of absence" wording is locked until N1 (equivalence tests, H block) and N3 (RoBMA Bayes factors, H2) adjudicate; until then, CI-based bounding language only. Expected pattern disclosed ex ante (moderation likely passes N1 at ±0.05; pooled expected to fail at ±0.07); the ladder wording anticipates and does not depend on it.
+- **Heterogeneity handling:** the sign-inclusive PI [−0.390; +0.287] and the 62% cluster-level variance share are reported as real but unexplained by Paris; C-elements demote to a boundary-conditions discussion; T7 runs as the pre-registered heterogeneity exploration WITHIN framing A — no contingency headline may be built on unrun moderators (DEC-005 discipline).
+- **Positioning:** the COE-companion contrast (small equity-side effect) is an A-compatible discussion angle under the existing self-overlap protocol.
+
+**Rationale:** The flagship contingency received a maximal, pre-registered, result-blind identification battery (DEC-031, seven moves) and returned precise nulls; pivoting to C on residual heterogeneity after that outcome would carry specification-search appearance (DEC-005; Ioannidis 2016). Framing A converts the battery itself into the contribution: identification rigor plus bias forensics (selection signal LRT p = .025; grey null; all corrected point estimates inside the SESOI band).
+
+**Reviewer-Risk:** *Finance/Econometrics* — the "sought null" optic is answered by result-blind designation, the pre-registered SESOI, and a trigger pinned before results; "your pooled effect is significant" is answered by the two-tier ladder (no pooled-null claim; magnitude + fragility). *Management/BSE* — "why does a null merit BSE?" is answered by the debunking contribution (the draft-era industry/bank-Paris claims do not survive), the policy relevance of a precise Paris null, and the COE contrast; contingency-minded readers are served by the boundary-conditions section rather than a contingency headline.
+
+**Consequences:** Title/abstract/introduction re-anchor on A (Ablauf 3b satisfied); TB-35 stays DRAFT until H2 but inherits the decided framing; the D6 verdict language cites the framing while the RoBMA line remains BLOCKED; the Analyse_Batterie gains the plain-language explanation column (author request 2026-07-19, framing-A-consistent); Key_Results Z11/Z12 verdict tails update from "Pending-C" to "A per DEC-044 (language calibration after N1/N3)"; the DecisionLog_Index widens to "54 DECs (Methodik + Framing)"; the Pending-C bullet is promoted to resolved; the N1/N3 gate is carried into the H-session spec.
+
+**Files:** docs/DECISION_LOG.md · docs/CER-COD_Status.xlsx (explanation column, index widening, Pending-C promotion, Z11/Z12 and D6 verdict tails) · manuscript framing edits (downstream).
+
 ---
 
 ## Conditional / Pending DECs
@@ -871,7 +894,7 @@ These are reserved placeholders, promoted to full entries when resolved (per the
 
 - **Pending-A — Headline event-coding specification.** **Resolved 2026-07-03 → DEC-024** (designated a priori on design columns only; the original 'after T2' trigger is superseded — deciding after variant inspection would carry specification-search appearance, contra DEC-005; T2 is now a sensitivity panel). *Parent:* DEC-005.
 - **Pending-B — r-from-regression transform documentation.** **Resolved 2026-07-04 → DEC-028** (v9 `formula` sheet documents four conversion routes; df ≈ n_obs convention per F21 with `pcc_df_k` sensitivity; k not collected). *Feeds:* Roadmap #11 — the conversion is now documentable in-text.
-- **Pending-C — Strategic framing: A (null/debunking) vs. C (contingency).** Resolve after the Tier-1 reanalysis (T1–T3) **and** the T8 identification battery. *Trigger:* T8 verdict (do industry / bank-Paris effects survive 3LMA-RVE **and** PET **and** the trend-vs-break race?). *Parents:* DEC-001, DEC-006, DEC-007.
+- **Pending-C — Strategic framing: A (null/debunking) vs. C (contingency).** **Resolved 2026-07-19 → DEC-044** (framing A; trigger answered three-fold negative — T2/B1 precise null, T8 race/placebos/dose/composition/bounding, T5 corrected estimates inside the SESOI band with selection-model fragility; two-tier claim ladder, evidence-of-absence language gated on N1/N3). *Parents:* DEC-001, DEC-006, DEC-007.
 - **Pending-D — Unified moderator-model composition (variants V1…Vk).** Opened by DEC-031/D31.5. Resolve in a dedicated session strictly BEFORE the first unified-model run (result-blind: decision precedes results); all pre-registered variants reported, no post-hoc selection. Inputs: univariate panel *specifications* (not results), D31.7 background correlation diagnostic, post-cell cell sizes from design_quantities_v12.csv. Resolves as DEC-043. *Parent:* DEC-031.
 
 ---
