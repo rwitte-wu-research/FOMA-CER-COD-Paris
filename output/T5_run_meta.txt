@@ -1,0 +1,58 @@
+T5 run meta -- 2026-07-19 13:37:05 CEST
+dat_prep md5:  6702ef3dc45fe0b693b13f50ebd1576b (asserted == pin 6702ef3dc45fe0b693b13f50ebd1576b)
+pr$n / pr$seed: 2713 / 20260710 (contract asserted)
+domains: full 2713/115/114 [DEC-042a]; period pre 1994/83/82, post 711/31/31, NA 8/2 [DEC-042b]
+aggregates: full 114 / pre 82 / post 31 (one-effect-per-cluster aggregates: metafor aggregate.escalc, struct="CS", rho=0.6 (T1/A5 convention [DEC-031g/F65]))
+q_status pins [DEC-031g, F60 pattern]: 0_published = 2033/101/100; 1_not published = 680/14/14
+sez provenance [P-T5-2]: sez = sqrt(vi), derived in-script; raw SE column never read; PEESE regressor I(sez^2) == vi
+direction pins [P-T5-2]: selmodel alternative="less"; puni_star side="left" (selection favors significant negative effects)
+PET->PEESE rule [P-T5-1]: both always computed and reported; alignment at two-sided alpha = 0.05 on the CR2/Satterthwaite PET intercept:
+  D1: PET intercept p = 0.010620 -> PEESE carries the corrected-estimate claim [P-T5-1]
+  D4_pre: PET intercept p = 0.049729 -> PEESE carries the corrected-estimate claim [P-T5-1]
+  D4_post: PET intercept p = 0.009835 -> PEESE carries the corrected-estimate claim [P-T5-1]
+[P-T5-4] not-estimable signature list (case-insensitive substrings): {converg, opposite sign}; any other off-spine condition = S5 hard stop
+D3 (RoBMA) executes in the H-session [DEC-031g]; no bp rows [P-T5-5]; trim-and-fill excluded [DEC-031a.4]
+Convergence certificates (7 fits):
+  D1_pet -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3]
+  D1_peese -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3]
+  D4_pet_pre -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3]
+  D4_peese_pre -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3]
+  D4_pet_post -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3]
+  D4_peese_post -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3]
+  D5_grey_panel (cell-means) -- optimizer nlminb; converged (metafor-certified: rma.mv halts unless certified); ladder n/a (factor-only, cell-means) [DEC-031f R1]
+R6 control fit: PASS — D1 pet (nlminb) re-fit under optim/BFGS on the identical domain, max|dbeta| = 5.665e-06 < 1e-5 [DEC-031f R6]
+N_ROWS = 53 (budget: 9 design + 15 PET/PEESE/rule + 25 selection + 4 grey panel)
+
+sessionInfo():
+R version 4.6.1 (2026-06-24 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26200)
+
+Matrix products: default
+  LAPACK version 3.12.1
+
+locale:
+[1] LC_COLLATE=German_Austria.utf8  LC_CTYPE=German_Austria.utf8   
+[3] LC_MONETARY=German_Austria.utf8 LC_NUMERIC=C                   
+[5] LC_TIME=German_Austria.utf8    
+
+time zone: Europe/Vienna
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices datasets  utils     methods   base     
+
+other attached packages:
+[1] readr_2.2.0         here_1.0.2          puniform_0.2.8     
+[4] clubSandwich_0.7.0  metafor_5.0-1       numDeriv_2016.8-1.1
+[7] metadat_1.6-0       Matrix_1.7-5       
+
+loaded via a namespace (and not attached):
+ [1] crayon_1.5.3     vctrs_0.7.3      nlme_3.1-169     cli_3.6.6       
+ [5] rlang_1.2.0      renv_1.2.3       bit_4.6.0        zoo_1.8-15      
+ [9] glue_1.8.1       rprojroot_2.1.1  hms_1.1.4        grid_4.6.1      
+[13] tibble_3.3.1     tzdb_0.5.0       lifecycle_1.0.5  compiler_4.6.1  
+[17] mathjaxr_2.0-0   sandwich_3.1-1   Rcpp_1.1.1-1.1   pkgconfig_2.0.3 
+[21] lattice_0.22-9   digest_0.6.39    R6_2.6.1         tidyselect_1.2.1
+[25] parallel_4.6.1   vroom_1.7.1      pillar_1.11.1    magrittr_2.0.5  
+[29] bit64_4.8.2      tools_4.6.1     
