@@ -117,8 +117,16 @@ stopifnot(nlevels(esm) == 2)
 biv_lvl <- levels(esm)[grepl("bivar", levels(esm), ignore.case = TRUE)]
 stopifnot(length(biv_lvl) == 1)
 is_pcc <- esm != biv_lvl
-stopifnot(near0(dat$vi_k10[is_pcc], 1 / (dat$n_obs[is_pcc] - 13), 1e-9),
-          near0(dat$vi_k20[is_pcc], 1 / (dat$n_obs[is_pcc] - 23), 1e-9))
+# [runtime fix 2026-07-24 #2] dat_prep stores n_obs non-numerically; the
+# pinned identity is type-agnostic, so coerce ONCE and let the 1e-9
+# identity itself validate the coercion (a mangled parse cannot
+# reproduce the precomputed vi_k columns). No-NA gate on PCC rows only —
+# bivariate rows may legitimately carry NA/blank n_obs.
+n_obs_num <- suppressWarnings(as.numeric(as.character(dat$n_obs)))
+stopifnot(is.numeric(dat$vi_k10), is.numeric(dat$vi_k20),
+          !anyNA(n_obs_num[is_pcc]))
+stopifnot(near0(dat$vi_k10[is_pcc], 1 / (n_obs_num[is_pcc] - 13), 1e-9),
+          near0(dat$vi_k20[is_pcc], 1 / (n_obs_num[is_pcc] - 23), 1e-9))
 dat$vi_dfE <- dat$vi
 dat$vi_k10 <- ifelse(is_pcc, dat$vi_k10, dat$vi)   # bivariate rows keep base
 dat$vi_k20 <- ifelse(is_pcc, dat$vi_k20, dat$vi)

@@ -242,8 +242,11 @@ if (pr_ok) {
   if (ok12) {
     pcc <- esm != biv
     rv <- row_of("TH_design", "design", "vi_k_identity")
-    ok12 <- near(dd$vi_k10[pcc], 1 / (dd$n_obs[pcc] - 13), 1e-9) &&
-      near(dd$vi_k20[pcc], 1 / (dd$n_obs[pcc] - 23), 1e-9) &&
+    nno <- suppressWarnings(as.numeric(as.character(dd$n_obs)))
+    ok12 <- is.numeric(dd$vi_k10) && is.numeric(dd$vi_k20) &&
+      !anyNA(nno[pcc]) &&
+      near(dd$vi_k10[pcc], 1 / (nno[pcc] - 13), 1e-9) &&
+      near(dd$vi_k20[pcc], 1 / (nno[pcc] - 23), 1e-9) &&
       nrow(rv) == 1 && rv$value == sum(pcc)
   }
   check("O12", ok12,
