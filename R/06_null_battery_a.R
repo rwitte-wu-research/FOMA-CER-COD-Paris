@@ -441,37 +441,39 @@ for (s in seq_len(H7_STEPS)) {
   d <- sub[sub$study %in% cum_studies, , drop = FALSE]
   kC <- length(unique(d$cluster_id))
   if (is.na(floor_step) && kC >= H7_FLOOR_K) floor_step <- s
-  mS <- tryCatch(fit3l(~ 1, d, sprintf("H7_step_%03d (+ %s)", s, ordS[s])),
-                 error = function(e) e)
-  if (inherits(mS, "error")) {
-    h7_rows[[s]] <- row_base(
+  h7_rows[[s]] <- tryCatch({
+    # [runtime fix 2026-07-24] guard extended over the ENTIRE step body:
+    # the ruled robustness fix ("no hard stop at single-cluster steps")
+    # covered only fit3l; vcovCR requires >= 2 clusters, so at step 001
+    # the fit converged and the CR2 step aborted the run. Any failure in
+    # fit OR CR2/Satterthwaite now folds into the not_estimable path.
+    mS <- fit3l(~ 1, d, sprintf("H7_step_%03d (+ %s)", s, ordS[s]))
+    ct <- coef_test(mS, vcov = vcr(mS, d), test = "Satterthwaite")
+    ci <- conf_int(mS, vcov = vcr(mS, d), level = .95)
+    flg <- if (kC < H7_FLOOR_K)
+      sprintf("display floor: point-only in the figure (clusters = %d < %d) [DEC-045/H-Q17; presentational only, CI retained here]", kC, H7_FLOOR_K)
+    else "full display (CI band)"
+    row_base(
       "H7", "cumulative", sprintf("step_%03d", s), "Fisher_z",
       subset = ordS[s],
       k_es = nrow(d), k_study = s, k_cluster = kC,
+      est_z = ct$beta[1], se_z = ct$SE[1], t_stat = ct$tstat[1],
+      df = (ct$df_Satt %||% ct$df)[1], p = (ct$p_Satt %||% ct$p)[1],
+      ci_lb_z = ci$CI_L[1], ci_ub_z = ci$CI_U[1],
+      est_r = tanh(ct$beta[1]), ci_lb_r = tanh(ci$CI_L[1]),
+      ci_ub_r = tanh(ci$CI_U[1]), sigma2 = mS$sigma2,
       note = paste0(
         sprintf("cumulative 3L refit after adding study '%s' (median sample_mid = %.2f); ordering: study-wise median sample_mid, ties alphabetical [DEC-045/H-Q17]; ",
-                ordS[s], med[[ordS[s]]]),
-        sprintf("not_estimable: %s; planned key retained (budget 177) [DEC-045; package-review robustness fix 2026-07-22]",
-                conditionMessage(mS))))
-    next
-  }
-  ct <- coef_test(mS, vcov = vcr(mS, d), test = "Satterthwaite")
-  ci <- conf_int(mS, vcov = vcr(mS, d), level = .95)
-  flg <- if (kC < H7_FLOOR_K)
-    sprintf("display floor: point-only in the figure (clusters = %d < %d) [DEC-045/H-Q17; presentational only, CI retained here]", kC, H7_FLOOR_K)
-  else "full display (CI band)"
-  h7_rows[[s]] <- row_base(
+                ordS[s], med[[ordS[s]]]), flg))
+  }, error = function(e) row_base(
     "H7", "cumulative", sprintf("step_%03d", s), "Fisher_z",
     subset = ordS[s],
     k_es = nrow(d), k_study = s, k_cluster = kC,
-    est_z = ct$beta[1], se_z = ct$SE[1], t_stat = ct$tstat[1],
-    df = (ct$df_Satt %||% ct$df)[1], p = (ct$p_Satt %||% ct$p)[1],
-    ci_lb_z = ci$CI_L[1], ci_ub_z = ci$CI_U[1],
-    est_r = tanh(ct$beta[1]), ci_lb_r = tanh(ci$CI_L[1]),
-    ci_ub_r = tanh(ci$CI_U[1]), sigma2 = mS$sigma2,
     note = paste0(
       sprintf("cumulative 3L refit after adding study '%s' (median sample_mid = %.2f); ordering: study-wise median sample_mid, ties alphabetical [DEC-045/H-Q17]; ",
-              ordS[s], med[[ordS[s]]]), flg))
+              ordS[s], med[[ordS[s]]]),
+      sprintf("not_estimable: %s; planned key retained (budget 177) [DEC-045; package-review robustness fix 2026-07-22 + runtime fix 2026-07-24]",
+              conditionMessage(e)))))
 }
 rows <- c(rows, h7_rows)
 stopifnot(nrow(sub[sub$study %in% ordS, ]) == N_SUB)
