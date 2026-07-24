@@ -7,7 +7,7 @@
 # ---------------------------------------------------------------------
 # Authority: DEC-045 (as amended 2026-07-22: clean_window enumeration,
 #   delta grid, rstudent THRESHOLD = 3, winsor P1/P99, vi_k10/k20 direct
-#   consumption, dat_prep fields n_obs / ES_measure) · DEC-031e/f ·
+#   consumption via the vi-internal identity, ES_measure) · DEC-031e/f ·
 #   DEC-042a/b · A.13 · H-Q14/15/16/18/20 + R1–R3 (Master v2) ·
 #   F65 anchors · TH-a design row h4_admissible_years (cross-run).
 # Determinism: PERMS (500 cluster permutations) generated FIRST under
@@ -97,7 +97,7 @@ near0 <- function(a, b, tol) all(is.finite(a) & is.finite(b)) &&
 pr <- readRDS(here("output", "dat_prep.rds"))
 stopifnot(is.list(pr), !is.null(pr$dat), pr$n == N_SET, pr$seed == SEED)
 dat <- pr$dat
-need <- c("zi","vi","vi_k10","vi_k20","n_obs","ES_measure","cluster_id",
+need <- c("zi","vi","vi_k10","vi_k20","ES_measure","cluster_id",
           "study","esid","sample_mid","sample_mid_c","sample_median",
           "pp_mid_lag0","pp_median_lag0","pp_end_lag0","pp_end_lag1",
           "pp_end_lag2","pp_end_lag3","share_2016","share_2017",
@@ -117,16 +117,29 @@ stopifnot(nlevels(esm) == 2)
 biv_lvl <- levels(esm)[grepl("bivar", levels(esm), ignore.case = TRUE)]
 stopifnot(length(biv_lvl) == 1)
 is_pcc <- esm != biv_lvl
-# [runtime fix 2026-07-24 #2] dat_prep stores n_obs non-numerically; the
-# pinned identity is type-agnostic, so coerce ONCE and let the 1e-9
-# identity itself validate the coercion (a mangled parse cannot
-# reproduce the precomputed vi_k columns). No-NA gate on PCC rows only —
-# bivariate rows may legitimately carry NA/blank n_obs.
-n_obs_num <- suppressWarnings(as.numeric(as.character(dat$n_obs)))
-stopifnot(is.numeric(dat$vi_k10), is.numeric(dat$vi_k20),
-          !anyNA(n_obs_num[is_pcc]))
-stopifnot(near0(dat$vi_k10[is_pcc], 1 / (n_obs_num[is_pcc] - 13), 1e-9),
-          near0(dat$vi_k20[is_pcc], 1 / (n_obs_num[is_pcc] - 23), 1e-9))
+# [runtime fix 2026-07-24 #3, author-ruled] dat_prep$n_obs mirrors the RAW
+# workbook extraction column (on PCC rows: 85x "FLAG", 156x NA, 2x
+# spaced-text; where numeric it equals the clean firm-years basis
+# exactly). The pinned identity therefore re-anchors vi-internally:
+# under the F21 base convention vi = 1/(n - 3), the k-shift identity is
+# algebraically vi_k10 = 1/(1/vi - 10) and vi_k20 = 1/(1/vi - 20) on
+# PCC rows. No n column is consumed anywhere in TH-c; this validates
+# the precomputed k-columns AND the base-vi convention at once.
+# Author-verified on dat_prep before commit (max abs dev ~ 1e-15).
+# Tiny-n edge (v12-verified): exactly one PCC row has n = 18 <= 23, so
+# 1/(n - 23) is nonpositive there -- that row is excluded from the k20
+# identity AND from every k20 cell (df_basis filter below), disclosed
+# in the vi_k_identity design row. vi_k10 is strictly positive
+# everywhere (min n = 18 > 13).
+stopifnot(is.numeric(dat$vi), is.numeric(dat$vi_k10),
+          is.numeric(dat$vi_k20),
+          all(is.finite(dat$vi_k10) & dat$vi_k10 > 0))
+k20_bad <- !is.finite(dat$vi_k20) | dat$vi_k20 <= 0
+stopifnot(all(is_pcc[k20_bad]), sum(k20_bad) <= 3L)
+ok20 <- is_pcc & !k20_bad
+stopifnot(near0(dat$vi_k10[is_pcc], 1 / (1 / dat$vi[is_pcc] - 10), 1e-9),
+          near0(dat$vi_k20[ok20],  1 / (1 / dat$vi[ok20]  - 20), 1e-9))
+dat$k20_bad <- k20_bad
 dat$vi_dfE <- dat$vi
 dat$vi_k10 <- ifelse(is_pcc, dat$vi_k10, dat$vi)   # bivariate rows keep base
 dat$vi_k20 <- ifelse(is_pcc, dat$vi_k20, dat$vi)
@@ -666,6 +679,7 @@ cell_fun <- function(i) {
   cv <- cod_obs[[g$coding]]
   keep <- !is.na(cv)
   if (g$es_set == "no_starbound") keep <- keep & sub$flag_starbound == 0
+  if (g$df_basis == "k20")        keep <- keep & !sub$k20_bad
   if (g$outlier == "rstudent")    keep <- keep & !sub$mask_out
   dd <- sub[keep, , drop = FALSE]
   cvk <- cv[keep]
@@ -790,7 +804,7 @@ rows <- c(rows, list(
   design_row("winsor_bounds", "count", value = NA_real_,
              note = sprintf("zi winsorized at empirical P1/P99 of the full estimation set: [%.6f, %.6f], computed once", WB[1], WB[2])),
   design_row("vi_k_identity", "count", value = sum(is_pcc),
-             note = "load assert PASSED: vi_k10 = 1/(n_obs - 13) and vi_k20 = 1/(n_obs - 23) on PCC rows (1e-9); bivariate rows carry base vi in the k-columns [DEC-045 amendment]"),
+             note = sprintf("load assert PASSED: vi_k10 = 1/(1/vi - 10) and vi_k20 = 1/(1/vi - 20) on PCC rows (1e-9; algebraically identical to 1/(n-13), 1/(n-23) under the F21 base convention vi = 1/(n-3)); bivariate rows carry base vi in the k-columns; the raw n_obs extraction column is NOT consumed; k20 basis excludes %d row(s) with nonpositive/NA vi_k20 (tiny-n edge, n <= 23) from all k20 cells -- disclosed [DEC-045 amendment; author ruling 2026-07-24]", sum(dat$k20_bad))),
   design_row("core_cells", "count", value = length(CODINGS),
              note = paste("core cell keys:", paste(core_key, collapse = "; ")))))
 

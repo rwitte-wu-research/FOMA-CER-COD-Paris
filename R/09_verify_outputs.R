@@ -76,7 +76,7 @@ if (file.exists(PATH_DAT_PREP)) {
   pr_ok <- is.list(pr) && !is.null(pr$dat) &&
     identical(as.integer(pr$n), K_ES) &&
     identical(as.integer(pr$seed), 20260710L) &&
-    all(c("zi","vi","vi_k10","vi_k20","n_obs","ES_measure","cluster_id",
+    all(c("zi","vi","vi_k10","vi_k20","ES_measure","cluster_id",
           "study","pp_mid_lag0","flag_starbound") %in% names(pr$dat)) &&
     nrow(pr$dat) == K_ES
 }
@@ -242,15 +242,20 @@ if (pr_ok) {
   if (ok12) {
     pcc <- esm != biv
     rv <- row_of("TH_design", "design", "vi_k_identity")
-    nno <- suppressWarnings(as.numeric(as.character(dd$n_obs)))
-    ok12 <- is.numeric(dd$vi_k10) && is.numeric(dd$vi_k20) &&
-      !anyNA(nno[pcc]) &&
-      near(dd$vi_k10[pcc], 1 / (nno[pcc] - 13), 1e-9) &&
-      near(dd$vi_k20[pcc], 1 / (nno[pcc] - 23), 1e-9) &&
-      nrow(rv) == 1 && rv$value == sum(pcc)
+    k20b <- !is.finite(dd$vi_k20) | dd$vi_k20 <= 0
+    okr <- pcc & !k20b
+    ok12 <- is.numeric(dd$vi) && is.numeric(dd$vi_k10) &&
+      is.numeric(dd$vi_k20) &&
+      all(is.finite(dd$vi_k10) & dd$vi_k10 > 0) &&
+      all(pcc[k20b]) && sum(k20b) <= 3 &&
+      near(dd$vi_k10[pcc], 1 / (1 / dd$vi[pcc] - 10), 1e-9) &&
+      near(dd$vi_k20[okr], 1 / (1 / dd$vi[okr] - 20), 1e-9) &&
+      nrow(rv) == 1 && rv$value == sum(pcc) &&
+      grepl("1/(1/vi - 10)", rv$note, fixed = TRUE) &&
+      grepl("k20 basis excludes", rv$note, fixed = TRUE)
   }
   check("O12", ok12,
-        "ES_measure has 2 levels (one bivariate); vi_k10/k20 identity on PCC rows recomputed (1e-9); design-row count == #PCC rows")
+        "ES_measure has 2 levels (one bivariate); vi-internal k-identity recomputed (1e-9; = 1/(n-13), 1/(n-23) under vi = 1/(n-3)); k20 identity scoped past the tiny-n row(s) (<= 3, PCC-only); design-row count + exclusion disclosure present")
 } else check("O12", FALSE, "vi_k identity (dat_prep unavailable)")
 
 # ---- O13 permutation list artifact -------------------------------------------
