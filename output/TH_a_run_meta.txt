@@ -1,0 +1,197 @@
+TH-a run meta -- 2026-07-24 22:46:16 CEST
+dat_prep md5:  6702ef3dc45fe0b693b13f50ebd1576b
+pr$n / pr$seed: 2713 / 20260710 (contract asserted)
+domains: E1 = 2713/115/114 [DEC-042a]; E2/H = 2705/113/112 [DEC-042b]
+anchor gates PASSED: committed T1/A1 + T1/A2 + T2/B1 value-matched at 1e-9 (embedded constants); TH-a refits identity at 1e-6 [F65]
+TOST bands: E1 z = atanh(0.070) = 0.070114671 primary / atanh(0.05) = 0.050041729 secondary; E2 z-difference band = 0.050 (|dz| read as |dr|, third-order approx) [DEC-045 E-pins]
+H4 admissible years (df >= 5, observed design, fixed for TH-c): 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019
+H4 observed sup |t| = 2.122533 at 2009
+H6 tie exclusion: 79 ES / 5 studies / 5 clusters at mid = 2015.5; domain 2626/108/107
+H7: 113 steps; floor step = 10 ('Chen, Gao (2011)'); ordering = study-median sample_mid, ties alphabetical
+H8: anchor 1998, 21 windows; tiers <5 not_estimable / 5-9 descriptive / >=10 full [S6]
+H10: k_sig = 28 (rule >= 5); branch = tests computed; NCP_33 = 1.529236685
+H11: Li et al (2022) 17 ES = 12 pre / 5 post (asserted); straddle per design rows
+E3: gate configuration written; RESOLUTION deferred to the documented post-run step [DEC-044/DEC-045]
+Convergence certificates (148 fits):
+  E1_pooled (T1/A1 refit) [k=2713] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  E2_paris (T2/B1 refit) [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2008 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2009 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2010 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2011 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2012 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2013 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2014 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2015 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2016 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2017 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2018 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H4_break_2019 [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H6_zarea_transplant [k=2626] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_001 (+ Nandy, Lodh (2012)) [k=6] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_002 (+ Chava (2010)) [k=56] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_003 (+ Schneider (2010)) [k=66] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_004 (+ Chava (2014)) [k=88] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_005 (+ Oikonomou et al (2014)) [k=93] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_006 (+ Bauer, Hann (2010)) [k=259] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_007 (+ Ge, Liu (2015)) [k=263] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_008 (+ Jiraporn et al (2014)) [k=264] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_009 (+ Chen et al (2020)) [k=312] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_010 (+ Chen, Gao (2011)) [k=316] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_011 (+ Chodnicka-Jaworska (2022)) [k=326] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_012 (+ Erragragui (2018)) [k=330] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_013 (+ Zheng (2021)) [k=338] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_014 (+ Li et al (2014)) [k=356] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_015 (+ Hoepner et al (2016)) [k=375] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_016 (+ Wang et al (2020)) [k=393] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_017 (+ D'Arcangelo et al (2025)) [k=452] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_018 (+ Du et al (2015)) [k=484] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_019 (+ Hansen & Marcet (2025)) [k=520] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_020 (+ Trinh et al (2024)) [k=624] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_021 (+ Al-Fakir Al Rabab'a et al (2023)) [k=680] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_022 (+ Attig et al (2025)) [k=696] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_023 (+ Bannier et al (2022)) [k=709] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_024 (+ Drago, Carnevale (2020)) [k=710] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_025 (+ Eichholtz et al (2019)) [k=746] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_026 (+ Eliwa et al (2021)) [k=748] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_027 (+ Salvi et al (2021)) [k=753] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_028 (+ Fonseka et al (2019a)) [k=824] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_029 (+ Fonseka et al (2019b)) [k=829] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_030 (+ Jung et al (2016)) [k=846] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_031 (+ Li & Qiu (2026)) [k=908] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_032 (+ Safiullah et al (2021)) [k=941] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_033 (+ Atif, Ali (2021)) [k=943] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_034 (+ Delis et al (2021)) [k=975] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_035 (+ Höck et al (2020)) [k=985] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_036 (+ Yang et al (2024)) [k=1009] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_037 (+ Cubas, Martinez (2018)) [k=1044] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_038 (+ Drago et al (2018)) [k=1046] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_039 (+ Ehlers et al (2021)) [k=1068] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_040 (+ Li et al (2022)) [k=1085] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_041 (+ Ofogbe et al (2021)) [k=1087] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_042 (+ Okimoto & Takaoka (2024)) [k=1119] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_043 (+ Safiullah et al (2025)) [k=1175] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_044 (+ Truong, Kim (2019)) [k=1185] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_045 (+ Wu et al (2020)) [k=1197] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_046 (+ Zhou et al (2024)) [k=1229] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_047 (+ Ali et al (2023)) [k=1239] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_048 (+ Hamrouni et al (2019a)) [k=1241] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_049 (+ Hu et al (2024)) [k=1290] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_050 (+ Jang et al (2020)) [k=1291] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_051 (+ Kleimeier, Viehs (2021)) [k=1320] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_052 (+ Lemma et al (2017)) [k=1328] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_053 (+ Mahmoudian et al (2023)) [k=1336] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_054 (+ Okimoto, Takaoka (2022)) [k=1346] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_055 (+ Sandra et al (2021)) [k=1349] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_056 (+ Shad et al (2022)) [k=1351] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_057 (+ Maaloul, Wegener (2021)) [k=1407] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_058 (+ Seltzer et al (2022)) [k=1419] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_059 (+ Zhou et al (2018)) [k=1441] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_060 (+ Caragnano et al (2020)) [k=1446] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_061 (+ Dumrose & Höck (2023)) [k=1477] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_062 (+ Duong et al (2025)) [k=1512] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_063 (+ Kim & Pouget (2026)) [k=1545] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_064 (+ Pizzutilo et al (2020)) [k=1565] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_065 (+ Srivisal et al (2021)) [k=1573] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_066 (+ Sze et al (2021)) [k=1591] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_067 (+ Zhang et al (2023)) [k=1711] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_068 (+ Azmi et al (2021)) [k=1714] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_069 (+ Borsuk & Shrimali (2026)) [k=1719] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_070 (+ Christ et al (2022)) [k=1754] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_071 (+ Hui et al (2024)) [k=1790] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_072 (+ Kölbel et al (2020)) [k=1844] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_073 (+ Ma et al (2022)) [k=1858] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_074 (+ Palea, Drogo (2020)) [k=1894] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_075 (+ Yilmaz (2022)) [k=1898] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_076 (+ Zhu, Zhao (2022)) [k=1926] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_077 (+ Apergis et al (2022)) [k=1928] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_078 (+ Ben Slimane et al (2019)) [k=1936] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_079 (+ Devalle et al (2017)) [k=1939] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_080 (+ Ding et al (2022)) [k=1947] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_081 (+ Kim, Kim (2022)) [k=1980] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_082 (+ Lee (2022)) [k=1989] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_083 (+ Luo et al (2019)) [k=1999] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_084 (+ Ho & Wong (2023)) [k=2037] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_085 (+ Kordschia (2020)) [k=2042] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_086 (+ Owolabi et al (2024)) [k=2048] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_087 (+ Ririmasse et al (2026)) [k=2066] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_088 (+ Xiang & Gong (2026)) [k=2078] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_089 (+ Du et al (2022)) [k=2080] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_090 (+ Tan et al (2021)) [k=2086] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_091 (+ Wang et al (2022a)) [k=2087] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_092 (+ Lin et al (2025)) [k=2116] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_093 (+ Liu et al (2023)) [k=2126] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_094 (+ Nasih et al (2024)) [k=2131] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_095 (+ Ratajczak & Mikolajewicz (2021)) [k=2137] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_096 (+ Tan et al (2026)) [k=2162] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_097 (+ Temiz (2022)) [k=2175] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_098 (+ Wang et al (2025a)) [k=2199] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_099 (+ Panjwani et al (2023)) [k=2369] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_100 (+ Tang et al (2023)) [k=2382] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_101 (+ Boermans et al (2023)) [k=2443] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_102 (+ Boubaker et al (2026)) [k=2459] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_103 (+ Gonzales Sanches et al (2026)) [k=2476] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_104 (+ Shi et al (2025)) [k=2491] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_105 (+ Wang & Wijethilake (2026)) [k=2499] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_106 (+ Ali et al (2026)) [k=2508] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_107 (+ Kozak (2021)) [k=2529] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_108 (+ Altavilla et al (2024)) [k=2611] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_109 (+ Brinette et al (2026)) [k=2623] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_110 (+ Ferriani (2022)) [k=2653] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_111 (+ Wang et al (2025b)) [k=2669] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_112 (+ Almutairi (2026)) [k=2685] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H7_step_113 (+ Cicchini et al (2026)) [k=2705] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_1998-2003 [k=312] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_1999-2004 [k=306] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2000-2005 [k=242] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2001-2006 [k=75] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2003-2008 [k=67] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2004-2009 [k=85] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2005-2010 [k=436] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2006-2011 [k=674] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2007-2012 [k=1008] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2008-2013 [k=1368] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2009-2014 [k=1552] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2010-2015 [k=1676] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2011-2016 [k=1339] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2012-2017 [k=1365] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2013-2018 [k=1097] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2014-2019 [k=823] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2015-2020 [k=754] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2016-2021 [k=612] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2017-2022 [k=618] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+  H8_window_2018-2023 [k=336] -- optimizer nlminb (ladder rung 1/3); converged (metafor-certified) [DEC-031f R2/R3; DEC-045 every-spine-fit pin]
+
+sessionInfo():
+R version 4.6.1 (2026-06-24 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26200)
+
+Matrix products: default
+  LAPACK version 3.12.1
+
+locale:
+[1] LC_COLLATE=German_Austria.utf8  LC_CTYPE=German_Austria.utf8   
+[3] LC_MONETARY=German_Austria.utf8 LC_NUMERIC=C                   
+[5] LC_TIME=German_Austria.utf8    
+
+time zone: Europe/Vienna
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices datasets  utils     methods   base     
+
+other attached packages:
+[1] readr_2.2.0         here_1.0.2          clubSandwich_0.7.0 
+[4] metafor_5.0-1       numDeriv_2016.8-1.1 metadat_1.6-0      
+[7] Matrix_1.7-5       
+
+loaded via a namespace (and not attached):
+ [1] crayon_1.5.3     vctrs_0.7.3      nlme_3.1-169     cli_3.6.6       
+ [5] rlang_1.2.0      renv_1.2.3       bit_4.6.0        zoo_1.8-15      
+ [9] glue_1.8.1       rprojroot_2.1.1  hms_1.1.4        grid_4.6.1      
+[13] tibble_3.3.1     tzdb_0.5.0       lifecycle_1.0.5  compiler_4.6.1  
+[17] mathjaxr_2.0-0   sandwich_3.1-1   pkgconfig_2.0.3  lattice_0.22-9  
+[21] digest_0.6.39    R6_2.6.1         tidyselect_1.2.1 parallel_4.6.1  
+[25] vroom_1.7.1      pillar_1.11.1    magrittr_2.0.5   tools_4.6.1     
+[29] bit64_4.8.2     
