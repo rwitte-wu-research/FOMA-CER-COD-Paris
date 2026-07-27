@@ -232,34 +232,56 @@ get_col <- function(df, cands, what) {
     paste(colnames(df), collapse = ", "), "}"))
   hit[[1]]
 }
+# col_opt: non-stopping column lookup — returns NULL instead of a fix-zone
+# stop, so the element scan below can SKIP tables that merely share a row
+# name with the target (the RoBMA.reg components table carries a "period"
+# row BEFORE the estimates table; element-order collision, ERROR_LOG #17).
+col_opt <- function(df, cands) {
+  hit <- intersect(cands, colnames(df))
+  if (length(hit)) hit[[1]] else NULL
+}
 find_bf10 <- function(s, pattern, what) {
+  skipped <- character(0)
   for (el in s) {
     if ((is.data.frame(el) || is.matrix(el)) && !is.null(rownames(el))) {
-      i <- grep(pattern, rownames(el), ignore.case = TRUE)
+      df <- as.data.frame(el)
+      i <- grep(pattern, rownames(df), ignore.case = TRUE)
       if (length(i) == 1) {
-        cn <- get_col(as.data.frame(el),
-                      c("inclusion_BF", "Inclusion BF", "inclusion_bf", "BF"),
-                      what)
-        v <- num1(as.data.frame(el)[i, cn])
+        cn <- col_opt(df, c("inclusion_BF", "Inclusion BF", "inclusion_bf",
+                            "BF"))
+        if (is.null(cn)) {                 # row match, no BF column:
+          skipped <- c(skipped, paste0("{",  # keep searching [#17]
+            paste(colnames(df), collapse = ","), "}"))
+          next
+        }
+        v <- num1(df[i, cn])
         if (!is.finite(v) || v <= 0) fixzone(what, paste0("BF10 = ", v))
         return(v)
       }
     }
   }
-  fixzone(what, paste0("no unique row matching '", pattern,
-                       "' in summary elements {",
+  fixzone(what, paste0("no element with a unique row matching '", pattern,
+                       "' AND a BF column; matching-but-skipped column sets: ",
+                       if (length(skipped)) paste(skipped, collapse = " ")
+                       else "none", "; summary elements {",
                        paste(names(s), collapse = ", "), "}"))
 }
 find_est <- function(s, pattern, what) {
+  skipped <- character(0)
   for (el in s) {
     if ((is.data.frame(el) || is.matrix(el)) && !is.null(rownames(el))) {
       df <- as.data.frame(el)
       i <- grep(pattern, rownames(df), ignore.case = TRUE)
       if (length(i) >= 1) {
+        cm <- col_opt(df, c("Mean", "mean", "Median", "median"))
+        cl <- col_opt(df, c("0.025", "2.5%", "lCI", "l.CI"))
+        cu <- col_opt(df, c("0.975", "97.5%", "uCI", "u.CI"))
+        if (is.null(cm) || is.null(cl) || is.null(cu)) {
+          skipped <- c(skipped, paste0("{",  # row match, no estimate
+            paste(colnames(df), collapse = ","), "}"))   # columns [#17]
+          next
+        }
         i <- i[[1]]
-        cm <- get_col(df, c("Mean", "mean", "Median", "median"), what)
-        cl <- get_col(df, c("0.025", "2.5%", "lCI", "l.CI"), what)
-        cu <- get_col(df, c("0.975", "97.5%", "uCI", "u.CI"), what)
         return(list(label = rownames(df)[i], n_match = length(
                       grep(pattern, rownames(df), ignore.case = TRUE)),
                     est = num1(df[i, cm]), lb = num1(df[i, cl]),
@@ -267,7 +289,10 @@ find_est <- function(s, pattern, what) {
       }
     }
   }
-  fixzone(what, paste0("no row matching '", pattern, "'"))
+  fixzone(what, paste0("no element with a row matching '", pattern,
+                       "' AND estimate columns; matching-but-skipped column ",
+                       "sets: ", if (length(skipped))
+                       paste(skipped, collapse = " ") else "none"))
 }
 extract_level <- function(fit, what) {
   s <- summary(fit)
@@ -340,8 +365,11 @@ smoke <- function() {
   invisible(TRUE)
 }
 sm <- tryCatch(smoke(), error = function(e) e)
-if (inherits(sm, "error"))
-  fixzone("R7-PRE smoke test", conditionMessage(sm))
+if (inherits(sm, "error")) {
+  m <- conditionMessage(sm)
+  if (grepl("PACKAGE-API MISMATCH", m, fixed = TRUE)) stop(sm)  # no re-wrap
+  fixzone("R7-PRE smoke test", m)
+}
 cat("R7-PRE PASS — both extraction machineries validated; canonical fits start\n")
 
 # ------------------------------ 5. Canonical fits ---------------------
