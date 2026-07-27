@@ -175,9 +175,15 @@ parse_bp <- function(l) {
     bf01 = as.numeric(sub("BF01=", "", ps[5])))
 }
 bpv <- if (length(bp)) do.call(rbind, lapply(bp, parse_bp)) else NULL
-o9a <- length(bp) >= 1 &&
-  all(relnear(as.numeric(bpv[, "bf10"]) * as.numeric(bpv[, "bf01"]), 1, 1e-9))
-ok("O9a", o9a, sprintf("BFPAIR lines (%d): BF10 x BF01 == 1 at 1e-9 rel.",
+# Saturated pairs (Inf/0) are legitimate [#18]: finite pair -> product 1;
+# saturated pair -> exact complement required.
+o9a <- length(bp) >= 1 && all(vapply(seq_len(nrow(bpv)), function(i) {
+  b10 <- as.numeric(bpv[i, "bf10"]); b01 <- as.numeric(bpv[i, "bf01"])
+  if (is.finite(b10) && is.finite(b01) && b10 > 0)
+    relnear(b10 * b01, 1, 1e-9)
+  else (is.infinite(b10) && b01 == 0) || (b10 == 0 && is.infinite(b01))
+}, logical(1)))
+ok("O9a", o9a, sprintf("BFPAIR lines (%d): BF10 x BF01 == 1 (finite) or exact saturated pair Inf/0 [#18]",
                        length(bp)))
 bfrows <- res[res$metric == "BF01" & !is.na(res$value), ]
 o9b <- TRUE
@@ -186,11 +192,13 @@ for (i in seq_len(nrow(bfrows))) {
   kmap <- paste0(tolower(r$analysis_id), "_", r$spec)
   comp <- sub("^bf01_", "", r$term)
   j <- which(bpv[, "key"] == kmap & bpv[, "comp"] == comp)
-  o9b <- o9b && length(j) == 1 &&
-    relnear(r$value, as.numeric(bpv[j, "bf01"]), 1e-9) && r$value > 0
+  mb <- if (length(j) == 1) as.numeric(bpv[j, "bf01"]) else NA_real_
+  match_ok <- if (length(j) == 1 && is.finite(mb) && mb > 0)
+    relnear(r$value, mb, 1e-9) else isTRUE(r$value == mb)  # 0==0, Inf==Inf [#18]
+  o9b <- o9b && length(j) == 1 && match_ok && r$value >= 0
 }
 ok("O9b", o9b && nrow(bfrows) >= 1,
-   sprintf("CSV BF01 values (%d rows) match run_meta BFPAIR at 1e-9 rel.; all > 0",
+   sprintf("CSV BF01 values (%d rows) match run_meta BFPAIR (saturated: exact); all >= 0",
            nrow(bfrows)))
 
 # ---- O10: metric vocabulary + scale conventions ----------------------

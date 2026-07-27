@@ -255,7 +255,9 @@ find_bf10 <- function(s, pattern, what) {
           next
         }
         v <- num1(df[i, cn])
-        if (!is.finite(v) || v <= 0) fixzone(what, paste0("BF10 = ", v))
+        if (is.na(v) || v < 0)          # saturated Inf/0 is a
+          fixzone(what, paste0("BF10 = ", v,   # LEGITIMATE value [#18]
+                               " (NA or negative)"))
         return(v)
       }
     }
@@ -333,6 +335,12 @@ log_bf <- function(key, comp, bf10) {
   BFPAIR <<- c(BFPAIR, sprintf("BFPAIR|%s|%s|BF10=%.12g|BF01=%.12g",
                                key, comp, bf10, 1 / bf10))
 }
+# Saturation tag for BF notes [#18]: with k = 114 aggregates and the
+# documented tau2 dominance, posterior inclusion probabilities can hit
+# the floating-point boundary; the raw pair Inf/0 is preserved and
+# labelled here — band rendering stays downstream [DEC-044].
+bf_sat <- function(bf10) if (is.infinite(bf10) || bf10 == 0)
+  "; SATURATED: posterior inclusion probability at the floating-point boundary — BF beyond double-precision resolution, raw pair Inf/0 preserved [#18]" else ""
 
 # ------------------------------ 4. [R7-PRE] extraction smoke test -----
 cat("R7-PRE — extraction smoke test (synthetic, non-canonical MCMC) ...\n")
@@ -362,6 +370,19 @@ smoke <- function() {
   e2 <- extract_reg(f2, "smoke/reg", need_coef = TRUE)
   stopifnot(is.finite(e2$bf10_per), is.finite(e2$coef$est),
             is.finite(e2$tau$est))
+  # probe 3 [#18]: saturation path — extreme synthetic heterogeneity
+  # drives the heterogeneity inclusion BF to the floating-point
+  # boundary; asserts the guard PASSES saturated values (Inf allowed)
+  # instead of stopping, and that the reciprocal is well-defined.
+  y3 <- rep(c(-0.6, 0.6), 4); se3 <- rep(0.02, 8)
+  f3 <- RoBMA(y = y3, se = se3, effect_direction = EFF_DIR,
+              transformation = TRANSF, prior_scale = PSCALE,
+              sample = 500, burnin = 250, adapt = 100, chains = 2,
+              autofit = FALSE, parallel = FALSE, seed = SEED,
+              silent = TRUE)
+  e3 <- extract_level(f3, "smoke/saturation")
+  stopifnot(is.infinite(e3$bf10_het) || e3$bf10_het > 100,
+            (1 / e3$bf10_het) >= 0)
   invisible(TRUE)
 }
 sm <- tryCatch(smoke(), error = function(e) e)
@@ -438,15 +459,15 @@ for (sp in names(h2a_specs)) {
              value = 1 / ex$bf10_eff,
              ms_input = prim, ms_label = if (prim) "bf01_level_primary"
                                          else NA_character_,
-             note = paste0(nn, sprintf("; inclusion BF10 (effect) = %.6g; BF01 = 1/BF10 quantifies evidence FOR the null of the effect component; raw value, band labelling downstream [DEC-044]", ex$bf10_eff))),
+             note = paste0(nn, sprintf("; inclusion BF10 (effect) = %.6g; BF01 = 1/BF10 quantifies evidence FOR the null of the effect component; raw value, band labelling downstream [DEC-044]", ex$bf10_eff), bf_sat(ex$bf10_eff))),
     row_base("H2a", sp, SUBSET_FULL, "bf01_heterogeneity", metric = "BF01",
              k_es = N_SET, k_study = N_SET_ST, k_cluster = K_AGG_FULL,
              value = 1 / ex$bf10_het,
-             note = paste0(nn, sprintf("; inclusion BF10 (heterogeneity) = %.6g; BF01 = 1/BF10", ex$bf10_het))),
+             note = paste0(nn, sprintf("; inclusion BF10 (heterogeneity) = %.6g; BF01 = 1/BF10", ex$bf10_het), bf_sat(ex$bf10_het))),
     row_base("H2a", sp, SUBSET_FULL, "bf01_bias", metric = "BF01",
              k_es = N_SET, k_study = N_SET_ST, k_cluster = K_AGG_FULL,
              value = 1 / ex$bf10_bias,
-             note = paste0(nn, sprintf("; inclusion BF10 (publication bias) = %.6g; BF01 = 1/BF10", ex$bf10_bias)))))
+             note = paste0(nn, sprintf("; inclusion BF10 (publication bias) = %.6g; BF01 = 1/BF10", ex$bf10_bias), bf_sat(ex$bf10_bias)))))
   rm(fit); invisible(gc())
 }
 
@@ -506,7 +527,7 @@ for (sp in names(h2b_specs)) {
              ms_input = cfg$prim,
              ms_label = if (cfg$prim) "bf01_moderation_primary"
                         else NA_character_,
-             note = paste0(nn, sprintf("; inclusion BF10 (period moderator) = %.6g; BF01 = 1/BF10 quantifies evidence FOR the null of Paris moderation; raw value, band labelling downstream [DEC-044]", ex$bf10_per))),
+             note = paste0(nn, sprintf("; inclusion BF10 (period moderator) = %.6g; BF01 = 1/BF10 quantifies evidence FOR the null of Paris moderation; raw value, band labelling downstream [DEC-044]", ex$bf10_per), bf_sat(ex$bf10_per))),
     row_base("H2b", sp, SUBSET_DEF, "tau_avg", metric = "tau",
              k_es = N_SUB, k_study = N_SUB_ST, k_cluster = H2B_ROWS,
              est_z = ex$tau$est, ci_lb_z = ex$tau$lb, ci_ub_z = ex$tau$ub,
