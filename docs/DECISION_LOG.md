@@ -950,6 +950,31 @@
 
 ---
 
+## DEC-047: Gate resolution [DEC-044] — Tier-1 wording set to the EQUIVALENCE REGISTER (pre-registered E3 ladder: E2 flag 1 × BF01(period) = 1.03 in the 1–3 band)
+
+**Block:** Framing (resolves the DEC-044 language lock) · 2026-07-27
+
+**Question:** Which wording register does the Tier-1 claim (Paris moderation) receive, now that all pre-registered gate inputs exist — the E2 equivalence flag and the TH-b Bayes factors — under the pinned E3 configuration (E2 pass required; BF01 ≥ 3 → full evidence-of-absence register; BF01 in 1–3 → equivalence register)?
+
+**Options considered:** (i) full register, sourced from the package-default BF01 = 8.49 — rejected: non-primary prior, different contrast parameterization (meandif mNormal(0, 0.25)), disclosed convergence caveats; electing it over the pre-specified primary would be post-hoc prior selection, exactly the objection the gate exists to preclude; (ii) equivalence register per the primary ladder input BF01 = 1.03 (chosen; author ruling 2026-07-27, following review of workbook tabs 6–7); (iii) further deferral — rejected: every pre-registered input is on file, so deferral would itself be undocumented discretion.
+
+**Chosen:**
+- Tier 1 (Paris moderation) = EQUIVALENCE REGISTER. Licensed claim family: "no detectable Paris-Agreement moderation; the post-minus-pre contrast is statistically equivalent to zero within the secondary SESOI band (±0.05 on Fisher-z)" — carried by E2 (diff_z = +0.010, p = .582; p_TOST = .022; 90% CI [−0.022; +0.042]) and coherent with the model-averaged contrast (+0.003, 95% CI [−0.031; +0.045]).
+- Bayes factors are reported descriptively, never as affirmative null evidence. Licensed sentence family: "under the pre-specified priors the Bayes factors remain anecdotal (BF01 = 1.03 / 1.17), with no support for moderation in any set (BF10 < 1 throughout); the diffuse package default yields BF01 = 8.49 and is shown as a sensitivity bracket with disclosed caveats."
+- LOCKED vocabulary (Tier 1): "evidence of absence"; "the data provide (moderate/strong) evidence for the null"; any headline sourcing of the 8.49 default; any Bayesian-affirmative null phrasing.
+- Tier 2 (pooled effect) unchanged per DEC-044: statistically detectable, economically negligible, explicitly NOT null (E1 flags 0). The RoBMA level ladder (BF01 = 7.03 / 2.38 / 1.69) is reported as a prior-sensitivity complement with the mixture mechanics disclosed (spike-bounded intervals; strong selection-component inclusion) — not as a null verdict.
+- Single-home: the register decision is voiced once in the Discussion (TB-55 successor) with one Results cross-reference; the D6 triangulation end version references this DEC.
+
+**Rationale:** The ladder predates every Bayes factor (DEC-044/045), and the primary prior N(0, 0.025) is SESOI-derived and pinned. Following the ladder where it points — although the diffuse default would license stronger wording — converts the apparent weakness (BF ≈ 1 is uninformative at the SESOI scale, bounded by k_post = 31) into the paper's credibility asset: the claim is exactly as strong as the pre-specified evidence permits, and the equivalence register is already fully carried by the frequentist TOST and the bounded contrasts.
+
+**Reviewer-Risk:** *Finance/Econometrics* — "BF01 = 8.49 was on the table; why not evidence of absence?" → pre-registration fidelity and refusal of prior shopping, documented here; "BF ≈ 1 means the Bayes layer was uninformative" → correct and disclosed; the Tier-1 claim never rests on the BF. *Management/BSE* — one register, one sentence family, no mixed messaging; the two-tier ladder preempts "you claim a null but the pooled effect is significant".
+
+**Consequences:** DEC-044 language lock RESOLVED. TB-55 unblocked → rewritten to the equivalence register; BLOCKED TBs TB-36/37/39/48–51 unblock into the same register and TB-41/42/46 finalize (manuscript phase; workbook edits then). D6 triangulation end version (Status Z39) finalizable. TH.md verdict receives its final register sentence in the manuscript phase. Status touch: Analyse_Batterie E3 row → erledigt with the resolution string; DecisionLog_Index 56 → 57 (row 61). Manuscript phase unblocked: Framing A [DEC-044] with the register fixed here.
+
+**Files:** docs/DECISION_LOG.md · docs/CER-COD_Status.xlsx (index + E3 + D6) · [manuscript phase: TB rewrites in the three TH workbooks; TH.md verdict finalization].
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).
