@@ -1,0 +1,371 @@
+TH-b run meta -- 2026-07-27 16:22:52 CEST
+authority: DEC-045 (H2a/H2b pins) · DEC-046 (F66 closure, version + scale-path pins) · DEC-031b · DEC-044 (framing-neutral)
+dat_prep md5:  6702ef3dc45fe0b693b13f50ebd1576b (asserted == pin 6702ef3dc45fe0b693b13f50ebd1576b)
+versions: R 4.6.1 | RoBMA 3.6.1 (pin 3.6.1) | BayesTools 0.2.23 (pin 0.2.23) | rjags 4.17 | JAGS 4.3.2
+seed 20260710; effect_direction "negative" [P-T5-2/DEC-046]; transformation/prior_scale "none" (priors on Fisher-z verbatim); sequential chains + single-thread Rblas = target load [DEC-046]; 3.x MCMC defaults incl. autofit=TRUE (per-fit realizations below)
+prior constants [DEC-031b/045/046]: COE mu -0.041 | COE sigma 0.0211734694 (= 0.083/3.92) | wide sigma 0.0423469388 (= 2x) | contrast sigma 0.025 | contrast wide 0.050
+domains: H2a 2713/115/114, k_agg 114 [DEC-042a]; H2b period domain 2705/113/112 [DEC-042b]; 113 cluster x period rows (pre 82 + post 31; both-period cluster n = 1, disclosed: Li et al (2022))
+[P-T5-4 analog] not-estimable signature list: {converg, r-hat, rhat, effective sample size, bridge sampl, node inconsistent, unable to initialize}; any other condition = S5 hard stop; extraction mismatches = fix-zone stop
+execution order: h2a_psma_default, h2a_coe_informed, h2a_coe_wide, h2b_contrast_informed, h2b_contrast_wide, h2b_factor_default
+t_RoBMA reference [DEC-046]: 1764.8 s; projection T = 3t + 3*kappa*t (kappa pinned at package review); actual per-fit timings below
+
+-- per-fit metadata (priors verbatim, timings, warnings) --
+FITMETA|h2a_psma_default|elapsed_s=2057.2|warnings=0|contrast=n/a (level model)
+  $effect
+  $effect[[1]]
+  Spike(0)
+  $effect[[2]]
+  Normal(0, 1)
+  
+  $heterogeneity
+  $heterogeneity[[1]]
+  Spike(0)
+  $heterogeneity[[2]]
+  InvGamma(1, 0.15)
+  
+  $bias
+  $bias[[1]]
+  None
+  $bias[[2]]
+  omega[two-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[3]]
+  omega[two-sided: .1, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[4]]
+  omega[one-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[5]]
+  omega[one-sided: .05, .025] ~ CumDirichlet(1, 1, 1)
+  $bias[[6]]
+  omega[one-sided: .5, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[7]]
+  omega[one-sided: .5, .05, .025] ~ CumDirichlet(1, 1, 1, 1)
+  $bias[[8]]
+  PET ~ Cauchy(0, 1)[0, Inf]
+  $bias[[9]]
+  PEESE ~ Cauchy(0, 5)[0, Inf]
+  
+  $hierarchical
+  $hierarchical[[1]]
+  Beta(1, 1)
+  
+FITMETA|h2a_coe_informed|elapsed_s=2014.8|warnings=0|contrast=n/a (level model)
+  $effect
+  $effect[[1]]
+  Spike(0)
+  $effect[[2]]
+  Normal(-0.04, 0.02)
+  
+  $heterogeneity
+  $heterogeneity[[1]]
+  Spike(0)
+  $heterogeneity[[2]]
+  InvGamma(1, 0.15)
+  
+  $bias
+  $bias[[1]]
+  None
+  $bias[[2]]
+  omega[two-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[3]]
+  omega[two-sided: .1, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[4]]
+  omega[one-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[5]]
+  omega[one-sided: .05, .025] ~ CumDirichlet(1, 1, 1)
+  $bias[[6]]
+  omega[one-sided: .5, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[7]]
+  omega[one-sided: .5, .05, .025] ~ CumDirichlet(1, 1, 1, 1)
+  $bias[[8]]
+  PET ~ Cauchy(0, 1)[0, Inf]
+  $bias[[9]]
+  PEESE ~ Cauchy(0, 5)[0, Inf]
+  
+  $hierarchical
+  $hierarchical[[1]]
+  Beta(1, 1)
+  
+FITMETA|h2a_coe_wide|elapsed_s=1288.7|warnings=0|contrast=n/a (level model)
+  $effect
+  $effect[[1]]
+  Spike(0)
+  $effect[[2]]
+  Normal(-0.04, 0.04)
+  
+  $heterogeneity
+  $heterogeneity[[1]]
+  Spike(0)
+  $heterogeneity[[2]]
+  InvGamma(1, 0.15)
+  
+  $bias
+  $bias[[1]]
+  None
+  $bias[[2]]
+  omega[two-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[3]]
+  omega[two-sided: .1, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[4]]
+  omega[one-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[5]]
+  omega[one-sided: .05, .025] ~ CumDirichlet(1, 1, 1)
+  $bias[[6]]
+  omega[one-sided: .5, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[7]]
+  omega[one-sided: .5, .05, .025] ~ CumDirichlet(1, 1, 1, 1)
+  $bias[[8]]
+  PET ~ Cauchy(0, 1)[0, Inf]
+  $bias[[9]]
+  PEESE ~ Cauchy(0, 5)[0, Inf]
+  
+  $hierarchical
+  $hierarchical[[1]]
+  Beta(1, 1)
+  
+FITMETA|h2b_contrast_informed|elapsed_s=3024.8|warnings=1|contrast=treatment
+  warn: You are about to estimate 72 models based on the model formula and prior specification.
+  $effect
+  $effect[[1]]
+  Spike(0)
+  $effect[[2]]
+  Normal(0, 1)
+  
+  $heterogeneity
+  $heterogeneity[[1]]
+  Spike(0)
+  $heterogeneity[[2]]
+  InvGamma(1, 0.15)
+  
+  $bias
+  $bias[[1]]
+  None
+  $bias[[2]]
+  omega[two-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[3]]
+  omega[two-sided: .1, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[4]]
+  omega[one-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[5]]
+  omega[one-sided: .05, .025] ~ CumDirichlet(1, 1, 1)
+  $bias[[6]]
+  omega[one-sided: .5, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[7]]
+  omega[one-sided: .5, .05, .025] ~ CumDirichlet(1, 1, 1, 1)
+  $bias[[8]]
+  PET ~ Cauchy(0, 1)[0, Inf]
+  $bias[[9]]
+  PEESE ~ Cauchy(0, 5)[0, Inf]
+  
+  $hierarchical
+  $hierarchical[[1]]
+  Beta(1, 1)
+  
+  $terms
+  $terms$period
+  $terms$period$null
+  mean difference contrast: mSpike(0)
+  $terms$period$alt
+  treatment contrast: Normal(0, 0.03)
+  
+  attr(,"terms")
+  [1] "period"
+  attr(,"terms_test")
+  [1] "period"
+  
+  attr(,"terms")
+  [1] "period"
+  attr(,"terms_test")
+  [1] "period"
+FITMETA|h2b_contrast_wide|elapsed_s=3848.7|warnings=1|contrast=treatment
+  warn: You are about to estimate 72 models based on the model formula and prior specification.
+  $effect
+  $effect[[1]]
+  Spike(0)
+  $effect[[2]]
+  Normal(0, 1)
+  
+  $heterogeneity
+  $heterogeneity[[1]]
+  Spike(0)
+  $heterogeneity[[2]]
+  InvGamma(1, 0.15)
+  
+  $bias
+  $bias[[1]]
+  None
+  $bias[[2]]
+  omega[two-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[3]]
+  omega[two-sided: .1, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[4]]
+  omega[one-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[5]]
+  omega[one-sided: .05, .025] ~ CumDirichlet(1, 1, 1)
+  $bias[[6]]
+  omega[one-sided: .5, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[7]]
+  omega[one-sided: .5, .05, .025] ~ CumDirichlet(1, 1, 1, 1)
+  $bias[[8]]
+  PET ~ Cauchy(0, 1)[0, Inf]
+  $bias[[9]]
+  PEESE ~ Cauchy(0, 5)[0, Inf]
+  
+  $hierarchical
+  $hierarchical[[1]]
+  Beta(1, 1)
+  
+  $terms
+  $terms$period
+  $terms$period$null
+  mean difference contrast: mSpike(0)
+  $terms$period$alt
+  treatment contrast: Normal(0, 0.05)
+  
+  attr(,"terms")
+  [1] "period"
+  attr(,"terms_test")
+  [1] "period"
+  
+  attr(,"terms")
+  [1] "period"
+  attr(,"terms_test")
+  [1] "period"
+FITMETA|h2b_factor_default|elapsed_s=4126.9|warnings=23|contrast=package default
+  warn: You are about to estimate 72 models based on the model formula and prior specification.
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: The adaptation phase of the model was not completed in 500 iterations, so the current samples may not be optimal - try increasing the number of iterations to the "adapt" argument
+  warn: Model (56): R-hat 1.174 is larger than the set target (1.05).
+  warn: Model (56): ESS 98 is lower than the set target (500).
+  warn: Model (57): ESS 116 is lower than the set target (500).
+  warn: Model (58): ESS 126 is lower than the set target (500).
+  warn: Model (59): ESS 178 is lower than the set target (500).
+  warn: There were another 1 warnings. To see all warnings call 'check_RoBMA(fit)'.
+  $effect
+  $effect[[1]]
+  Spike(0)
+  $effect[[2]]
+  Normal(0, 1)
+  
+  $heterogeneity
+  $heterogeneity[[1]]
+  Spike(0)
+  $heterogeneity[[2]]
+  InvGamma(1, 0.15)
+  
+  $bias
+  $bias[[1]]
+  None
+  $bias[[2]]
+  omega[two-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[3]]
+  omega[two-sided: .1, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[4]]
+  omega[one-sided: .05] ~ CumDirichlet(1, 1)
+  $bias[[5]]
+  omega[one-sided: .05, .025] ~ CumDirichlet(1, 1, 1)
+  $bias[[6]]
+  omega[one-sided: .5, .05] ~ CumDirichlet(1, 1, 1)
+  $bias[[7]]
+  omega[one-sided: .5, .05, .025] ~ CumDirichlet(1, 1, 1, 1)
+  $bias[[8]]
+  PET ~ Cauchy(0, 1)[0, Inf]
+  $bias[[9]]
+  PEESE ~ Cauchy(0, 5)[0, Inf]
+  
+  $hierarchical
+  $hierarchical[[1]]
+  Beta(1, 1)
+  
+  $terms
+  $terms$period
+  $terms$period$null
+  mean difference contrast: mSpike(0)
+  $terms$period$alt
+  mean difference contrast: mNormal(0, 0.25)
+  
+  attr(,"terms")
+  [1] "period"
+  attr(,"terms_test")
+  [1] "period"
+  
+  attr(,"terms")
+  [1] "period"
+  attr(,"terms_test")
+  [1] "period"
+
+-- BF pairs (machine lines) --
+BFPAIR|h2a_psma_default|effect|BF10=0.142191312576|BF01=7.032778458
+BFPAIR|h2a_psma_default|heterogeneity|BF10=Inf|BF01=0
+BFPAIR|h2a_psma_default|bias|BF10=94.747873814|BF01=0.0105543265484
+BFPAIR|h2a_coe_informed|effect|BF10=0.419349421638|BF01=2.3846461886
+BFPAIR|h2a_coe_informed|heterogeneity|BF10=Inf|BF01=0
+BFPAIR|h2a_coe_informed|bias|BF10=11.0832351453|BF01=0.0902263632316
+BFPAIR|h2a_coe_wide|effect|BF10=0.590459011494|BF01=1.69359765967
+BFPAIR|h2a_coe_wide|heterogeneity|BF10=Inf|BF01=0
+BFPAIR|h2a_coe_wide|bias|BF10=16.8385681482|BF01=0.0593874723313
+BFPAIR|h2b_contrast_informed|period|BF10=0.966260183214|BF01=1.03491794174
+BFPAIR|h2b_contrast_wide|period|BF10=0.856932819074|BF01=1.16695262189
+BFPAIR|h2b_factor_default|period|BF10=0.117762615626|BF01=8.49165921363
+
+-- fit timings (machine lines) --
+TFIT|h2a_psma_default|elapsed_s=2057.2
+TFIT|h2a_coe_informed|elapsed_s=2014.8
+TFIT|h2a_coe_wide|elapsed_s=1288.7
+TFIT|h2b_contrast_informed|elapsed_s=3024.8
+TFIT|h2b_contrast_wide|elapsed_s=3848.7
+TFIT|h2b_factor_default|elapsed_s=4126.9
+
+N_ROWS = 30 (7 design + 15 H2a + 8 H2b); ms_input inventory = 4 (robma_mu_primary, bf01_level_primary, bf01_moderation_primary, robma_contrast_primary)
+result framing: NONE; BF01 raw; band labelling + adjudication deferred to the documented gate-resolution step [DEC-044]
+
+sessionInfo():
+R version 4.6.1 (2026-06-24 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26200)
+
+Matrix products: default
+  LAPACK version 3.12.1
+
+locale:
+[1] LC_COLLATE=German_Austria.utf8  LC_CTYPE=German_Austria.utf8   
+[3] LC_MONETARY=German_Austria.utf8 LC_NUMERIC=C                   
+[5] LC_TIME=German_Austria.utf8    
+
+time zone: Europe/Vienna
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices datasets  utils     methods   base     
+
+other attached packages:
+[1] readr_2.2.0         here_1.0.2          metafor_5.0-1      
+[4] numDeriv_2016.8-1.1 metadat_1.6-0       Matrix_1.7-5       
+[7] BayesTools_0.2.23   RoBMA_3.6.1        
+
+loaded via a namespace (and not attached):
+ [1] bit_4.6.0            crayon_1.5.3         compiler_4.6.1      
+ [4] renv_1.2.3           rjags_4-17           tidyselect_1.2.1    
+ [7] Rcpp_1.1.1-1.1       stringr_1.6.0        parallel_4.6.1      
+[10] lattice_0.22-9       coda_0.19-4.1        R6_2.6.1            
+[13] Brobdingnag_1.2-9    rbibutils_2.4.1      tibble_3.3.1        
+[16] rprojroot_2.1.1      pillar_1.11.1        tzdb_0.5.0          
+[19] rlang_1.2.0          stringi_1.8.7        mathjaxr_2.0-0      
+[22] bit64_4.8.2          cli_3.6.6            magrittr_2.0.5      
+[25] extraDistr_1.10.0.5  Rdpack_2.6.6         digest_0.6.39       
+[28] grid_4.6.1           vroom_1.7.1          mvtnorm_1.4-2       
+[31] hms_1.1.4            lifecycle_1.0.5      nlme_3.1-169        
+[34] runjags_2.2.2-5      vctrs_0.7.3          glue_1.8.1          
+[37] bridgesampling_1.2-1 tools_4.6.1          pkgconfig_2.0.3     
