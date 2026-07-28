@@ -1037,6 +1037,26 @@
 
 ---
 
+## DEC-049: Contrast-level CR2 degeneracy policy — PD-failure signature extension, not_estimable routing, Holm family disclosure (T7 fix)
+
+**Block:** Methodology finalization (T7 execution fix) · 2026-07-28
+
+**Question:** How does T7 handle clubSandwich `Wald_test`/vcov contrast computations that abort with "variance-covariance matrix ... not positive definite" — a CR2 small-sample degeneracy under single/near-single-cluster cell leverage — without run-time discretion?
+
+**Options considered:** (a) leave as S5 stop (unlisted condition) — rejected: the condition is foreseeable from the ex-ante pins (US×post = 1, common×post = 2, rating CC-post = 2) and would deterministically kill mid-run panels; (b) extend the pinned signature mechanism [P-T5-4; "extendable only by DEC" — discharged here] to the contrast level and route failures as `not_estimable` rows (chosen); (c) alter models/constraint sets to avoid degeneracy — rejected: logic drift against the frozen spec.
+
+**Chosen:** New contrast-level signature `"positive definite"`. (1) 1-df contrasts (pairs, per-level diffs): scalar variance pre-check (c'Vc'c ≤ 0 / non-finite) and `Wald_test` PD-errors → `not_estimable` row with full condition text, keys always written (budget invariant at 200). (2) HTZ blocks (levels/interaction/M-pre/C9): PD-error → `not_estimable` F-row with condition text. (3) Holm family: computed over the finite interaction-HTZ p's; `m_effective = k of 8` disclosed in the row note; ne panels named by the verifier. (4) design-df pre-flight: PD on the zero-fit → verdict `excluded_pd` (treated as not admitted). (5) Any non-PD Wald error remains S5. (6) Smoke test hardened: continuous cross-cluster regressor (centered `sample_mid`, NA-window clusters excluded) replaces the period-degenerate first-8-clusters design [ERROR #23]. Verifier V11/V16/V21 made tolerance-aware: additional ne rows are accepted ONLY with the DEC-049 signature in the note.
+
+**Rationale:** The policy is mechanical (signature-matched, no judgement at run time), pre-registered before any canonical estimate exists, and honest: where CR2 cannot produce a variance, the row reports that fact instead of a fabricated p or a silent gap. Claim-carrying lines are unaffected in expectation (C1–C4, C6–C7 interaction cells all ≥ 3 post clusters).
+
+**Reviewer-Risk:** *Finance/Econometrics* — "why do some cells carry no test?" → known CR2 small-sample phenomenon, disclosed per row with the mechanism named; the affected cells were pinned descriptive/empty ex ante. *Management/BSE* — invisible beyond flagged table cells.
+
+**Consequences:** R/10_moderators.R v3 + R/10_verify_outputs.R v2 (fix commit); ERROR_LOG #23; DLI 59 → 60; canonical run restarts from scratch (no outputs existed).
+
+**Files:** docs/DECISION_LOG.md · docs/ERROR_LOG.md · R/10_moderators.R · R/10_verify_outputs.R · docs/CER-COD_Status.xlsx.
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).

@@ -46,6 +46,8 @@ F65 <- list(est = -0.0616608386540629, se = 0.0243306602731784, df = 113,
 
 # Non-convergence signature list [P-T5-4]; unlisted condition => S5 stop.
 SIGS <- c("converg", "opposite sign")
+# Contrast-level CR2 degeneracy signature (Wald/vcov not positive definite) [DEC-049]
+PD_SIG <- "positive definite"
 
 # Panels: pinned substantive level order (reference/first = B5/DEC-043 refs).
 PANELS <- list(
@@ -258,11 +260,13 @@ resolve <- function(nms, cands, what) {
 }
 
 msg("[S5] smoke test (API accessors + V semantics + zero-fit path)")
-sm <- d[d$cluster_id %in% unique(d$cluster_id)[1:8], ]
+sm0 <- d[!is.na(d$sample_mid), ]
+sm <- sm0[sm0$cluster_id %in% unique(sm0$cluster_id)[1:8], ]
 Vs <- build_V(sm)
 i2 <- which(sm$cluster_id == sm$cluster_id[1])[1:2]
 stopifnot(abs(Vs[i2[1], i2[2]] - RHO * sqrt(sm$vi[i2[1]] * sm$vi[i2[2]])) < 1e-12)
-Xs <- cbind(a = 1, b = as.numeric(sm$pp %in% 1L)); Xs[is.na(Xs)] <- 0
+bvar <- sm$sample_mid; if (stats::sd(bvar) == 0) bvar <- seq_len(nrow(sm))
+Xs <- cbind(a = 1, b = as.numeric(scale(bvar)))  # continuous, cross-cluster support guaranteed [DEC-049/#23]
 fs <- fit3l(sm, Xs, "smoke")
 stopifnot(!inherits(fs, "t7_not_estimable"))
 Vc <- vcovCR(fs, cluster = sm$cluster_id, type = "CR2")
@@ -287,16 +291,30 @@ msg("[GATES] %-52s PASS", "smoke test (accessors, V semantics, zero-fit)")
 
 ctab <- function(fit, dd) coef_test(fit, vcov = vcovCR(fit, cluster = dd$cluster_id, type = "CR2"),
                                     test = "Satterthwaite")
+pd_fail <- function(m) structure(list(msg = m), class = "t7_pd_fail")
+safe_wald <- function(fit, Cmat, Vc) {
+  wt <- tryCatch(Wald_test(fit, constraints = Cmat, vcov = Vc, test = "HTZ"),
+                 error = function(e) e)
+  if (inherits(wt, "error")) {
+    if (grepl(PD_SIG, tolower(conditionMessage(wt))))
+      return(pd_fail(conditionMessage(wt)))
+    stop(sprintf("[S5] unlisted Wald condition: %s", conditionMessage(wt)), call. = FALSE)
+  }
+  wt
+}
 contrast1 <- function(fit, dd, cvec) {
   Vc <- vcovCR(fit, cluster = dd$cluster_id, type = "CR2")
-  est <- sum(cvec * as.numeric(fit$beta)); se <- sqrt(drop(t(cvec) %*% as.matrix(Vc) %*% cvec))
-  wt <- Wald_test(fit, constraints = matrix(cvec, 1), vcov = Vc, test = "HTZ")
+  est <- sum(cvec * as.numeric(fit$beta)); v <- drop(t(cvec) %*% as.matrix(Vc) %*% cvec)
+  if (!is.finite(v) || v <= 0) return(pd_fail(sprintf("contrast variance = %s", format(v))))
+  wt <- safe_wald(fit, matrix(cvec, 1), Vc)
+  if (inherits(wt, "t7_pd_fail")) return(wt)
   Fv <- as.numeric(wt[[WACC$F]]); dfd <- as.numeric(wt[[WACC$dfd]]); pv <- as.numeric(wt[[WACC$p]])
-  list(est = est, se = se, t = sign(est) * sqrt(max(Fv, 0)), df = dfd, p = pv)
+  list(est = est, se = sqrt(v), t = sign(est) * sqrt(max(Fv, 0)), df = dfd, p = pv)
 }
 blockF <- function(fit, dd, Cmat) {
   Vc <- vcovCR(fit, cluster = dd$cluster_id, type = "CR2")
-  wt <- Wald_test(fit, constraints = Cmat, vcov = Vc, test = "HTZ")
+  wt <- safe_wald(fit, Cmat, Vc)
+  if (inherits(wt, "t7_pd_fail")) return(wt)
   list(F = as.numeric(wt[[WACC$F]]), dfn = as.numeric(wt[[WACC$dfn]]),
        dfd = as.numeric(wt[[WACC$dfd]]), p = as.numeric(wt[[WACC$p]]))
 }
@@ -317,6 +335,13 @@ add_row <- function(...) {
 
 emit_est <- function(id, spec, subset, term, cs, dd_dom, sig, note, pi_df = NULL,
                      descr = FALSE, r_scale = TRUE) {
+  if (inherits(cs, "t7_pd_fail") || !is.finite(cs$se) || cs$se <= 0) {
+    m <- if (inherits(cs, "t7_pd_fail")) cs$msg else sprintf("SE = %s", format(cs$se))
+    emit_ne(id, spec, subset, term, dd_dom,
+            paste0("contrast not estimable under CR2 (", PD_SIG,
+                   "; single/near-single-cluster cell leverage) [DEC-049]: ", m, "; ", note))
+    return(invisible(NULL))
+  }
   est <- cs$est; se <- cs$se; tt <- cs$t; df <- cs$df; p <- cs$p
   no_p <- descr || (is.finite(df) && df < DF_RULE)
   ci <- est + c(-1, 1) * qt(.975, df) * se
@@ -338,6 +363,14 @@ emit_est <- function(id, spec, subset, term, cs, dd_dom, sig, note, pi_df = NULL
           note = if (no_p) paste0("descriptive [DEC-048 double rule]; ", note) else note)
 }
 emit_F <- function(id, spec, subset, term, bf, dd_dom, sig, note, flagged = FALSE) {
+  if (inherits(bf, "t7_pd_fail")) {
+    add_row(analysis_id = id, spec = spec, subset = subset, term = term, metric = "F_test",
+            estimator = "not_estimable", rho = RHO, k_es = dd_dom[1], k_study = dd_dom[2],
+            k_cluster = dd_dom[3],
+            note = paste0("HTZ not computable under CR2 (", PD_SIG, ") [DEC-049]: ",
+                          bf$msg, "; ", note))
+    return(invisible(NULL))
+  }
   add_row(analysis_id = id, spec = spec, subset = subset, term = term, metric = "F_test",
           estimator = "3LMA-RVE_CR2", rho = RHO, k_es = dd_dom[1], k_study = dd_dom[2],
           k_cluster = dd_dom[3], t_stat = bf$F, df = bf$dfd, p = bf$p,
@@ -430,7 +463,7 @@ for (P in names(PANELS)) {
   if (length(diff_ok) >= 2) {
     Cint <- t(sapply(diff_ok[-1], function(l) cvec_diff(l) - cvec_diff(diff_ok[1])))
     bf <- blockF(fB, dB, matrix(Cint, ncol = ncol(XB)))
-    HOLM_P[P] <- bf$p
+    if (!inherits(bf, "t7_pd_fail")) HOLM_P[P] <- bf$p
     emit_F(P, "paris_mid", "defined_classified", "interaction_HTZ", bf, dom(dB), sigB,
            paste0("H0: Paris shift equal across levels {", paste(diff_ok, collapse = ", "), "}; ", noteB),
            flagged = flagged)
@@ -440,10 +473,12 @@ for (P in names(PANELS)) {
 msg("[PANELS DONE] rows so far = %d", length(ROWS))
 
 # Holm family row [R7]
-adj <- p.adjust(HOLM_P, method = "holm")
+fin <- HOLM_P[is.finite(HOLM_P)]
+adj <- p.adjust(fin, method = "holm")
 add_row(analysis_id = "C_family", spec = "multiplicity", subset = "defined_classified",
         term = "interaction_HTZ_holm", metric = "p_holm", estimator = "derived",
-        value = min(adj), note = paste0("Holm over the 8 panel interaction-HTZ p-values [DEC-048]; ",
+        value = min(adj), note = paste0("Holm over the panel interaction-HTZ p-values [DEC-048]; ",
+        "m_effective = ", length(fin), " of 8 (ne panels excluded per DEC-049, disclosed); ",
         "adjusted: ", paste(sprintf("%s=%.4g", names(adj), adj), collapse = "; "),
         "; n significant at .05 = ", sum(adj < .05)))
 
@@ -551,11 +586,15 @@ design_rule <- function(dd, mods_cols, variant) {
     f0 <- rma.mv(yi = rep(0, nrow(ddp)), V = build_V(ddp), mods = Xfull, intercept = FALSE,
                  data = ddp, method = "FE", sparse = TRUE)
     Cm <- matrix(0, length(intc), ncol(Xfull)); Cm[cbind(seq_along(intc), ncol(Xmain) + seq_along(intc))] <- 1
-    w0 <- Wald_test(f0, constraints = Cm, vcov = vcovCR(f0, cluster = ddp$cluster_id, type = "CR2"),
-                    test = "HTZ")
-    dfd <- as.numeric(w0[[WACC$dfd]])
-    echo[[mc]] <- list(df = dfd, verdict = ifelse(dfd >= DF_RULE, "admitted", "excluded_df"),
-                       note = sprintf("design-df (outcome-zeroed FE, CR2/HTZ) = %.3f", dfd))
+    w0 <- safe_wald(f0, Cm, vcovCR(f0, cluster = ddp$cluster_id, type = "CR2"))
+    if (inherits(w0, "t7_pd_fail")) {
+      echo[[mc]] <- list(df = NA_real_, verdict = "excluded_pd",
+                         note = sprintf("design HTZ not computable (%s) [DEC-049]", PD_SIG))
+    } else {
+      dfd <- as.numeric(w0[[WACC$dfd]])
+      echo[[mc]] <- list(df = dfd, verdict = ifelse(dfd >= DF_RULE, "admitted", "excluded_df"),
+                         note = sprintf("design-df (outcome-zeroed FE, CR2/HTZ) = %.3f", dfd))
+    }
   }
   echo
 }

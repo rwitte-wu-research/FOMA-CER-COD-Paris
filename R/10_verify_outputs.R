@@ -99,9 +99,11 @@ num <- function(x) suppressWarnings(as.numeric(x))
 is_blank <- function(x) is.na(x) | x == ""
 ne_rows <- res[res$estimator == "not_estimable", ]
 panel_ne <- ne_rows[ne_rows$analysis_id %in% names(PANEL_COL), ]
-check("V11", "panel not_estimable set == {C2 CDS post cell, C2 CDS diff}",
-      nrow(panel_ne) == 2 && all(panel_ne$analysis_id == "C2") &&
-      setequal(panel_ne$term, c("cell_post::derivativ (CDS spread)", "diff::derivativ (CDS spread)")))
+cds_terms <- c("cell_post::derivativ (CDS spread)", "diff::derivativ (CDS spread)")
+cds_ok <- sum(panel_ne$analysis_id == "C2" & panel_ne$term %in% cds_terms) == 2
+extra_ne <- panel_ne[!(panel_ne$analysis_id == "C2" & panel_ne$term %in% cds_terms), ]
+check("V11", "panel ne: CDS pair present; any further ne rows carry the DEC-049 PD signature",
+      cds_ok && all(grepl("DEC-049", extra_ne$note)))
 
 cellmap <- do.call(rbind, lapply(names(PANEL_COL), function(P) { cl <- PANEL_COL[[P]]
   lv <- setdiff(unique(d[[cl]]), NCE)
@@ -141,10 +143,14 @@ check("V15", "pairwise contrast counts per panel == 1/6/1/1/3/1/1/1",
       all(paircnt == c(1,6,1,1,3,1,1,1)))
 hrows <- res[res$term == "interaction_HTZ" & res$spec == "paris_mid", ]
 holm <- res[res$term == "interaction_HTZ_holm", ]
-padj <- p.adjust(num(hrows$p), method = "holm")
-check("V16", "8 interaction HTZ rows; Holm row value == min holm-adjusted p (recomputed)",
-      nrow(hrows) == 8 && all(is.finite(num(hrows$p))) && nrow(holm) == 1 &&
-      abs(num(holm$value) - min(padj)) < 1e-12)
+h_est <- hrows[hrows$estimator == "3LMA-RVE_CR2", ]
+h_ne  <- hrows[hrows$estimator == "not_estimable", ]
+padj <- p.adjust(num(h_est$p), method = "holm")
+check("V16", "8 interaction HTZ rows; ne only with DEC-049; Holm == min over finite p (recomputed)",
+      nrow(hrows) == 8 && nrow(holm) == 1 && all(is.finite(num(h_est$p))) &&
+      all(grepl("DEC-049", h_ne$note)) && nrow(h_est) >= 1 &&
+      abs(num(holm$value) - min(padj)) < 1e-12 &&
+      grepl(paste0("m_effective = ", nrow(h_est), " of 8"), holm$note))
 mpre <- res[res$spec == "m_pre", ]
 check("V17", "M-pre: 10 rows, domains == pins",
       nrow(mpre) == 10 &&
@@ -178,7 +184,8 @@ for (i in seq_len(nrow(echo))) {
   bh <- res[res$term == paste0("block_HTZ::", mc) & res$subset == vr, ]
   admitted <- grepl("verdict = admitted", echo$note[i])
   v20b <- v20b && nrow(bh) == 1 &&
-    ((admitted && bh$estimator == "3LMA-RVE_CR2" && is.finite(num(bh$t_stat))) ||
+    ((admitted && ((bh$estimator == "3LMA-RVE_CR2" && is.finite(num(bh$t_stat))) ||
+                   (bh$estimator == "not_estimable" && grepl("DEC-049", bh$note)))) ||
      (!admitted && bh$estimator == "not_estimable"))
 }
 check("V21", "rule verdicts consistent with V1/V2 block rows (admitted<->F, excluded<->ne)", v20b)
