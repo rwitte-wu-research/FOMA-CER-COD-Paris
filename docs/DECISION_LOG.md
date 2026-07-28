@@ -1057,6 +1057,24 @@
 
 ---
 
+## DEC-049a: Design-df computation re-anchored — synthetic deterministic outcome replaces the zeroed outcome (mechanical correction to DEC-043/DEC-049)
+
+**Block:** Methodology finalization (T7 execution fix) · 2026-07-28
+
+**Question:** The DEC-043 inclusion rule specified the design-df pre-flight "outcome vector zeroed". Run 4 produced the clean differential: on the identical synthetic design, the REML Wald PASSED while the zero-outcome FE Wald PD-failed — because CRVE is residual-based, a zero outcome makes every residual zero, the sandwich a zero matrix, and the PD check fail BY CONSTRUCTION. How is the design-df computed?
+
+**Chosen:** Deterministic synthetic outcome `sin(seq_len(n))` on the FE/V-only fit. Under FE weights the CR2/Satterthwaite df depends on the design matrix, the weight matrix and the cluster structure only — it is invariant to the outcome — so the harvested `df_denom` is exactly the design df the rule requires; the synthetic F/p are never read or recorded (echo rows carry df + verdict only). This supersedes the literal "outcome vector zeroed" phrase of DEC-043 mechanically; the design-only property (zero outcome information used) is fully preserved and now also true in the smoke design-df probe.
+
+**Rationale:** The zeroed-outcome formulation was a statistical misconception (mine, logged as ERROR #26): it conflated "no outcome information" with "outcome identically zero"; the former is what blindness requires, the latter destroys the estimator whose df is being read.
+
+**Reviewer-Risk:** none beyond DEC-049; the df is bit-identical to any other nondegenerate outcome under FE/V weights.
+
+**Consequences:** R/10_moderators.R (smoke probe + design_rule + echo-note wording); ERROR_LOG #26; DLI 60 → 61.
+
+**Files:** docs/DECISION_LOG.md · docs/ERROR_LOG.md · R/10_moderators.R · docs/CER-COD_Status.xlsx.
+
+---
+
 ## Conditional / Pending DECs
 
 These are reserved placeholders, promoted to full entries when resolved (per the SOMA convention).

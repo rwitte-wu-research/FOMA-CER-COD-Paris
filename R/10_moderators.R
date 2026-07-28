@@ -297,11 +297,17 @@ WACC <- list(F = resolve(names(wt), c("Fstat","F"), "Wald_test F"),
              dfn = resolve(names(wt), c("df_num","df1","num_df"), "Wald_test df_num"),
              dfd = resolve(names(wt), c("df_denom","df2","df","denom_df"), "Wald_test df_denom"),
              p = resolve(names(wt), c("p_val","p","pval"), "Wald_test p"))
-f0 <- rma.mv(yi = rep(0, nrow(sm)), V = Vs, mods = Xs, intercept = FALSE, data = sm,
-             method = "FE", sparse = TRUE)
+# CRVE is residual-based: a ZERO outcome makes all residuals zero, the sandwich
+# a zero matrix, and the PD check fail BY CONSTRUCTION (run-4 differential:
+# REML Wald on the identical design PASSED, zero-fit FAILED) [ERROR #26].
+# A deterministic synthetic outcome keeps the CR2/Satterthwaite df untouched --
+# under FE/V-only weights the df depends on X, W and the cluster structure only
+# -- while making the sandwich nondegenerate. Design-only preserved [DEC-049a].
+f0 <- rma.mv(yi = sin(seq_len(nrow(sm))), V = Vs, mods = Xs, intercept = FALSE,
+             data = sm, method = "FE", sparse = TRUE)
 w0 <- safe_wald(f0, matrix(c(0, 1), 1), vcovCR(f0, cluster = sm$cluster_id, type = "CR2"))
 if (inherits(w0, "t7_pd_fail"))
-  stop("[S5] smoke zero-fit Wald degenerate on the SYNTHETIC design - genuine anomaly: ",
+  stop("[S5] smoke design-df Wald degenerate on the synthetic-outcome FE fit - genuine anomaly: ",
        w0$msg, call. = FALSE)
 stopifnot(is.finite(as.numeric(w0[[WACC$dfd]])))
 add_meta("accessors coef_test={%s} Wald_test={%s}", paste(unlist(ACC), collapse = ","),
@@ -591,8 +597,9 @@ design_rule <- function(dd, mods_cols, variant) {
     Xi <- model.matrix(as.formula(paste0("~ pp * factor_", mc)), df_)
     intc <- grep("^pp:factor_", colnames(Xi), value = TRUE)
     Xfull <- cbind(Xmain, Xi[, intc, drop = FALSE])
-    f0 <- rma.mv(yi = rep(0, nrow(ddp)), V = build_V(ddp), mods = Xfull, intercept = FALSE,
-                 data = ddp, method = "FE", sparse = TRUE)
+    f0 <- rma.mv(yi = sin(seq_len(nrow(ddp))), V = build_V(ddp), mods = Xfull,
+                 intercept = FALSE, data = ddp, method = "FE", sparse = TRUE)
+    # synthetic deterministic outcome; df design-only under FE/V weights [DEC-049a/#26]
     Cm <- matrix(0, length(intc), ncol(Xfull)); Cm[cbind(seq_along(intc), ncol(Xmain) + seq_along(intc))] <- 1
     w0 <- safe_wald(f0, Cm, vcovCR(f0, cluster = ddp$cluster_id, type = "CR2"))
     if (inherits(w0, "t7_pd_fail")) {
@@ -601,7 +608,7 @@ design_rule <- function(dd, mods_cols, variant) {
     } else {
       dfd <- as.numeric(w0[[WACC$dfd]])
       echo[[mc]] <- list(df = dfd, verdict = ifelse(dfd >= DF_RULE, "admitted", "excluded_df"),
-                         note = sprintf("design-df (outcome-zeroed FE, CR2/HTZ) = %.3f", dfd))
+                         note = sprintf("design-df (synthetic-outcome FE, CR2/HTZ; df design-only) = %.3f", dfd))
     }
   }
   echo
