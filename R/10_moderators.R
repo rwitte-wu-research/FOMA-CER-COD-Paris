@@ -260,13 +260,15 @@ resolve <- function(nms, cands, what) {
 }
 
 msg("[S5] smoke test (API accessors + V semantics + zero-fit path)")
-sm0 <- d[!is.na(d$sample_mid), ]
-sm <- sm0[sm0$cluster_id %in% unique(sm0$cluster_id)[1:8], ]
+sm <- d[d$cluster_id %in% unique(d$cluster_id)[1:8], ]
 Vs <- build_V(sm)
 i2 <- which(sm$cluster_id == sm$cluster_id[1])[1:2]
 stopifnot(abs(Vs[i2[1], i2[2]] - RHO * sqrt(sm$vi[i2[1]] * sm$vi[i2[2]])) < 1e-12)
-bvar <- sm$sample_mid; if (stats::sd(bvar) == 0) bvar <- seq_len(nrow(sm))
-Xs <- cbind(a = 1, b = as.numeric(scale(bvar)))  # continuous, cross-cluster support guaranteed [DEC-049/#23]
+# Synthetic smoke regressor BY CONSTRUCTION: the row index varies WITHIN every
+# cluster, so every cluster contributes identifying variation and the CR2
+# adjustment cannot degenerate via single-cluster leverage. Immune to
+# window-level constancy and prefix composition of any real column [#24/DEC-049].
+Xs <- cbind(a = 1, b = as.numeric(scale(seq_len(nrow(sm)))))
 fs <- fit3l(sm, Xs, "smoke")
 stopifnot(!inherits(fs, "t7_not_estimable"))
 Vc <- vcovCR(fs, cluster = sm$cluster_id, type = "CR2")
@@ -275,15 +277,20 @@ ACC <- list(beta = resolve(names(ct), c("beta","Est","est","Coef"), "coef_test b
             se   = resolve(names(ct), c("SE","se"), "coef_test SE"),
             df   = resolve(names(ct), c("df_Satt","df"), "coef_test df"),
             p    = resolve(names(ct), c("p_Satt","p_t","p_val","p"), "coef_test p"))
-wt <- Wald_test(fs, constraints = matrix(c(0, 1), 1), vcov = Vc, test = "HTZ")
+wt <- safe_wald(fs, matrix(c(0, 1), 1), Vc)
+if (inherits(wt, "t7_pd_fail"))
+  stop("[S5] smoke Wald degenerate on the SYNTHETIC design - genuine anomaly, investigate: ",
+       wt$msg, call. = FALSE)
 WACC <- list(F = resolve(names(wt), c("Fstat","F"), "Wald_test F"),
              dfn = resolve(names(wt), c("df_num","df1","num_df"), "Wald_test df_num"),
              dfd = resolve(names(wt), c("df_denom","df2","df","denom_df"), "Wald_test df_denom"),
              p = resolve(names(wt), c("p_val","p","pval"), "Wald_test p"))
 f0 <- rma.mv(yi = rep(0, nrow(sm)), V = Vs, mods = Xs, intercept = FALSE, data = sm,
              method = "FE", sparse = TRUE)
-w0 <- Wald_test(f0, constraints = matrix(c(0, 1), 1),
-                vcov = vcovCR(f0, cluster = sm$cluster_id, type = "CR2"), test = "HTZ")
+w0 <- safe_wald(f0, matrix(c(0, 1), 1), vcovCR(f0, cluster = sm$cluster_id, type = "CR2"))
+if (inherits(w0, "t7_pd_fail"))
+  stop("[S5] smoke zero-fit Wald degenerate on the SYNTHETIC design - genuine anomaly: ",
+       w0$msg, call. = FALSE)
 stopifnot(is.finite(as.numeric(w0[[WACC$dfd]])))
 add_meta("accessors coef_test={%s} Wald_test={%s}", paste(unlist(ACC), collapse = ","),
          paste(unlist(WACC), collapse = ","))
