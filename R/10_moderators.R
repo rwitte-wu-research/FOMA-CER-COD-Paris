@@ -259,6 +259,18 @@ resolve <- function(nms, cands, what) {
   hit[1]
 }
 
+pd_fail <- function(m) structure(list(msg = m), class = "t7_pd_fail")
+safe_wald <- function(fit, Cmat, Vc) {
+  wt <- tryCatch(Wald_test(fit, constraints = Cmat, vcov = Vc, test = "HTZ"),
+                 error = function(e) e)
+  if (inherits(wt, "error")) {
+    if (grepl(PD_SIG, tolower(conditionMessage(wt))))
+      return(pd_fail(conditionMessage(wt)))
+    stop(sprintf("[S5] unlisted Wald condition: %s", conditionMessage(wt)), call. = FALSE)
+  }
+  wt
+}
+
 msg("[S5] smoke test (API accessors + V semantics + zero-fit path)")
 sm <- d[d$cluster_id %in% unique(d$cluster_id)[1:8], ]
 Vs <- build_V(sm)
@@ -298,17 +310,6 @@ msg("[GATES] %-52s PASS", "smoke test (accessors, V semantics, zero-fit)")
 
 ctab <- function(fit, dd) coef_test(fit, vcov = vcovCR(fit, cluster = dd$cluster_id, type = "CR2"),
                                     test = "Satterthwaite")
-pd_fail <- function(m) structure(list(msg = m), class = "t7_pd_fail")
-safe_wald <- function(fit, Cmat, Vc) {
-  wt <- tryCatch(Wald_test(fit, constraints = Cmat, vcov = Vc, test = "HTZ"),
-                 error = function(e) e)
-  if (inherits(wt, "error")) {
-    if (grepl(PD_SIG, tolower(conditionMessage(wt))))
-      return(pd_fail(conditionMessage(wt)))
-    stop(sprintf("[S5] unlisted Wald condition: %s", conditionMessage(wt)), call. = FALSE)
-  }
-  wt
-}
 contrast1 <- function(fit, dd, cvec) {
   Vc <- vcovCR(fit, cluster = dd$cluster_id, type = "CR2")
   est <- sum(cvec * as.numeric(fit$beta)); v <- drop(t(cvec) %*% as.matrix(Vc) %*% cvec)
