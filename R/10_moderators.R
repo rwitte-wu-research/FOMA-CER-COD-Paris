@@ -597,10 +597,27 @@ design_rule <- function(dd, mods_cols, variant) {
     Xi <- model.matrix(as.formula(paste0("~ pp * factor_", mc)), df_)
     intc <- grep("^pp:factor_", colnames(Xi), value = TRUE)
     Xfull <- cbind(Xmain, Xi[, intc, drop = FALSE])
-    f0 <- rma.mv(yi = sin(seq_len(nrow(ddp))), V = build_V(ddp), mods = Xfull,
+    zero <- colnames(Xfull)[colSums(abs(Xfull)) < 1e-12]   # column-level identifiability [#27]
+    keep_int <- setdiff(intc, zero)
+    if (!length(keep_int)) {
+      echo[[mc]] <- list(df = NA_real_, verdict = "excluded_structural",
+                         note = paste0("all interaction columns structurally zero on the variant domain",
+                                       " (dropped: ", paste(zero, collapse = " | "), ") [#27]"))
+      next
+    }
+    Xr <- Xfull[, setdiff(colnames(Xfull), zero), drop = FALSE]
+    f0 <- rma.mv(yi = sin(seq_len(nrow(ddp))), V = build_V(ddp), mods = Xr,
                  intercept = FALSE, data = ddp, method = "FE", sparse = TRUE)
     # synthetic deterministic outcome; df design-only under FE/V weights [DEC-049a/#26]
-    Cm <- matrix(0, length(intc), ncol(Xfull)); Cm[cbind(seq_along(intc), ncol(Xmain) + seq_along(intc))] <- 1
+    kept0 <- rownames(f0$beta)
+    keep_int <- intersect(keep_int, kept0)
+    if (!length(keep_int)) {
+      echo[[mc]] <- list(df = NA_real_, verdict = "excluded_structural",
+                         note = "interaction columns rank-deficient on the variant domain [#27]")
+      next
+    }
+    Cm <- matrix(0, length(keep_int), length(kept0))
+    Cm[cbind(seq_along(keep_int), match(keep_int, kept0))] <- 1
     w0 <- safe_wald(f0, Cm, vcovCR(f0, cluster = ddp$cluster_id, type = "CR2"))
     if (inherits(w0, "t7_pd_fail")) {
       echo[[mc]] <- list(df = NA_real_, verdict = "excluded_pd",
@@ -608,7 +625,9 @@ design_rule <- function(dd, mods_cols, variant) {
     } else {
       dfd <- as.numeric(w0[[WACC$dfd]])
       echo[[mc]] <- list(df = dfd, verdict = ifelse(dfd >= DF_RULE, "admitted", "excluded_df"),
-                         note = sprintf("design-df (synthetic-outcome FE, CR2/HTZ; df design-only) = %.3f", dfd))
+                         note = paste0(sprintf("design-df (synthetic-outcome FE, CR2/HTZ; df design-only) = %.3f", dfd),
+                                       if (length(zero)) paste0("; structurally zero cols dropped: ",
+                                                                paste(zero, collapse = " | ")) else ""))
     }
   }
   echo
@@ -629,36 +648,71 @@ fit_variant <- function(dd, mods_cols, variant, dom_pin_p) {
   rhs <- paste(c("pp", paste0("factor_", mods_cols),
                  if (length(admitted)) paste0("pp:factor_", admitted)), collapse = " + ")
   X <- model.matrix(as.formula(paste("~", rhs)), df_)
-  fv <- fit3l(ddp, X, paste0("C9_", variant)); sig <- fv$sigma2
-  fv2 <- tryCatch(rma.mv(yi = ddp$zi, V = build_V(ddp), mods = X, intercept = FALSE,
+  planned <- colnames(X)
+  zero <- planned[colSums(abs(X)) < 1e-12]        # structurally zero on this domain [#27]
+  Xr <- X[, setdiff(planned, zero), drop = FALSE]
+  fv <- fit3l(ddp, Xr, paste0("C9_", variant)); sig <- fv$sigma2
+  kept <- rownames(fv$beta)
+  if (is.null(kept) || length(kept) != length(as.numeric(fv$beta)))
+    stop("[S5] C9 ", variant, ": coefficient names unavailable for name alignment", call. = FALSE)
+  extra <- setdiff(colnames(Xr), kept)            # rank-deficiency drops by rma.mv [#27]
+  fv2 <- tryCatch(rma.mv(yi = ddp$zi, V = build_V(ddp), mods = Xr, intercept = FALSE,
                          random = ~ 1 | cluster_id/study/esid, data = ddp, method = "REML",
                          sparse = TRUE, control = list(optimizer = "optim", optmethod = "BFGS")),
                   error = function(e) NULL)
+  if (!is.null(fv2) && !identical(rownames(fv2$beta), kept))
+    stop("[S5] C9 ", variant, ": hardening refit dropped a different coefficient set", call. = FALSE)
   hard <- if (!is.null(fv2)) max(abs(as.numeric(fv$beta) - as.numeric(fv2$beta))) else NA_real_
   CERT <<- c(CERT, sprintf("FIT C9_%s hardening refit max|dBeta| = %s [A.11 < 1e-5]",
                            variant, format(hard, digits = 6)))
   if (is.finite(hard) && hard >= 1e-5) fail("GATES", "C9 %s hardening refit |dBeta| >= 1e-5", variant)
   ctv <- ctab(fv, ddp)
+  trm_of <- function(nm) {
+    t <- sub("^\\(Intercept\\)$", "intercept", nm)
+    t <- gsub("factor_", "", t, fixed = TRUE)
+    sub("^pp$", "pp_mid_lag0", t)
+  }
   noteV <- paste0("rma.mv mods=~ pp_mid_lag0 + mains(", paste(mods_cols, collapse = ", "),
                   ") + admitted pp interactions {", paste(admitted, collapse = ", "),
-                  "}; reference coding, refs per DEC-043; complete case, NCE excluded; ", SPINE)
-  for (i in seq_len(ncol(X))) {
-    cs <- list(est = ctv[[ACC$beta]][i], se = ctv[[ACC$se]][i],
-               t = ctv[[ACC$beta]][i]/ctv[[ACC$se]][i], df = ctv[[ACC$df]][i], p = ctv[[ACC$p]][i])
-    trm <- colnames(X)[i]
-    trm <- sub("^\\(Intercept\\)$", "intercept", trm)
-    trm <- gsub("factor_", "", trm, fixed = TRUE)
-    trm <- sub("^pp$", "pp_mid_lag0", trm); trm <- sub("^pp:", "pp:", trm)
-    emit_est("C9", paste0("unified_", variant), variant, trm, cs, dom(ddp), sig, noteV,
-             r_scale = FALSE)
+                  "}; reference coding, refs per DEC-043; complete case, NCE excluded; ", SPINE,
+                  if (length(c(zero, extra))) paste0("; dropped on domain: ",
+                        paste(vapply(c(zero, extra), function(z) z, ""), collapse = " | ")) else "")
+  for (nm in planned) {
+    trm <- trm_of(nm)
+    if (nm %in% kept) {
+      i <- match(nm, kept)
+      cs <- list(est = ctv[[ACC$beta]][i], se = ctv[[ACC$se]][i],
+                 t = ctv[[ACC$beta]][i]/ctv[[ACC$se]][i], df = ctv[[ACC$df]][i], p = ctv[[ACC$p]][i])
+      emit_est("C9", paste0("unified_", variant), variant, trm, cs, dom(ddp), sig, noteV,
+               r_scale = FALSE)
+    } else {
+      why <- if (nm %in% zero) "structurally zero column (no support on the variant domain)"
+             else "dropped by rma.mv (rank deficiency on the variant domain)"
+      emit_ne("C9", paste0("unified_", variant), variant, trm, dom(ddp),
+              paste0("coefficient not estimable [DEC-049/#27]: ", why, "; ", noteV))
+    }
   }
   for (mc in mods_cols) {
     if (mc %in% admitted) {
-      intc <- grep(paste0("^pp:factor_", mc), colnames(X))
-      Cm <- matrix(0, length(intc), ncol(X)); Cm[cbind(seq_along(intc), intc)] <- 1
-      emit_F("C9", paste0("unified_", variant), variant, paste0("block_HTZ::", mc),
-             blockF(fv, ddp, Cm), dom(ddp), sig,
-             paste0("H0: all pp x ", mc, " interaction coefficients = 0; ", noteV))
+      intc_planned <- grep(paste0("^pp:factor_", mc), planned, value = TRUE)
+      intc_kept <- intersect(intc_planned, kept)
+      if (!length(intc_kept)) {
+        add_row(analysis_id = "C9", spec = paste0("unified_", variant), subset = variant,
+                term = paste0("block_HTZ::", mc), metric = "F_test", estimator = "not_estimable",
+                rho = RHO, k_es = dom(ddp)[1], k_study = dom(ddp)[2], k_cluster = dom(ddp)[3],
+                note = paste0("all interaction columns of the block dropped on the variant domain",
+                              " [DEC-049/#27]; ", noteV))
+      } else {
+        Cm <- matrix(0, length(intc_kept), length(kept))
+        Cm[cbind(seq_along(intc_kept), match(intc_kept, kept))] <- 1
+        emit_F("C9", paste0("unified_", variant), variant, paste0("block_HTZ::", mc),
+               blockF(fv, ddp, Cm), dom(ddp), sig,
+               paste0("H0: all pp x ", mc, " interaction coefficients = 0; q_planned = ",
+                      length(intc_planned), ", q_eff = ", length(intc_kept),
+                      if (length(setdiff(intc_planned, intc_kept)))
+                        paste0("; dropped: ", paste(setdiff(intc_planned, intc_kept), collapse = " | "))
+                      else "", "; ", noteV))
+      }
     } else {
       lvn <- length(levels(df_[[paste0("factor_", mc)]])) - 1L
       for (j in seq_len(lvn))
