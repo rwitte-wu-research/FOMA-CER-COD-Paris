@@ -610,6 +610,7 @@ design_rule <- function(dd, mods_cols, variant) {
                  intercept = FALSE, data = ddp, method = "FE", sparse = TRUE)
     # synthetic deterministic outcome; df design-only under FE/V weights [DEC-049a/#26]
     kept0 <- rownames(f0$beta)
+    kept0[kept0 == "intrcpt"] <- "(Intercept)"  # [#28]
     keep_int <- intersect(keep_int, kept0)
     if (!length(keep_int)) {
       echo[[mc]] <- list(df = NA_real_, verdict = "excluded_structural",
@@ -653,6 +654,7 @@ fit_variant <- function(dd, mods_cols, variant, dom_pin_p) {
   Xr <- X[, setdiff(planned, zero), drop = FALSE]
   fv <- fit3l(ddp, Xr, paste0("C9_", variant)); sig <- fv$sigma2
   kept <- rownames(fv$beta)
+  kept[kept == "intrcpt"] <- "(Intercept)"  # metafor renames a user "(Intercept)" mods column [#28]
   if (is.null(kept) || length(kept) != length(as.numeric(fv$beta)))
     stop("[S5] C9 ", variant, ": coefficient names unavailable for name alignment", call. = FALSE)
   extra <- setdiff(colnames(Xr), kept)            # rank-deficiency drops by rma.mv [#27]
@@ -660,7 +662,9 @@ fit_variant <- function(dd, mods_cols, variant, dom_pin_p) {
                          random = ~ 1 | cluster_id/study/esid, data = ddp, method = "REML",
                          sparse = TRUE, control = list(optimizer = "optim", optmethod = "BFGS")),
                   error = function(e) NULL)
-  if (!is.null(fv2) && !identical(rownames(fv2$beta), kept))
+  kept2 <- rownames(fv2$beta)
+  if (!is.null(kept2)) kept2[kept2 == "intrcpt"] <- "(Intercept)"  # [#28]
+  if (!is.null(fv2) && !identical(kept2, kept))
     stop("[S5] C9 ", variant, ": hardening refit dropped a different coefficient set", call. = FALSE)
   hard <- if (!is.null(fv2)) max(abs(as.numeric(fv$beta) - as.numeric(fv2$beta))) else NA_real_
   CERT <<- c(CERT, sprintf("FIT C9_%s hardening refit max|dBeta| = %s [A.11 < 1e-5]",
