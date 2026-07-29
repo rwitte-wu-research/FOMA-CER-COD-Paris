@@ -1,0 +1,69 @@
+T7 run_meta — 2026-07-29 09:30:52
+R: R version 4.6.1 (2026-06-24 ucrt) | metafor 5.0.1 | clubSandwich 0.7.0
+seed = 20260710 | rho = 0.6 | md5(dat_prep) = 6702ef3dc45fe0b693b13f50ebd1576b
+spine: random ~1|cluster_id/study/esid; V blocks within cluster_id, rho=0.6; CR2/Satterthwaite on cluster_id [D31.1/A.2]
+[COSTPROBE] t(M_A C1) = 30.5 s; projection ~ 22 fits
+GATE PASS: md5(dat_prep) == 6702ef3dc45fe0b693b13f50ebd1576b
+GATE PASS: dat_prep list contract ($dat, $n == 2713)
+column mapping: zi=zi vi=vi (others literal)
+GATE PASS: zi/vi numeric, vi > 0
+GATE PASS: regulation3 (end-anchored) post clusters == 14/6/11 [Q11a]
+GATE PASS: estimation set == 2713/115/114
+GATE PASS: period domain == 2705/113/112
+GATE PASS: post cell == 711/31/31
+GATE PASS: pre (M-pre outer) == 1994/83/82
+GATE PASS: industry sensitive x post clusters == 3
+GATE PASS: C1 M_A domain == 2713/115/114
+GATE PASS: C1 M_B domain == 2705/113/112
+GATE PASS: C2 M_A domain == 2713/115/114
+GATE PASS: C2 M_B domain == 2705/113/112
+GATE PASS: C3 M_A domain == 2260/94/93
+GATE PASS: C3 M_B domain == 2254/93/92
+GATE PASS: C4 M_A domain == 1804/85/84
+GATE PASS: C4 M_B domain == 1796/83/82
+GATE PASS: C5 M_A domain == 1927/91/91
+GATE PASS: C5 M_B domain == 1919/89/89
+GATE PASS: C6 M_A domain == 1622/80/79
+GATE PASS: C6 M_B domain == 1614/78/77
+GATE PASS: C7 M_A domain == 1956/96/95
+GATE PASS: C7 M_B domain == 1948/94/93
+GATE PASS: C8 M_A domain == 1663/83/82
+GATE PASS: C8 M_B domain == 1655/81/80
+GATE PASS: C3 M-pre domain == 1754/74/73
+GATE PASS: C4 M-pre domain == 1465/64/63
+GATE PASS: V1 complete case == 1762/80/80 · 1754/78/78 · 315/19/19
+GATE PASS: V2 complete case == 1330/58/58 · 1324/57/57 · 117/9/9
+GATE PASS: ex-ante small-cell pins (CDS0/US1/common2/dev3/rating3/without6)
+GATE PASS: F65 A5 row located BY VALUE, unique (rows hit: 1)
+GATE PASS: F65 se/p/CI/df all matched in-row at 1e-9
+GATE PASS: F65 display canary -0.062 == -0.062
+GATE PASS: A5 aggregation k == 114
+GATE PASS: F65 pinned aggregate refit |delta| <= 1e-6, df == 113
+F65 refit: est=-0.0616608386540629 se=0.0243306602731784 p=0.0126367644358383
+accessors coef_test={beta,SE,df_Satt,p_Satt} Wald_test={Fstat,df_num,df_denom,p_val}
+GATE PASS: any-with M_B domain == end-anchored C4 M_B domain [Q11b]
+FIT smoke              optimizer=nlminb rung=1 converged
+FIT C1_MA              optimizer=nlminb rung=1 converged
+FIT C1_MB              optimizer=nlminb rung=1 converged
+FIT C2_MA              optimizer=nlminb rung=1 converged
+FIT C2_MB              optimizer=nlminb rung=1 converged
+FIT C3_MA              optimizer=nlminb rung=1 converged
+FIT C3_MB              optimizer=nlminb rung=1 converged
+FIT C4_MA              optimizer=nlminb rung=1 converged
+FIT C4_MB              optimizer=nlminb rung=1 converged
+FIT C5_MA              optimizer=nlminb rung=1 converged
+FIT C5_MB              optimizer=nlminb rung=1 converged
+FIT C6_MA              optimizer=nlminb rung=1 converged
+FIT C6_MB              optimizer=nlminb rung=1 converged
+FIT C7_MA              optimizer=nlminb rung=1 converged
+FIT C7_MB              optimizer=nlminb rung=1 converged
+FIT C8_MA              optimizer=nlminb rung=1 converged
+FIT C8_MB              optimizer=nlminb rung=1 converged
+FIT C3_Mpre            optimizer=nlminb rung=1 converged
+FIT C4_Mpre            optimizer=nlminb rung=1 converged
+FIT C4_anywith         optimizer=nlminb rung=1 converged
+FIT C9_cc_v1           optimizer=nlminb rung=1 converged
+FIT C9_cc_v1 hardening refit max|dBeta| = 3.34632e-08 [A.11 < 1e-5]
+FIT C9_cc_v2           optimizer=nlminb rung=1 converged
+FIT C9_cc_v2 hardening refit max|dBeta| = 5.08e-07 [A.11 < 1e-5]
+rows = 200 | ms_input TRUE = 10 | elapsed = 7.9 min
