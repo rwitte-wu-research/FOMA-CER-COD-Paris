@@ -5,12 +5,12 @@ suppressPackageStartupMessages({ library(metafor); library(clubSandwich) })
 set.seed(20260710)
 
 ## ---------------- FIXZONE (CC may edit ONLY this block: paths + column binds) ----------------
-DAT_CANDIDATES <- c("output/dat_prep.rds", "data/dat_prep.rds", "output/dat_prep.RDS")
+DAT_CANDIDATES <- c("output/dat_prep.rds", "data/dat_prep.rds")  # .RDS variant removed: case-insensitive NTFS made it a duplicate hit of candidate 1 (S-A length==2)
 MD5_PIN <- "6702ef3dc45fe0b693b13f50ebd1576b"
-COL <- list(zi = "zi", vi = "vi", n_obs = "n_obs", n_firms = "n_firms",
+COL <- list(zi = "zi", vi = "vi", n_obs = "n_eff", n_firms = "n_firms",  # n_obs -> n_eff rebind: raw n_obs is character with FLAG/NA; n_eff is the numeric proxy-filled n (adj identity holds on 2713/2713)
             es_method = "es_method", es_measure = "ES_measure",
             q_vhb = "q_VHB", field = "field",
-            proxyfill = NA_character_)   # NA = auto-detect in M0 (expect 297 rows, 134 FLAG-based)
+            proxyfill = "flag_proxy_n")  # fixed bind [DEC-050a]: estimation set = 296 (pin 297 was the usable basis incl. 134 FLAG-based)
 HEADER_SRC <- "output/T7_results.csv"    # 36-column schema transplant [DEC-048]
 ## ---------------------------------------------------------------------------------------------
 
@@ -24,7 +24,9 @@ stop_s <- function(code, msg) stop(sprintf("[%s] %s", code, msg), call. = FALSE)
 hit <- DAT_CANDIDATES[file.exists(DAT_CANDIDATES)]
 hit <- hit[vapply(hit, function(p) unname(tools::md5sum(p)) == MD5_PIN, logical(1))]
 if (length(hit) != 1) stop_s("S-A", "dat_prep not found by md5 pin; extend DAT_CANDIDATES (fixzone)")
-dat <- readRDS(hit[1]); dat <- as.data.frame(dat)
+dat <- readRDS(hit[1])
+if (!is.data.frame(dat)) dat <- dat$dat   # accessor fix: dat_prep.rds is a container list(dat, built, seed, n, sessionInfo)
+dat <- as.data.frame(dat)
 cat("M0 dat_prep:", hit[1], "| md5 OK |", nrow(dat), "rows\n")
 cat("M0 colnames:", paste(colnames(dat), collapse = " | "), "\n")
 need <- c(unlist(COL[!is.na(COL)]), "cluster_id", "study", "esid")
@@ -37,17 +39,9 @@ zi <- dat[[COL$zi]]; vi <- dat[[COL$vi]]
 
 n_sb <- sum(dat[[COL$es_method]] == "star-bound")
 if (n_sb != 99L) stop_s("S-G1", sprintf("star-bound rows = %d, expected 99", n_sb))
-if (is.na(COL$proxyfill)) {
-  cand <- colnames(dat)[grepl("proxy|nobs_fill|r19|R19|fill_flag", colnames(dat), ignore.case = TRUE)]
-  cand <- cand[vapply(cand, function(cc) { v <- dat[[cc]]
-    s <- if (is.logical(v)) sum(v) else sum(v %in% c(1, "1", TRUE, "TRUE", "yes")); isTRUE(s == 297L) }, logical(1))]
-  if (length(cand) != 1) stop_s("S-G2", sprintf("proxy-fill flag auto-detect found %d candidates {%s}; bind manually (fixzone) -- do NOT improvise a definition",
-                                length(cand), paste(cand, collapse = ",")))
-  COL$proxyfill <- cand
-}
 pf <- dat[[COL$proxyfill]]; pf <- if (is.logical(pf)) pf else pf %in% c(1, "1", TRUE, "TRUE", "yes")
-if (sum(pf) != 297L) stop_s("S-G2", sprintf("proxy-fill rows = %d, expected 297", sum(pf)))
-cat("M0 proxyfill column:", COL$proxyfill, "| 297 OK\n")
+if (sum(pf) != 296L) stop_s("S-G2", sprintf("proxy-fill rows = %d, expected 296", sum(pf)))
+cat("M0 proxyfill column:", COL$proxyfill, "| 296 OK\n")
 adj <- dat[[COL$n_obs]] - 1 / vi
 adj_int_share <- mean(abs(adj - round(adj)) < 1e-6)
 cat(sprintf("M0 adj-recovery integer share: %.4f\n", adj_int_share))
@@ -70,9 +64,14 @@ fit3l <- function(d, mods = NULL, vi_override = NULL) {
   v <- if (is.null(vi_override)) d[[COL$vi]] else vi_override
   V <- impute_covariance_matrix(v, cluster = d$cluster_id, r = 0.6)
   for (ct in LADDER) {
-    f <- tryCatch(rma.mv(yi = d[[COL$zi]], V = V, mods = mods, data = d,
-                         random = ~ 1 | cluster_id / study / esid, method = "REML",
-                         sparse = TRUE, control = ct),
+    f <- tryCatch(if (is.null(mods))   # API fix: metafor 5.x rejects an explicit NULL 'mods' variable; omit the arg instead
+                    rma.mv(yi = d[[COL$zi]], V = V, data = d,
+                           random = ~ 1 | cluster_id / study / esid, method = "REML",
+                           sparse = TRUE, control = ct)
+                  else
+                    rma.mv(yi = d[[COL$zi]], V = V, mods = mods, data = d,
+                           random = ~ 1 | cluster_id / study / esid, method = "REML",
+                           sparse = TRUE, control = ct),
                   error = function(e) e, warning = function(w) w)
     if (inherits(f, "rma.mv")) return(f)
     m <- conditionMessage(f)
@@ -96,7 +95,7 @@ FIELDMAP <- c(analysis_id = pick("analysis_id", c("^analysis_id$")), spec = pick
   ci_ub_z = pick("ci_ub_z", c("ub_z", "ci.ub", "ci_ub")), df = pick("df", c("^df$", "^df_")),
   p = pick("p", c("^p$", "^pval", "p_value")), est_r = pick("est_r", c("est_r", "^r$")),
   ci_lb_r = pick("ci_lb_r", c("lb_r")), ci_ub_r = pick("ci_ub_r", c("ub_r")),
-  estimable = pick("estimable", c("estimab")), note = pick("note", c("^note$", "comment")))
+  estimable = pick("estimable", c("estimab", "^estimator$")), note = pick("note", c("^note$", "comment")))  # T7 header has no 'estimable'; estimability lives in 'estimator' (vocab incl. "not_estimable")
 ROWS <- list()
 addrow <- function(analysis_id, spec, subset, term, d = NULL, est = NA, se = NA, lb = NA, ub = NA,
                    df = NA, p = NA, level_scale = TRUE, estimable = TRUE, note = "") {
@@ -126,7 +125,7 @@ int_row <- function(id, spec, d, note = "", vi_override = NULL, engine3l = TRUE)
 
 ## ---- G1-G5 spine variants ----
 int_row("G1", "no_starbound",      dat[dat[[COL$es_method]] != "star-bound", ], "drop es_method==star-bound (99 ES / 11 studies)")
-int_row("G2", "no_nobs_proxyfill", dat[!pf, ], sprintf("drop %s==TRUE (297 rows incl. 134 FLAG, R-19)", COL$proxyfill))
+int_row("G2", "no_nobs_proxyfill", dat[!pf, ], "drop flag_proxy_n==TRUE (296 rows; 297 on the usable basis incl. 134 FLAG-based, one tagged duplicate exits at the estimation filter; R-19)")
 nf <- dat[[COL$n_firms]]; ok3 <- is.finite(nf) & (nf - adj > 0) & (abs(adj - round(adj)) < 1e-6)
 d3 <- dat[ok3, ]; vi3 <- 1 / (d3[[COL$n_firms]] - (d3[[COL$n_obs]] - 1 / d3[[COL$vi]]))
 int_row("G3", "n_firms_variance", d3, sprintf("vi rebuilt on n_firms via adjustment recovery; %d rows dropped (missing/invalid n_firms)", nrow(dat) - nrow(d3)), vi_override = vi3)

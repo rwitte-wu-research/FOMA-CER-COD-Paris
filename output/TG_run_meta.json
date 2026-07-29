@@ -1,0 +1,16 @@
+{
+  "run": "TG",
+  "dec": "DEC-050",
+  "date": "2026-07-29 17:28:47.642312",
+  "seed": 20260710,
+  "dat_md5": "6702ef3dc45fe0b693b13f50ebd1576b",
+  "proxyfill_col": "flag_proxy_n",
+  "n_rows": 36,
+  "dom": {
+    "es": 2713,
+    "study": 115,
+    "cluster": 114
+  },
+  "adj_int_share": 1,
+  "g3_dropped": 0
+}

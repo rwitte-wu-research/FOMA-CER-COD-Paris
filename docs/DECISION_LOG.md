@@ -1115,3 +1115,38 @@ These are reserved placeholders, promoted to full entries when resolved (per the
 **Consequences:** analysis_plan Addendum A.15 ships in this commit; Status DLI advances to 62 DECs; Analyse_Batterie G rows flip only at run acceptance; ERROR next #32; TB next TB-65; the F session inherits F1–F7, the F rows of the register, and the G11 close.
 
 **Files:** DECISION_LOG.md · analysis_plan.md (A.15) · R/11_robustness.R · R/11_verify_outputs.R · docs/cc_prompt_TG.md · docs/CER-COD_Status.xlsx
+## DEC-050a: G2 count erratum resolved — estimation-set assert 296 (pin 297 was the usable-basis figure)
+
+**Date:** 2026-07-29 · **Status:** FROZEN · **Amends:** DEC-050 §5 (G2)
+
+**Question:** S-G2 designed stop: dat_prep `flag_proxy_n` = 296 TRUE vs. pinned 297. Erratum or missing flag?
+
+**Finding (fully reconciled, result-blind):** The 297/134 figures stem from D31.6 and were counted on the 2,730-usable basis (column-E proxy per R-19). The canonical estimation set [DEC-042a] = 2,730 − 1 tagged duplicate − 16 no-n rows = 2,713. The 16 no-n rows are proxy-incapable (no n_firms); of the 150 usable FLAG cells, exactly 16 lack n_firms (= the no-n drops) and 134 are proxy-capable — closing the 134. The single tagged duplicate is itself a proxy row (Ofogbe et al. 2021, n_obs = 'FLAG'; located in v12), closing 297 → 296. `flag_proxy_n` = 296 is therefore the correct materialization; no data defect. CC's decomposition (296 = 133 FLAG + 161 NA + 2 corrected; v10-adopted 158 = firm-years_source calculated 85 + coded 73) is consistent.
+
+**Chosen:** G2 assert = 296 on dat_prep; hard bind `COL$proxyfill = "flag_proxy_n"` (auto-detect removed); verifier V08 = 296. Reporting convention for the G2 register row: "drop 296 rows (297 on the usable basis incl. 134 FLAG-based; one tagged duplicate exits at the estimation filter)" — the catalogue figures 297/134 remain documented with their basis, no silent rewriting. The M0 n_obs bind moves to `n_eff` (the numeric column-E materialization; raw `n_obs` is character with FLAG/NA/format artefacts); validated by the S-G3 self-check (adjustment identity integer-valued 2,713/2,713).
+
+**Reviewer risk:** Fin/Econ — none beyond DEC-050 (counts now internally consistent across bases). Mgmt/BSE — dual figures (296/297) need one disclosing sentence; the register-row convention provides it.
+
+**Consequences:** S-G2 functioned as designed (T2-93/96 pattern); no ERROR entry — the stop is the system working. Files: R/11_robustness.R (fixzone edits, CC), R/11_verify_outputs.R (V08), DECISION_LOG.md.
+
+## DEC-050b: V06 corrigendum — Gate B re-specified to the DEC-048 wording (3L refit vs. committed T1_results.csv)
+
+**Date:** 2026-07-29 · **Status:** FROZEN · **Amends:** DEC-050 §7 (verifier leg)
+
+**Question:** V06 FAIL: 3L refit −0.0586 vs. pinned canary −0.062. Which is wrong?
+
+**Finding:** The pin. −0.062 is the F65 *aggregate* display canary (round3 of −0.06166, df 113); the 3L full-sample headline in the committed T1_results.csv is −0.058647 (ladder-invariant; σ² ≈ 0.0197/0.0000/0.0119). DEC-050 §7 conflated the two estimator families (ERROR #33).
+
+**Chosen:** V06 = DEC-048 Gate-B wording: one 3L headline refit (spine verbatim, ~1, domain 2,713) value-matched against the committed output/T1_results.csv — estimate |Δ| ≤ 1e-6, all three variance components located by value ≤ 1e-6; no hand-entered constants (all comparison values read from the committed CSV at runtime); implementation mirrored from the T7-proven Gate-B block in R/10_verify_outputs.R. Gate A (V05) continues to cover the aggregate identity at 1e-9.
+
+**Consequences:** ERROR #33 logged; Files: R/11_verify_outputs.R, DECISION_LOG.md, ERROR_LOG.md.
+
+## DEC-050c: V06 precision — label-key row location (A1) instead of value-uniqueness
+
+**Date:** 2026-07-29 · **Status:** FROZEN · **Amends:** DEC-050b (location clause)
+
+**Question:** [S-V06] stop: value search hits 2 rows in T1_results.csv (A1 headline and A3 pi_overall — the documented, verifier-enforced A1≡A3 identity per O20/F55).
+
+**Chosen:** Row location via the label key of the committed CSV: exactly one row with analysis_id == "A1" (fallback spec == "headline"; exact-1 assert collision-free there), then estimate match ≤ 1e-6 on that row; the three σ² components remain a table-wide value search (≥ 1 hit each, ≤ 1e-6) per the DEC-048 wording, which never required value-uniqueness. No hand-entered numbers; the A1≡A3 identity stays untouched. Rationale on the record: R/10's Gate B omits row location for exactly this reason; the uniqueness clause was an over-specification inferred from the F65 pattern (ERROR #34).
+
+**Consequences:** TG verifier 12/12 PASS; run accepted under DEC-050 + 050a/b/c. Files: R/11_verify_outputs.R, DECISION_LOG.md, ERROR_LOG.md.
