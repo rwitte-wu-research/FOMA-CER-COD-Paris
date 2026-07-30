@@ -1,7 +1,9 @@
-# R/12_outliers.R -- TF run: outliers & influence block F (F1-F7) [DEC-051]
+# R/12_outliers.R -- TF run: outliers & influence block F (F1-F7) [DEC-051, route amended per DEC-051a]
 # Spine verbatim: random ~1|cluster_id/study/esid; V blocks within cluster_id, rho=0.6;
 # CR2/Satterthwaite on cluster_id [D31.1/A.2]. Seed 20260710.
 # Budget: <= 130 model fits (planned 121 incl. Gate A + smoke); TF_results.csv <= 40 rows.
+# Runtime (this machine; serial F1 pass empirically > 10 h on 2026-07-30): rstudent pass
+# parallel snow (ncpus = 8) ~1.5-3 h; LOO (W = 8) ~15-25 min; total ~2-3.5 h [DEC-051a].
 # Outputs written ONLY after all stops/asserts pass (no outputs on a stop).
 suppressPackageStartupMessages({ library(metafor); library(clubSandwich); library(parallel) })
 set.seed(20260710)
@@ -11,7 +13,8 @@ DAT_CANDIDATES <- c("output/dat_prep.rds", "data/dat_prep.rds")  # .RDS variant 
 MD5_PIN <- "6702ef3dc45fe0b693b13f50ebd1576b"
 COL <- list(zi = "zi", vi = "vi")               # block F consumes only zi/vi + the id trio (cluster_id/study/esid, bound by name below)
 HEADER_SRC <- "output/T7_results.csv"           # 36-column schema transplant [DEC-048]
-W_PSOCK <- 11L                                  # LOO parallelization [DEC-051]; designed serial fallback prints a note
+W_PSOCK <- 8L                                   # LOO parallelization; worker pin per DEC-051a (RAM 15.7 GB total / ~5.8 GB available); designed serial fallback prints a note
+RS_NCPUS <- 8L                                  # F1 rstudent pass: parallel snow workers, pin per DEC-051a (measured RAM)
 ## ---------------------------------------------------------------------------------------------
 
 TOL_T <- 1e-9; TOL_L <- 1e-6
@@ -110,19 +113,28 @@ rs_toy <- tryCatch(rstudent(f_toy, reestimate = FALSE),
 z_toy <- rstudent_z(rs_toy)
 if (length(z_toy) != n_toy || sum(is.finite(z_toy)) < n_toy - 2L)
   stop_s("S-F1", sprintf("rstudent toy length/finiteness: len=%d finite=%d expected=%d", length(z_toy), sum(is.finite(z_toy)), n_toy))
+rs_toy_p <- tryCatch(rstudent(f_toy, reestimate = FALSE, parallel = "snow", ncpus = 2L),
+                     error = function(e) stop_s("S-F1", paste("rstudent parallel API:", conditionMessage(e))))
+z_toy_p <- rstudent_z(rs_toy_p)
+if (length(z_toy_p) != n_toy || max(abs(z_toy_p - z_toy), na.rm = TRUE) > 1e-12)
+  stop_s("S-F1", "rstudent parallel/serial identity violated on toy (tol 1e-12)")
 h_toy <- hat_vec(f_toy)
 if (length(h_toy) != n_toy) stop_s("S-F1", sprintf("hatvalues toy length %d != %d", length(h_toy), n_toy))
 stopifnot(is.finite(mad(toy[[COL$zi]], constant = MAD_B)), mad(toy[[COL$zi]], constant = MAD_B) > 0)
 q_toy <- quantile(toy[[COL$zi]], WINSOR_P, type = Q_TYPE, names = FALSE)
 stopifnot(length(q_toy) == 2L, q_toy[1] < q_toy[2])
-cat("Smoke [S-F1 probes] PASS (toy spine + rstudent/hatvalues/mad/quantile API)\n")
+cat("Smoke [S-F1 probes] PASS (toy spine + rstudent serial/parallel identity + hatvalues/mad/quantile API)\n")
 
 ## ---- full-set spine fit + F1/F6 identification ----
 f_full <- fit3l(dat); FITS <- FITS + 1L
 if (inherits(f_full, "not_estimable")) stop_s("S5", paste("full-set spine not estimable -- genuine anomaly:", f_full$msg))
 mu_full <- as.numeric(coef(f_full))[1]
 vf <- as.numeric(vcov(f_full)[1, 1])              # model-based Var(mu_hat), Cook's D denominator [DEC-051 no. 8]
-rs_full <- rstudent(f_full, reestimate = FALSE)   # F1: ES-wise studentized deleted residuals, sigma2 fixed [DEC-051 no. 2]
+cat(sprintf("F1 rstudent pass started (parallel snow, ncpus=%d): %s\n", RS_NCPUS, format(Sys.time(), "%H:%M:%S")))
+t_rs0 <- proc.time()[3]
+rs_full <- rstudent(f_full, reestimate = FALSE, parallel = "snow", ncpus = RS_NCPUS)   # F1: ES-wise studentized deleted residuals, sigma2 fixed; route per DEC-051a
+t_rs_min <- (proc.time()[3] - t_rs0) / 60
+cat(sprintf("F1 rstudent pass done: %.1f min\n", t_rs_min))
 t_rs <- rstudent_z(rs_full)
 if (length(t_rs) != nrow(dat)) stop_s("S-F1", sprintf("rstudent full-set length %d != %d", length(t_rs), nrow(dat)))
 n_rs_na <- sum(!is.finite(t_rs))
@@ -254,6 +266,7 @@ meta <- list(run = "TF", dec = "DEC-051", date = as.character(Sys.time()), seed 
              winsor_q = as.numeric(qz),
              flags = list(rstudent = sum(flag_rs), rstudent_na = n_rs_na, mad = sum(flag_mad),
                           overlap = n_both, winsorized = n_wz, trimmed = n_tr),
+             rstudent_route = list(parallel = "snow", ncpus = RS_NCPUS, pass_min = round(t_rs_min, 2)),
              loo = list(n = nrow(loo), n_ne = n_ne, parallel = par_note,
                         first_fit_min = round(t1, 3)),
              fits = list(total = FITS, gateA = 1, smoke = 1, spine_full = 1,

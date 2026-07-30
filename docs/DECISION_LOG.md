@@ -1178,3 +1178,22 @@ These are reserved placeholders, promoted to full entries when resolved (per the
 **Reviewer-Risk:** *Finance/Econometrics* — reestimate=FALSE may read as a shortcut: answered by the disclosed convention and the infeasibility of TRUE at this k; percentiles on z (analysis scale, N5-consistent); no union flag set (pre-stated catalogue, overlap disclosed); full LOO detail available (TF_loo.csv + workbook tab). *Management/BSE* — prominent outlier reporting is the DEC-013 commitment delivered; one communicable message per spec row; no new framing surface (DEC-047 wording throughout).
 
 **Consequences:** Files (this commit): R/12_outliers.R · R/12_verify_outputs.R · docs/cc_prompt_TF.md · docs/DECISION_LOG.md · docs/analysis_plan.md (A.16) · docs/CER-COD_Status.xlsx (spec touch: DLI append DEC-051, count 65 → 66). Post-run (P6): output/TF_results_workbook.xlsx (13-tab SOMA) · robustness_register.csv rebuilt "complete" (23 × 18) · manuscript/TF.md · status flips F1–F7 (Z45–51) + G11 (Z63) · Key_Results Z22 digest · TB-65 finalize (DRAFT → READY) · TB-68 supersede · new F TBs from TB-69.
+
+## DEC-051a: Corrigendum to DEC-051 — F1 rstudent route (parallel), worker pins, runtime projection
+
+**Date:** 2026-07-30 · **Status:** FROZEN · **Amends:** DEC-051 (nos. 2, 7, 11: computation route, worker pins, runtime projection) · **Implements:** author fork ruling 2026-07-30 (deadline 21:10, break-even rule)
+
+**Question:** How to complete the F1 identification after the canonical first attempt (start 2026-07-30 10:58) spent > 10 h inside the serial ES-wise rstudent pass (CPU accounting: > 13 s per deletion proven; total serial cost S > 10 h, upper bound indeterminate; machine precedent TH-c ≈ 3× over estimate).
+
+**Chosen:**
+1. *Route.* F1 unchanged in estimator and threshold (studentized deleted residuals, reestimate = FALSE, |t| > 3); computation parallelized: `rstudent(f_full, reestimate = FALSE, parallel = "snow", ncpus = RS_NCPUS)`. Algebra identical by construction; the smoke block gains a serial-vs-parallel identity probe on the toy fit (tol 1e-12, S-F1-routed), so the API contract is verified against the installed metafor, never model memory [#16/#28].
+2. *Observability.* Pass start/done timestamp lines on console; pass duration persisted in TF_run_meta.json (rstudent_route.pass_min). (ERROR #35 lesson.)
+3. *Worker pins.* RS_NCPUS = 8 and W_PSOCK = 8 (consolidated), per measured RAM at the 21:10 check (15.7 GB total, ~5.8 GB available): 11 workers project to ~3.5–4 GB with insufficient paging headroom; supersedes the W = 11 pin in DEC-051 no. 7 and the A.16 "W = 11 PSOCK admissible" line — A.16 stands unedited (append-only); this DEC governs.
+4. *Runtime projection corrected.* cc contract footprint rewritten: rstudent pass ≈ S/8 ≈ 1.5–3 h on this machine, LOO ~15–25 min, remainder ~15 min, total ~2–3.5 h; the "F1 rstudent pass done" line and the M1 projection remain authoritative.
+5. *First attempt disposition.* Aborted > 10 h into the F1 pass per the pre-stated break-even rule; terminal-write design held: no output/TF_* files existed, working tree clean; console tee retained outside the repo. No estimate of any kind was produced or displayed (result-blindness intact).
+
+**Rationale:** The continue-vs-re-route break-even crossed at ~21:10; a one-argument metafor-native change preserves the estimator by construction and is identity-probed on the toy fit; worker pins follow measured RAM, not the nominal machine class.
+
+**Reviewer-Risk:** None new — the computation route is numerically identical (identity-probed); worker counts and projections are execution details.
+
+**Consequences:** Files (this commit): R/12_outliers.R (revised) · docs/cc_prompt_TF.md (revised) · docs/DECISION_LOG.md · docs/ERROR_LOG.md (#35) · docs/CER-COD_Status.xlsx (DLI append DEC-051a, count 66 → 67). R/12_verify_outputs.R unchanged (committed @ 5f917a1). The canonical run restarts fresh after this commit.
