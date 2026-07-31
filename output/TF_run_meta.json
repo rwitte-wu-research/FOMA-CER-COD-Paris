@@ -1,0 +1,50 @@
+{
+  "run": "TF",
+  "dec": "DEC-051/DEC-051a",
+  "date": "2026-07-31 06:55:01.13294",
+  "reemitted_per": "DEC-051b (ERROR #36); original run start per console tee",
+  "run_start_console": "2026-07-30 21:58:15",
+  "seed": 20260710,
+  "dat_md5": "6702ef3dc45fe0b693b13f50ebd1576b",
+  "dom": {
+    "es": 2713,
+    "study": 115,
+    "cluster": 114
+  },
+  "thresholds": {
+    "rstudent": 3,
+    "mad_k": 3,
+    "mad_b": 1.4826,
+    "winsor_p": [0.01, 0.99],
+    "quantile_type": 7
+  },
+  "winsor_q": [-0.380770461057388, 0.184714878917096],
+  "flags": {
+    "rstudent": 13,
+    "rstudent_na": 0,
+    "mad": 275,
+    "overlap": 13,
+    "winsorized": 56,
+    "trimmed": 56
+  },
+  "loo": {
+    "n": 114,
+    "n_ne": 0,
+    "parallel": "PSOCK W=8",
+    "first_fit_min": 0.44
+  },
+  "rstudent_route": {
+    "parallel": "snow",
+    "ncpus": 8,
+    "pass_min": 249.4
+  },
+  "fits": {
+    "total": 121,
+    "gateA": 1,
+    "smoke": 1,
+    "spine_full": 1,
+    "variants": 4,
+    "loo": 114
+  },
+  "n_rows_results": 4
+}
