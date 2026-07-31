@@ -1197,3 +1197,24 @@ These are reserved placeholders, promoted to full entries when resolved (per the
 **Reviewer-Risk:** None new — the computation route is numerically identical (identity-probed); worker counts and projections are execution details.
 
 **Consequences:** Files (this commit): R/12_outliers.R (revised) · docs/cc_prompt_TF.md (revised) · docs/DECISION_LOG.md · docs/ERROR_LOG.md (#35) · docs/CER-COD_Status.xlsx (DLI append DEC-051a, count 66 → 67). R/12_verify_outputs.R unchanged (committed @ 5f917a1). The canonical run restarts fresh after this commit.
+
+## DEC-051b: Corrigendum to DEC-051/051a — TF_run_meta re-emission after JSON digits truncation (ERROR #36); runtime record
+
+**Date:** 2026-07-31 · **Status:** FROZEN · **Amends:** DEC-051a (observability record; runtime window no. 4) · **Implements:** author ruling 2026-07-31 (Option A: meta re-emission, no re-run)
+
+**Question:** How to remedy verifier V10 FAIL (winsor_q percentile parity at 1e-9) after the canonical TF run completed statistically clean (V01–V09, V11, V12 PASS; exactly 121 fits; LOO ne = 0; no S-stops).
+
+**Findings:** Root cause: the `jsonlite::toJSON` call in R/12_outliers.R relied on jsonlite's default `digits = 4`, truncating `meta$winsor_q` to four decimals in TF_run_meta.json (−0.3808 / 0.1847 vs −0.38077046105738832 / 0.18471487891709573; Δ ≈ 3.0e-5 / 1.5e-5); the verifier recomputes the type-7 percentiles at full precision and compares at 1e-9, so the round-trip could never pass as written. Statistical integrity is proven by V10 legs b/c: winsor k = 2713 and trim k = 2657 = the exact inside-count of the full-precision percentiles — the run computed on exact quantiles; only the JSON record rounded. All value artifacts (TF_results.csv, TF_loo.csv, TF_influence.csv) internally consistent. Attribution: [Claude], ERROR #36. CC escalation was contract-correct (read-only diagnosis, nothing committed).
+
+**Chosen:**
+1. *Value artifacts untouched.* TF_results.csv, TF_loo.csv, TF_influence.csv remain byte-identical; no re-run (a full re-run would reproduce identical statistics at ~4.5–5 h machine cost — disproportionate given proven integrity).
+2. *Fix-forward.* R/12_outliers.R: `toJSON(..., digits = NA)`; meta dec string updated to "DEC-051/DEC-051a".
+3. *One-shot re-emission.* New `R/12_reemit_meta.R` regenerates TF_run_meta.json deterministically: every recomputable field is recomputed from dat_prep (md5-asserted) + the three TF CSVs — winsor_q via `stats::quantile(type = 7)` (bit-identical to the verifier recompute), flag/LOO counts from TF_influence/TF_loo with hard consistency asserts against the TF_results k_es values, fits total derived arithmetically (3 + 4 + 114 = 121, cross-asserted against the console line). Only the timing/parallel fields are console-sourced pins (F1 pass 249.4 min; first LOO fit 0.44 min; LOO "PSOCK W=8"; run start 2026-07-30 21:58:15), marked as such in-file with the source (console tee); meta gains `reemitted_per = "DEC-051b (ERROR #36)"`.
+4. *Acceptance criterion.* A fresh `R/12_verify_outputs.R` after re-emission must print "TF VERIFIER: 12/12 PASS"; run acceptance is granted only then.
+5. *Runtime record (supersedes the DEC-051a no. 4 window).* F1 pass measured 249.4 min on 8 saturated snow workers ⇒ implied serial cost ≈ 32 h — the 2026-07-30 abort decision is confirmed ex post (the serial first attempt would have run into 2026-07-31 evening); LOO measured: first fit 0.44 min, parallel projection 6.3 min, ne = 0.
+
+**Rationale:** The verifier did its job (caught a real round-trip defect); the defect is confined to metadata serialization, proven by the exact inside-count identity. Re-emission with full-precision recomputation restores a verifiable meta record without touching any estimate; console-sourced pins are the only non-recomputable fields and are labeled as such.
+
+**Reviewer-Risk:** None — metadata provenance repair; no estimate produced, changed, or displayed beyond the already-reported operational counts.
+
+**Consequences:** Files (this commit): R/12_outliers.R (digits pin) · R/12_reemit_meta.R · docs/DECISION_LOG.md · docs/ERROR_LOG.md (#36) · docs/CER-COD_Status.xlsx (DLI append DEC-051b, count 67 → 68). Post-commit: CC runs `Rscript R/12_reemit_meta.R` + `Rscript R/12_verify_outputs.R`; on 12/12 PASS the run is accepted and the TF outputs ship with the P6 result package (Commit 4).

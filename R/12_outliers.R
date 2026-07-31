@@ -259,7 +259,7 @@ dir.create("output", showWarnings = FALSE)
 write.csv(res,  "output/TF_results.csv",   row.names = FALSE)
 write.csv(loo,  "output/TF_loo.csv",       row.names = FALSE)
 write.csv(infl, "output/TF_influence.csv", row.names = FALSE)
-meta <- list(run = "TF", dec = "DEC-051", date = as.character(Sys.time()), seed = 20260710,
+meta <- list(run = "TF", dec = "DEC-051/DEC-051a", date = as.character(Sys.time()), seed = 20260710,
              dat_md5 = MD5_PIN, dom = as.list(DOM),
              thresholds = list(rstudent = RSTUDENT_THRESH, mad_k = MAD_K, mad_b = MAD_B,
                                winsor_p = WINSOR_P, quantile_type = Q_TYPE),
@@ -272,7 +272,7 @@ meta <- list(run = "TF", dec = "DEC-051", date = as.character(Sys.time()), seed 
              fits = list(total = FITS, gateA = 1, smoke = 1, spine_full = 1,
                          variants = 4, loo = length(clusters)),
              n_rows_results = nrow(res))
-writeLines(jsonlite::toJSON(meta, auto_unbox = TRUE, pretty = TRUE), "output/TF_run_meta.json")
+writeLines(jsonlite::toJSON(meta, auto_unbox = TRUE, pretty = TRUE, digits = NA), "output/TF_run_meta.json")  # digits pin per DEC-051b (ERROR #36: jsonlite default digits=4 truncated winsor_q)
 writeLines(capture.output(sessionInfo()), "output/TF_sessionInfo.txt")
 cat(sprintf("M5 outputs written: TF_results (%d rows) | TF_loo (114) | TF_influence (2713)\n", nrow(res)))
 cat(sprintf("TF run complete: %d result rows -> output/TF_results.csv | %d model fits\n", nrow(res), FITS))
