@@ -68,3 +68,8 @@ at the documented gate-resolution step [DEC-044] after the TH-b Bayes factors. T
 file: BF01(moderation) = 1.03 and 1.17 under the pre-specified contrast priors (band 1–3) and 8.49 under the
 package default (disclosed caveats); BF01(level) = 7.03 / 2.38 / 1.69 with saturated heterogeneity and a
 strongly included selection block — the resolution step [DEC-044 → own DEC] is unblocked.
+
+RESOLVED [DEC-047, 2026-08-01]: the gate adopts the equivalence register — Paris
+BF01 in band 1–3 per the pre-specified E3 ladder; the package-default BF01 = 8.49
+is sourced as a sensitivity bracket only, never as headline. All TH-derived
+manuscript wording follows that tier (applied throughout Chapter 4 at M2).
