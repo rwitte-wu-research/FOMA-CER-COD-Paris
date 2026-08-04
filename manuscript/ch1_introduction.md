@@ -1,6 +1,6 @@
 <!-- FOMA CER-COD-Paris · manuscript/ch1_introduction.md · M3 assembly 2026-08-03 · DEC-055 -->
 <!-- Vocabulary per DEC-047 (Ch.-1 promise = vocabulary zone) · numbers verbatim from ch3 §3.1/§3.3 counting convention, ch4 §4.1.1/§4.2.1/§4.3/§4.4 conclusion families, and TB-45 (TH_a, READY; chapter-side edit E-M3-1: reorder + numeral normalization, values untouched). -->
-<!-- [PENDING #37] is a submission gate, not an assembly blocker (mirrors ch4 §4.1.1). RQ4 wording DRAFT until M4 (DEC-053 ripple). Footnote [^1] = demarcation set per M3 novelty scan. -->
+<!-- [PENDING #37] is a submission gate, not an assembly blocker (mirrors ch4 §4.1.1). RQ4 wording frozen at M4 (M4 DEC; DEC-053 ripple executed). Footnote [^1] = demarcation set per M3 novelty scan. -->
 
 # 1 Introduction
 
@@ -24,7 +24,6 @@ Four research questions structure the analysis.
 
 **RQ3.** How does the CER–COD association vary across measurement, instrument, industry, regulatory, and country contexts — and does the Paris-period contrast itself vary across these dimensions? — The heterogeneity of the primary evidence makes context the natural suspect, for the level of the association and for its temporal shift alike.
 
-<!-- RQ4 wording: DRAFT until M4 freeze (DEC-053 ripple) -->
 **RQ4.** Is the pooled CER–COD association robust to publication selection? — Every conclusion a synthesis can draw inherits the selection process of the literature it aggregates; testing that process is therefore part of answering the first three questions, not an afterthought.
 
 To answer these questions, we conduct a first-order meta-analysis of the CER–COD literature. The corpus comprises 120 empirical studies published between 2010 and 2026, identified through a systematic search and hand-coded at the effect-size level; the estimation set comprises 2,713 effect sizes from 115 studies forming 114 independent author clusters, whose primary samples span 1988–2024 and cover firms worldwide across all four debt-market channels — bank loans, bonds, credit default swaps, and credit ratings. Estimation proceeds in four steps. The baseline model is a correlated-and-hierarchical-effects specification with cluster-robust variance estimation (CHE–RVE), which respects the dependence of multiple effect sizes per study. The pooled association (RQ1) is then substantiated by an extensive robustness battery: alternative model specifications and weighting schemes, influence and outlier diagnostics, and equivalence and Bayesian re-assessment. The Paris contrast (RQ2) receives its own pre-specified testing framework, combining the moderation contrast with equivalence testing, Bayesian model averaging, an identification battery, and permutation and multiverse analyses. The contextual variation of the association (RQ3) is examined through pre-specified moderator analyses across measurement, instrument, industry, regulatory, and country contexts. A four-method publication-selection battery, finally, tests whether the evidence base itself is distorted by selective reporting (RQ4).

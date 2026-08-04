@@ -1,8 +1,12 @@
-# M-Phase Positioning Map — FOMA CER–COD–Paris (P1 output) — v1.1
+# M-Phase Positioning Map — FOMA CER–COD–Paris (P1 output) — v1.2
 
-Authored in the M session (P1), 2026-08-01; **v1.1 revision authored in the M2 session, 2026-08-02.** Governing entries: **DEC-052** (v1.0) · **DEC-053** (RQ4 corrigendum; vocabulary conventions) · **the M2 chapter DEC DEC-054** (skeleton-v2 corrigendum, authorized by the M-hub ack of 2026-08-02, cited verbatim there). This file is the **single source** for the TB→chapter mapping, the frozen RQ/H anchors, the vocabulary zones, the single-home register, and the M1–M7 sequencing. Chapter sessions work against this map; changes to frozen items require a corrigendum DEC with ripple check.
+Authored in the M session (P1), 2026-08-01; **v1.1 revision authored in the M2 session, 2026-08-02; v1.2 revision authored in the M4 session, 2026-08-04 (governing entry: DEC-056).** Governing entries: **DEC-052** (v1.0) · **DEC-053** (RQ4 corrigendum; vocabulary conventions) · **the M2 chapter DEC DEC-054** (skeleton-v2 corrigendum, authorized by the M-hub ack of 2026-08-02, cited verbatim there). This file is the **single source** for the TB→chapter mapping, the frozen RQ/H anchors, the vocabulary zones, the single-home register, and the M1–M7 sequencing. Chapter sessions work against this map; changes to frozen items require a corrigendum DEC with ripple check.
 
 Authority chain: claim architecture per [DEC-044] (Framing A) and [DEC-047] (equivalence register); moderator design per [DEC-043]/[DEC-048]; this map adds the manuscript-side architecture only. Result-blind discipline has served its purpose; reporting is licensed within the DEC-047 register.
+
+**v1.2 changelog (2026-08-04):**
+1. *RQ4 freeze (DEC-053 ripple executed; M4/DEC-056):* §3 RQ4 wording FROZEN as drafted; DRAFT marker removed here and in manuscript/ch1_introduction.md (two-line edit per DEC-056 §7).
+2. *Appendix docking note:* appendix assembly docked to M6; author confirm at M6 start.
 
 **v1.1 changelog (2026-08-02):**
 1. *DEC-053 sync:* RQ4 added to §3 (DRAFT wording; freeze at M4 per the DEC-053 ripple inventory); "pre-registered" → "pre-specified" at all five map sites (§3 rules ×2, §4 ×2, §9 ×1); terminology conventions per DEC-053 recorded (CHE–RVE model term; NEC = "not elsewhere classified" in prose/tables — no further textual sites in this map); DEC-053 TB-supersession-register note added under §5.
@@ -38,7 +42,7 @@ Authority chain: claim architecture per [DEC-044] (Framing A) and [DEC-047] (equ
 | RQ1 | Is CER negatively associated with firms' cost of debt? |
 | RQ2 | Has the Paris Agreement moderated the CER–COD relationship? |
 | RQ3 | How does the CER–COD association vary across measurement, instrument, industry, regulatory, and country contexts — and does the Paris-period contrast itself vary across these dimensions? |
-| RQ4 | Is the pooled CER–COD association robust to publication selection? *(DRAFT wording per the DEC-053 ripple inventory; freeze at M4)* |
+| RQ4 | Is the pooled CER–COD association robust to publication selection? *(FROZEN at M4, DEC-056; appendix assembly docked to M6 — author confirm at M6 start)* |
 | H1 | CER is negatively associated with firms' cost of debt. |
 | H2 | The negative association between CER and COD is stronger in the post-Paris period than in the pre-Paris period. |
 
