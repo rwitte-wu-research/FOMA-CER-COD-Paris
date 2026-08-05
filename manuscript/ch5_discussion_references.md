@@ -15,8 +15,13 @@
      three-name in-text forms where the Ch.-3 ledger uses et-al. short forms —
      harmonize display at M7, ledger entries unchanged. Status codes as in the
      Ch.-3/Ch.-4 ledgers: OK / HARVEST / VERIFY. -->
+<!-- M7 verification pass 2026-08-05 (M7a DEC): both Section-A entries
+     web-verified (primary-object check closed); strings transferred to
+     references_consolidated.md. Note: the Ch.-2 Kleimeier & Viehs citation
+     year changed 2021 -> 2018 at M7 (F-C supersession, see Ch.-2 ledger and
+     ERROR #50); the coverage list above records the pre-M7 form. -->
 
 ## A. New-to-manuscript anchors (companion-sourced)
 
-- **Berg et al. (2022)** — [VERIFY] Berg, F., Kölbel, J. F., & Rigobon, R. (2022). Aggregate confusion: The divergence of ESG ratings. *Review of Finance, 26*(6), 1315–1344. [sourced via the companion's reference list (Witte et al., 2026; PK full text); primary-object check at M7; carries the assessment-divergence clause in Section 5.2]
-- **Hirshleifer & Teoh (2003)** — [VERIFY] Hirshleifer, D., & Teoh, S. H. (2003). Limited attention, information disclosure, and financial reporting. *Journal of Accounting and Economics, 36*(1–3), 337–386. [sourced via the companion's reference list; primary-object check at M7; carries the processing-limits clause in Section 5.2]
+- **Berg et al. (2022)** — [OK — web-verified M7] Berg, F., Kölbel, J. F., & Rigobon, R. (2022). Aggregate confusion: The divergence of ESG ratings. *Review of Finance, 26*(6), 1315–1344. https://doi.org/10.1093/rof/rfac033 [sourced via the companion's reference list (Witte et al., 2026); carries the assessment-divergence clause in Section 5.2]
+- **Hirshleifer & Teoh (2003)** — [OK — verified against the companion reference list (COE References.txt) M7] Hirshleifer, D., & Teoh, S. H. (2003). Limited attention, information disclosure, and financial reporting. *Journal of Accounting and Economics, 36*(1–3), 337–386. [carries the processing-limits clause in Section 5.2]

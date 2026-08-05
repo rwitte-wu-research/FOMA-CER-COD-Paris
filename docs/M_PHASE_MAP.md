@@ -1,8 +1,12 @@
-# M-Phase Positioning Map — FOMA CER–COD–Paris (P1 output) — v1.3
+# M-Phase Positioning Map — FOMA CER–COD–Paris (P1 output) — v1.4
 
-Authored in the M session (P1), 2026-08-01; **v1.1 revision authored in the M2 session, 2026-08-02; v1.2 revision authored in the M4 session, 2026-08-04 (governing entry: DEC-056); v1.3 revision authored in the M6 session, 2026-08-05 (governing entry: DEC-058).** Governing entries: **DEC-052** (v1.0) · **DEC-053** (RQ4 corrigendum; vocabulary conventions) · **the M2 chapter DEC DEC-054** (skeleton-v2 corrigendum, authorized by the M-hub ack of 2026-08-02, cited verbatim there). This file is the **single source** for the TB→chapter mapping, the frozen RQ/H anchors, the vocabulary zones, the single-home register, and the M1–M7 sequencing. Chapter sessions work against this map; changes to frozen items require a corrigendum DEC with ripple check.
+Authored in the M session (P1), 2026-08-01; **v1.1 revision authored in the M2 session, 2026-08-02; v1.2 revision authored in the M4 session, 2026-08-04 (governing entry: DEC-056); v1.3 revision authored in the M6 session, 2026-08-05 (governing entry: DEC-058); v1.4 revision authored in the M7a session, 2026-08-05 (governing entry: DEC-059).** Governing entries: **DEC-052** (v1.0) · **DEC-053** (RQ4 corrigendum; vocabulary conventions) · **the M2 chapter DEC DEC-054** (skeleton-v2 corrigendum, authorized by the M-hub ack of 2026-08-02, cited verbatim there). This file is the **single source** for the TB→chapter mapping, the frozen RQ/H anchors, the vocabulary zones, the single-home register, and the M1–M7 sequencing. Chapter sessions work against this map; changes to frozen items require a corrigendum DEC with ripple check.
 
 Authority chain: claim architecture per [DEC-044] (Framing A) and [DEC-047] (equivalence register); moderator design per [DEC-043]/[DEC-048]; this map adds the manuscript-side architecture only. Result-blind discipline has served its purpose; reporting is licensed within the DEC-047 register.
+
+**v1.4 changelog (2026-08-05):**
+1. *TB-19 annotation corrected (DEC-059 §6):* TB-19 is the **post-cell dominance line from the T2 workbook** (Block B, "Results/Appendix (dominance)", pairs with TB-15; T2 13_Manuscript_Text_Blocks evidence) — not a multiverse panel line; both §5 sites corrected. The appendix multiverse-panel content is carried by the TB-48–51/TB-41–42 strand and the A.4 build table.
+2. *M7 split (author ruling, DEC-059):* §7 M7 row records the M7a execution (online appendix v1.0 · reference-verification pass · consolidated reference list · ledgers finalized) and the M7b remainder (R5 ruling · vocabulary-zone/single-home/numbers scans · #33 waiver · docx assembly), hub-authorized.
 
 **v1.3 changelog (2026-08-05):**
 1. *Appendix re-docking (M6 §2 confirm gate, author ruling; governing entry: DEC-058):* appendix assembly re-docked from M6 to **M7**; §3 RQ4 row note and the §7 M7 row updated; content basis unchanged (ch4 staged block + §5 appendix row, incl. the PRISMA flow slot [PENDING #16]). The v1.2 docking note (item 2 below) is historical.
@@ -80,11 +84,11 @@ Featured reporting set (prose prominence, per DEC-048 [R1] as amended by DEC-054
 | 2 Theory | — (no result TBs) | anchors §3; build plan §4 |
 | 3 Methods | 01, 02, 03 · 16, 17, 18 · 20 · 30 · 38 · 52 · 57, 63 · 47 (dual with App) · #36 overlap prose (from docs/overlap_disclosure_v12.md, no TB) | 13 READY blocks; gaps only [PENDING #16], [PENDING #23 note], [PENDING R5] |
 | 4.1 Pooled (RQ1) | **4.1.1:** 04, 05, 06 · **08 BLOCKED until #37** (economic translation; Tier-2-bearing; feeds Ch. 1/5) — **4.1.2:** 65(TF), 66, 67 · 69, 70 · 09 (register overview; Δ-vs-headline home) | 4.1.2 compact: overview prose + register table; LOO/influence detail stays Appendix [pin a] |
-| 4.2 Paris (RQ2) | **4.2.1:** 07 (opener; relocated from §4.1 per DEC-054, closing pointer sentence superseded [E-9], resolves the [B1] note) · 13 · 14, 15 · 40 · 36, 37 · 46 (R6) — **4.2.2:** 53, 54 · 43 (carries the single overlap cross-ref) — **4.2.3:** 21–26 · 39 · 28 (after flip; closing paragraph [pin c]) — **4.2.4:** 48–51 · 41, 42 (finalized M2; figure-coupled resolved, Figures 4/5) — 19 → Appendix (multiverse panel line) | core vocabulary zone; TB-55 cross-reference finalized at §4.2 close (last sentence of the 4.2 conclusion) [pin d] |
+| 4.2 Paris (RQ2) | **4.2.1:** 07 (opener; relocated from §4.1 per DEC-054, closing pointer sentence superseded [E-9], resolves the [B1] note) · 13 · 14, 15 · 40 · 36, 37 · 46 (R6) — **4.2.2:** 53, 54 · 43 (carries the single overlap cross-ref) — **4.2.3:** 21–26 · 39 · 28 (after flip; closing paragraph [pin c]) — **4.2.4:** 48–51 · 41, 42 (finalized M2; figure-coupled resolved, Figures 4/5) — 19 → Appendix (post-cell dominance line, T2; corrected v1.4) | core vocabulary zone; TB-55 cross-reference finalized at §4.2 close (last sentence of the 4.2 conclusion) [pin d] |
 | 4.3 Moderators (RQ3) | 58, 59, 60, 61 · 62 | main-text Table 3 = all eight panels, both tiers (M-T3 variant L); prose prominence featured four; loan-vs-bond descriptive; pairwise inventory → Appendix Table A.1 |
 | 4.4 Publication bias (RQ4) | 31, 32, 34 · 44 (realigned per pin h) · D6 table (Table 4) directly after the section opener [author ruling at the unit draft, DEC-054; supersedes the 'end of section' placement] | 33 → App (period FAT-PET-PEESE panel) |
 | 5 Discussion | **55 (register voice, single home)** · 35 · 27 · 56 (DRAFT) · 64 (DRAFT; composition/boundary paragraph, R3) · 11 (power/null-security, P1-Q5) · TH.md verdict sentence (M authorship) | |
-| Appendix | 10 · 33 · 47 · 71 · 19 (multiverse panel line) · pairwise inventory (Table A.1) · LOO/influence tables · any-with line · Figures A1 (forest) / A2 (funnel) · PRISMA flow | |
+| Appendix | 10 · 33 · 47 · 71 · 19 (post-cell dominance line, T2; corrected v1.4) · pairwise inventory (Table A.1) · LOO/influence tables · any-with line · Figures A1 (forest) / A2 (funnel) · PRISMA flow | |
 | Abstract | 12 (READY at M6, DEC-058) | R4 title family |
 
 ---
@@ -113,7 +117,7 @@ Featured reporting set (prose prominence, per DEC-048 [R1] as amended by DEC-054
 | **M4** | Ch. 2 (2.1/2.2 rebuild with the two-sided tension architecture per R1; 2.3 per §4 build plan; Fig. 1 framework update) | — | — |
 | **M5** | Ch. 5 (build around TB-55/35/27/11; boundary paragraph TB-61+64) | Finalize TB-56, TB-64; TH_b workbook touch → micro-fix inherited 4_Formula_Reference B6/B8/B9 | — |
 | **M6** | Abstract + title (R4 family); finalize TB-12 | — | — |
-| **M7** | Pre-submission gate: **R5 ruling** · vocabulary-zone scan (whole manuscript) · single-home check · numbers consistency pass · #33 waiver decision · Ch.-2 pass-2 B-level quality check · references/format (author's closing pass) · **online-appendix assembly (re-docked from M6 per DEC-058)** | — | R5 |
+| **M7** | Pre-submission gate — **split per DEC-059**: **M7a (executed 2026-08-05):** online-appendix assembly (appendix.md v1.0) · reference-verification pass · consolidated reference list · five ledgers finalized · Ch.-2 pass-2 B-level quality check (PASS). **M7b (hub-authorized):** **R5 ruling** · vocabulary-zone scan (whole manuscript) · single-home check · numbers consistency pass · #33 waiver decision · docx assembly · author style/format closing pass | — | R5 |
 
 Manuscript file layout (DEC-052.i): `manuscript/` directory, one Markdown file per chapter (`ch1_introduction.md` … `ch5_discussion.md`, `abstract_title.md`); docx assembly at M7.
 
