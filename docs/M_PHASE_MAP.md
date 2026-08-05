@@ -1,8 +1,12 @@
-# M-Phase Positioning Map — FOMA CER–COD–Paris (P1 output) — v1.2
+# M-Phase Positioning Map — FOMA CER–COD–Paris (P1 output) — v1.3
 
-Authored in the M session (P1), 2026-08-01; **v1.1 revision authored in the M2 session, 2026-08-02; v1.2 revision authored in the M4 session, 2026-08-04 (governing entry: DEC-056).** Governing entries: **DEC-052** (v1.0) · **DEC-053** (RQ4 corrigendum; vocabulary conventions) · **the M2 chapter DEC DEC-054** (skeleton-v2 corrigendum, authorized by the M-hub ack of 2026-08-02, cited verbatim there). This file is the **single source** for the TB→chapter mapping, the frozen RQ/H anchors, the vocabulary zones, the single-home register, and the M1–M7 sequencing. Chapter sessions work against this map; changes to frozen items require a corrigendum DEC with ripple check.
+Authored in the M session (P1), 2026-08-01; **v1.1 revision authored in the M2 session, 2026-08-02; v1.2 revision authored in the M4 session, 2026-08-04 (governing entry: DEC-056); v1.3 revision authored in the M6 session, 2026-08-05 (governing entry: DEC-058).** Governing entries: **DEC-052** (v1.0) · **DEC-053** (RQ4 corrigendum; vocabulary conventions) · **the M2 chapter DEC DEC-054** (skeleton-v2 corrigendum, authorized by the M-hub ack of 2026-08-02, cited verbatim there). This file is the **single source** for the TB→chapter mapping, the frozen RQ/H anchors, the vocabulary zones, the single-home register, and the M1–M7 sequencing. Chapter sessions work against this map; changes to frozen items require a corrigendum DEC with ripple check.
 
 Authority chain: claim architecture per [DEC-044] (Framing A) and [DEC-047] (equivalence register); moderator design per [DEC-043]/[DEC-048]; this map adds the manuscript-side architecture only. Result-blind discipline has served its purpose; reporting is licensed within the DEC-047 register.
+
+**v1.3 changelog (2026-08-05):**
+1. *Appendix re-docking (M6 §2 confirm gate, author ruling; governing entry: DEC-058):* appendix assembly re-docked from M6 to **M7**; §3 RQ4 row note and the §7 M7 row updated; content basis unchanged (ch4 staged block + §5 appendix row, incl. the PRISMA flow slot [PENDING #16]). The v1.2 docking note (item 2 below) is historical.
+2. *Title fixed at M6 (DEC-058):* §8 R4 row records the final wording — "Did the Paris Agreement Reprice Corporate Environmental Responsibility in Credit Markets? A Meta-Analysis of the Cost of Debt"; §5 Abstract row updated (TB-12 READY at M6).
 
 **v1.2 changelog (2026-08-04):**
 1. *RQ4 freeze (DEC-053 ripple executed; M4/DEC-056):* §3 RQ4 wording FROZEN as drafted; DRAFT marker removed here and in manuscript/ch1_introduction.md (two-line edit per DEC-056 §7).
@@ -42,7 +46,7 @@ Authority chain: claim architecture per [DEC-044] (Framing A) and [DEC-047] (equ
 | RQ1 | Is CER negatively associated with firms' cost of debt? |
 | RQ2 | Has the Paris Agreement moderated the CER–COD relationship? |
 | RQ3 | How does the CER–COD association vary across measurement, instrument, industry, regulatory, and country contexts — and does the Paris-period contrast itself vary across these dimensions? |
-| RQ4 | Is the pooled CER–COD association robust to publication selection? *(FROZEN at M4, DEC-056; appendix assembly docked to M6 — author confirm at M6 start)* |
+| RQ4 | Is the pooled CER–COD association robust to publication selection? *(FROZEN at M4, DEC-056; appendix assembly re-docked to M7 per DEC-058)* |
 | H1 | CER is negatively associated with firms' cost of debt. |
 | H2 | The negative association between CER and COD is stronger in the post-Paris period than in the pre-Paris period. |
 
@@ -81,7 +85,7 @@ Featured reporting set (prose prominence, per DEC-048 [R1] as amended by DEC-054
 | 4.4 Publication bias (RQ4) | 31, 32, 34 · 44 (realigned per pin h) · D6 table (Table 4) directly after the section opener [author ruling at the unit draft, DEC-054; supersedes the 'end of section' placement] | 33 → App (period FAT-PET-PEESE panel) |
 | 5 Discussion | **55 (register voice, single home)** · 35 · 27 · 56 (DRAFT) · 64 (DRAFT; composition/boundary paragraph, R3) · 11 (power/null-security, P1-Q5) · TH.md verdict sentence (M authorship) | |
 | Appendix | 10 · 33 · 47 · 71 · 19 (multiverse panel line) · pairwise inventory (Table A.1) · LOO/influence tables · any-with line · Figures A1 (forest) / A2 (funnel) · PRISMA flow | |
-| Abstract | 12 (DRAFT, last) | R4 title family |
+| Abstract | 12 (READY at M6, DEC-058) | R4 title family |
 
 ---
 
@@ -109,7 +113,7 @@ Featured reporting set (prose prominence, per DEC-048 [R1] as amended by DEC-054
 | **M4** | Ch. 2 (2.1/2.2 rebuild with the two-sided tension architecture per R1; 2.3 per §4 build plan; Fig. 1 framework update) | — | — |
 | **M5** | Ch. 5 (build around TB-55/35/27/11; boundary paragraph TB-61+64) | Finalize TB-56, TB-64; TH_b workbook touch → micro-fix inherited 4_Formula_Reference B6/B8/B9 | — |
 | **M6** | Abstract + title (R4 family); finalize TB-12 | — | — |
-| **M7** | Pre-submission gate: **R5 ruling** · vocabulary-zone scan (whole manuscript) · single-home check · numbers consistency pass · #33 waiver decision · Ch.-2 pass-2 B-level quality check · references/format (author's closing pass) | — | R5 |
+| **M7** | Pre-submission gate: **R5 ruling** · vocabulary-zone scan (whole manuscript) · single-home check · numbers consistency pass · #33 waiver decision · Ch.-2 pass-2 B-level quality check · references/format (author's closing pass) · **online-appendix assembly (re-docked from M6 per DEC-058)** | — | R5 |
 
 Manuscript file layout (DEC-052.i): `manuscript/` directory, one Markdown file per chapter (`ch1_introduction.md` … `ch5_discussion.md`, `abstract_title.md`); docx assembly at M7.
 
@@ -128,7 +132,7 @@ Manuscript file layout (DEC-052.i): `manuscript/` directory, one Markdown file p
 | R1 | H2 directional, retained and rejected; two-sided tension architecture in §2.2 | FROZEN (a) |
 | R2 | O-A': RQ1–3 · H1+H2 only · no a/b split · 2.3 consolidated section without H3+ · anchors §3 · featured set unchanged | FROZEN |
 | R3 | TB-64 adopted into the composition/boundary paragraph (Ch. 5) | FROZEN (a) |
-| R4 | Title family = question form ("Did the Paris Agreement Reprice Environmental Responsibility in Credit Markets? …"); final wording M6 | FROZEN (a) |
+| R4 | Title family = question form; final wording fixed at M6 (DEC-058): "Did the Paris Agreement Reprice Corporate Environmental Responsibility in Credit Markets? A Meta-Analysis of the Cost of Debt" | FROZEN (a) |
 | R5 | Repro/OSF package scope | **DEFERRED → M7** |
 | R6 | TB-46 → Results §4.2 | FROZEN (a) |
 | R7 | overlap note → `docs/` | FROZEN (a) |
