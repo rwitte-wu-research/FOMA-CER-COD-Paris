@@ -1,8 +1,12 @@
-# M-Phase Positioning Map — FOMA CER–COD–Paris (P1 output) — v1.4
+# M-Phase Positioning Map — FOMA CER–COD–Paris (P1 output) — v1.5
 
-Authored in the M session (P1), 2026-08-01; **v1.1 revision authored in the M2 session, 2026-08-02; v1.2 revision authored in the M4 session, 2026-08-04 (governing entry: DEC-056); v1.3 revision authored in the M6 session, 2026-08-05 (governing entry: DEC-058); v1.4 revision authored in the M7a session, 2026-08-05 (governing entry: DEC-059).** Governing entries: **DEC-052** (v1.0) · **DEC-053** (RQ4 corrigendum; vocabulary conventions) · **the M2 chapter DEC DEC-054** (skeleton-v2 corrigendum, authorized by the M-hub ack of 2026-08-02, cited verbatim there). This file is the **single source** for the TB→chapter mapping, the frozen RQ/H anchors, the vocabulary zones, the single-home register, and the M1–M7 sequencing. Chapter sessions work against this map; changes to frozen items require a corrigendum DEC with ripple check.
+Authored in the M session (P1), 2026-08-01; **v1.1 revision authored in the M2 session, 2026-08-02; v1.2 revision authored in the M4 session, 2026-08-04 (governing entry: DEC-056); v1.3 revision authored in the M6 session, 2026-08-05 (governing entry: DEC-058); v1.4 revision authored in the M7a session, 2026-08-05 (governing entry: DEC-059); v1.5 revision authored in the M7b session, 2026-08-06 (governing entry: DEC-060).** Governing entries: **DEC-052** (v1.0) · **DEC-053** (RQ4 corrigendum; vocabulary conventions) · **the M2 chapter DEC DEC-054** (skeleton-v2 corrigendum, authorized by the M-hub ack of 2026-08-02, cited verbatim there). This file is the **single source** for the TB→chapter mapping, the frozen RQ/H anchors, the vocabulary zones, the single-home register, and the M1–M7 sequencing. Chapter sessions work against this map; changes to frozen items require a corrigendum DEC with ripple check.
 
 Authority chain: claim architecture per [DEC-044] (Framing A) and [DEC-047] (equivalence register); moderator design per [DEC-043]/[DEC-048]; this map adds the manuscript-side architecture only. Result-blind discipline has served its purpose; reporting is licensed within the DEC-047 register.
+
+**v1.5 changelog (2026-08-06):**
+1. *Multiverse attribution corrected (DEC-060 §3; supersedes v1.4 changelog item 1, which misattributed multiverse content):* multiverse content lives in the §4.2.4 prose; the appendix carries no multiverse table or figure — appendix Table A.4 is the period FAT–PET–PEESE panel [TB-33], and Figures 4/5 are the temporal battery (cumulative/rolling; TB-41–42, TH_a).
+2. *§8 register rows updated (DEC-060 §5):* #33 re-docked — decision-by-rule at the #16 PRISMA integration point, at latest the submission gate (archive search still pending 2026-08-06); R5 → ruled (scope (i); ch3 slot sentence placed).
 
 **v1.4 changelog (2026-08-05):**
 1. *TB-19 annotation corrected (DEC-059 §6):* TB-19 is the **post-cell dominance line from the T2 workbook** (Block B, "Results/Appendix (dominance)", pairs with TB-15; T2 13_Manuscript_Text_Blocks evidence) — not a multiverse panel line; both §5 sites corrected. The appendix multiverse-panel content is carried by the TB-48–51/TB-41–42 strand and the A.4 build table.
@@ -163,9 +167,9 @@ Manuscript file layout (DEC-052.i): `manuscript/` directory, one Markdown file p
 | #16 | PRISMA basics (search date, databases, hit/screening counts, inter-coder) | M1 | requested 2026-07-31 (C1 package to Volker) |
 | #23 | Capelle-Blancard PRISMA note + drop-one sensitivity note | M1 (note slot) | requested 2026-07-31 |
 | #37 | SD(COD) benchmarks per instrument → TB-08 | M2 | requested 2026-07-31 |
-| #33 | 2021 search metadata; else waiver | M7 (waiver decision) | archive search requested 2026-07-31 |
+| #33 | 2021 search metadata; else waiver | #16 integration point, at latest the submission gate (decision-by-rule, DEC-060 §5) | archive search requested 2026-07-31; still pending 2026-08-06 |
 | #17 | lookup upkeep | non-blocking | open |
-| R5 | repro/OSF scope | M7 | deferred |
+| R5 | repro/OSF scope | M7 | ruled (DEC-060 §5: scope (i); ch3 slot sentence placed) |
 
 ---
 
