@@ -1,0 +1,46 @@
+
+== SD(COD) benchmark constants (basis points) ==
+                                spec instrument_class median_sd_bp k_studies
+                             primary             loan        200.0        49
+                             primary             bond        150.0        21
+                             primary              CDS        168.6         7
+                         spread_only             loan        111.7        10
+                         spread_only             bond        150.0        21
+                         spread_only              CDS        168.6         7
+                     non_spread_only             loan        310.0        39
+                      high_conf_only             loan        157.0        37
+                      high_conf_only             bond        153.7        12
+                      high_conf_only              CDS        159.7         6
+                      unflagged_only             loan        157.0        44
+                      unflagged_only             bond        150.0        21
+                      unflagged_only              CDS        168.6         7
+ lognormal_backtransform_lower_bound              CDS        163.0         3
+ lognormal_backtransform_lower_bound             loan        186.5         7
+
+== Coverage ==
+ instrument_class bp_ok log_only no_sd unclear eligible_cells coverage_percent
+             bond    21        1     4       0             26             80.8
+              CDS     7        1     2       1             11             63.6
+             loan    52       10    10       0             72             72.2
+
+Rows total: 125 | excluded by adjudication: 5 | usable: 94 
+O15.1a rows_merged has 125 rows                            PASS
+O15.1b exactly 5 adjudicated exclusions                    PASS
+O15.1c every exclusion carries a reason                    PASS
+O15.2  sd_bp = sd_printed * factor on every converted row  PASS
+O15.3a loan primary = 200.0 bp                             PASS
+O15.3b bond primary = 150.0 bp                             PASS
+O15.3c CDS  primary = 168.6 bp                             PASS
+O15.3d k = 49 / 21 / 7                                     PASS
+O15.4a spread-only  loan = 111.7 (k=10)                    PASS
+O15.4b non-spread   loan = 310.0 (k=39)                    PASS
+O15.4c bond/CDS homogeneous (primary == spread-only)       PASS
+O15.4d high-confidence-only = 157.0 / 153.7 / 159.7        PASS
+O15.4e unflagged-only loan = 157.0 (k=44)                  PASS
+O15.4f lognormal lower bound loan = 186.5 (k=7), CDS = 163.0 (k=3) PASS
+O15.5a eligible cells = 72 / 26 / 11 (sum 109)             PASS
+O15.5b bp_ok = 52 / 21 / 7 (sum 80)                        PASS
+O15.6  no regression vocabulary in extraction notes        PASS
+
+----------------------------------------------------------
+VERIFIER 13: ALL CHECKS PASS

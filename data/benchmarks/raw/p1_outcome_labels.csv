@@ -1,0 +1,109 @@
+study_key,instrument_class,outcome_labels_verbatim
+Al-Fakir Al Rabab'a et al (2023),loan,COD
+Ali et al (2023),loan,KD | interest-spread
+Ali et al (2026),loan,WACD | CODAD
+Almutairi (2026),loan,COD | COD (alternative proxy: financial expenses to total liabilities)
+Altavilla et al (2024),loan,"Spreadb,f,t (monthly average credit spread over maturity-matched risk-free rate)"
+Apergis et al (2022),bond,ln(Spread) | Spread (without the log transformation)
+"Atif, Ali (2021)",CDS,CDS
+Attig et al (2025),loan,"All-in-drawn (AISD) spread over LIBOR (basis points) | Total cost of bank loans (total loan fees plus AISD spread over LIBOR, basis points)"
+Azmi et al (2021),loan,Cost of debt
+Bannier et al (2022),CDS,CDS1Y | CDS5Y
+"Bauer, Hann (2010)",bond,ln(Spread) | Spread
+Ben Slimane et al (2019),bond,ln OAS (logarithm of the yield spread)
+Boermans et al (2023),bond,bond yield spread (YTM in excess of the risk free rate)
+Borsuk & Shrimali (2026),loan,COD (total interest expense over past 12 months to average total liabilities) | Loan spread (all-in-spread-drawn)
+Boubaker et al (2026),loan,CoD (financial expense / interest-bearing debt)
+Brinette et al (2026),loan,COD (interest expense / total liabilities)
+Caragnano et al (2020),loan,KD
+Chava (2010),loan,log of all-in-drawn spread on the loan
+Chava (2014),loan,log of the all-in-drawn spread on the loan
+Chen et al (2020),loan,Ln(Spread) | Ln (TCB) | Ln (Spread) | Ln (spread)
+"Chen, Gao (2011)",bond,YTM_Spread
+Christ et al (2022),CDS,LN (CDS) | ΔLN (CDS)
+Cicchini et al (2026),loan,CoD
+D'Arcangelo et al (2025),loan,(log) All-in-spread-drawn
+Delis et al (2021),loan,Loan rate
+Ding et al (2022),loan,Δ%COD (change rate of COD)
+Drago et al (2018),CDS,LnSpread (logarithm of CDS spread observed 30 days after ASSET4 rating announcement)
+"Drago, Carnevale (2020)",loan,LnSpread
+Du et al (2015),loan,IRDt (%) | IRDt | IRD_ADJt
+Du et al (2022),loan,DCost
+Dumrose & Höck (2023),bond,Ln(Credit Spread)
+Duong et al (2025),CDS,CDS1 | CDS5 | CDS10 | CDS30 | CDS5QA
+Ehlers et al (2021),loan,loan margin in basis points | loan margin in basis point (bp) | All in Pricing
+Eichholtz et al (2019),bond,bond spread
+Eliwa et al (2021),loan,CoD (interest expense / avg debt)
+Erragragui (2018),loan,LOG_CoD
+Ferriani (2022),bond,log-ASS
+Fonseka et al (2019a),loan,COD (interest expenditure / average total debt)
+Fonseka et al (2019b),loan,COD: LN_IR
+"Ge, Liu (2015)",bond,YieldSpread
+Gonzales Sanches et al (2026),loan,"Costdeb (cost of debt, accounting interest rate of firms' financial debt) | Costdebt (cost of debt, accounting interest rate of firms' financial debt)"
+Hamrouni et al (2019a),loan,Interest_TD
+Hansen & Marcet (2025),bond,"Debt (Spread, bp)"
+Ho & Wong (2023),loan,LoanSpread
+Hoepner et al (2016),loan,Logarithm of the 1% winsorized value of bank loan spread over the basis rate
+Hui et al (2024),loan,Loan cost
+Höck et al (2020),CDS,CDS (natural logarithm of the CDS spread) | CDS
+Johnson (2020),loan,Cost of debt
+Jung et al (2016),loan,COD (interest expense divided by average interest-bearing debt)
+Kim & Pouget (2026),bond,Offering spread (%) | Secondary spread (%) | Spread (Primary + Secondary pooled)
+"Kleimeier, Viehs (2021)",loan,ln(spread in bsp) | ln(spread in bps) | ln(spread in bp)
+Kordschia (2020),loan,"COD (average marginal cost of debt, in percent) | COD (cost of debt in percent, marginal cost of issuing new debt) | COLD (cost of long-term debt in percent)"
+Kozak (2021),loan,COD (cost of debt capital (%))
+Kumar & Firoz (2018),loan,COD (total interest paid during the year divided by the total long-term debt)
+Kölbel et al (2020),CDS,"∆S5Y | ∆S10Y | ∆S30Y | ∆Y5Y,1Y | ∆Y10Y,5Y"
+Lemma et al (2017),loan,"KDi,t"
+Li & Qiu (2026),bond,∆CS | ∆DP | ∆RP | CS
+Li et al (2014),loan,COD (cost of debt = total interest expenses / total long-term debts)
+Li et al (2022),loan,CoD (ratio of interest expense to average total debt)
+Lin et al (2025),loan,COBB (cost of bank borrowing)
+Liu et al (2023),loan,COD | ΔCOD
+Luo et al (2019),loan,Debt_Fcosts | Debt-Fcosts
+Ma et al (2022),bond,Spread
+"Maaloul, Wegener (2021)",loan,Cost of debtit+1
+"Nandy, Lodh (2012)",loan,Log (Spread) | Log Spread
+Nasih et al (2024),loan,COD
+Ng & Rezaee (2012),loan,CostDebtt
+Ofogbe et al (2021),loan,LCOD | COD
+Oikonomou et al (2014),bond,ln(spread)
+Okimoto & Takaoka (2024),CDS,CDS spread (asinh(CDS spread in basis point)) | Short-term spread | Long-term spread | Slope of CDS spread curve
+"Okimoto, Takaoka (2022)",bond,Credit spread (bp)
+Ould Daoud Ellili (2020),loan,CD | Cost of Debt
+Owolabi et al (2024),loan,Cost of Debt
+"Palea, Drogo (2020)",loan,Ln (cod)
+Panjwani et al (2023),bond,Long Term Credit Spread
+Piechocka-Kałużna et al (2021),loan,"WACC Cost of Debt, (%) in the last 10 FY | WACC Cost of Debt"
+Pizzutilo et al (2020),loan,KD | Yearly KD measured by Bloomberg Professional service | previous year average monthly KD | previous year KD
+Polbennikov et al (2016),bond,issuer spread (bp)
+Ratajczak & Mikolajewicz (2021),loan,sqrt_Debt Cost | sqrt_Short Term Debt Cost | sqrt_Long Term Debt Cost | Model 0 (sqrt_Debt Cost) | Model 1A (sqrt Short Term Debt Cost) | Model 1B (sqrt Long Term Debt Cost)
+Ririmasse et al (2026),loan,Cost of Debt (CD)
+Safiullah et al (2021),CDS,CDS spread
+Salvi et al (2021),bond,log(spread)
+Sandra et al (2021),loan,LCOD | D (COD)
+Schneider (2010),bond,YLD_SPD
+Seltzer et al (2022),bond,Offering spread
+Shad et al (2022),loan,Cd (cost of debt) | cost of debt (Cd)
+Shi et al (2025),loan,Debt financing cost (interest expense / total liabilities) | Total Expense/Liability (sum of transaction fees other financial expenses and interest expenses to total liabilities)
+Sze et al (2021),bond,OAS
+Tan et al (2021),bond,SPREAD | YIELD
+Tan et al (2026),loan,Cost (net financial expenses / total liabilities) | Cost1 (interest expenses / average short- and long-term liabilities)
+Tang et al (2023),bond,Spread | Spread1 | Spread2
+Temiz (2022),loan,COD
+Trinh et al (2024),loan,COD | Interest Rate
+"Truong, Kim (2019)",CDS,Slope of CDS Spreads Measured by Difference between 5-Year and 1-Year CDS Spreads | Slope of CDS spreads measured by difference between 10-year and 1-year CDS spreads | 1-Year CDS Spreads | 5-year CDS levels | 10-year CDS levels
+Wang & Wijethilake (2026),bond,Spread
+Wang et al (2020),loan,COD (interest expense / average value of short-term and long-term debts)
+Wang et al (2022a),loan,Cost (ratio of total interest expense to average interest-bearing debt)
+Wang et al (2025a),bond,BFC (bond coupon rate minus matched-maturity Treasury yield)
+Wang et al (2025b),loan,COD | COD (interest expense / average total debts) | COD1 (interest expense / total debt)
+Wu et al (2020),loan,Debtcost
+Xiang & Gong (2026),bond,Spread
+Yang et al (2024),loan,COD
+Yilmaz (2022),loan,COD (Cost of Debt Capital)
+Zhang et al (2023),CDS,cds1 | cds5 | cds10 | cds30 | Slope5_1 | Slope10_1
+Zheng (2021),loan,COD | COD_t+1 | COD by GICS
+Zhou et al (2018),loan,COD (Cost of debt financing) | COD (alternative: (interest expense + fee + other financial expenses)/average liability with interest)
+Zhou et al (2024),loan,Loan Spread
+"Zhu, Zhao (2022)",loan,COST (Cost of bank loans)

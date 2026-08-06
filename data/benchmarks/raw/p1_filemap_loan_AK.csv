@@ -1,0 +1,39 @@
+study_key,filename,match_confidence,status,comment
+Al-Fakir Al Rabab'a et al (2023),Al-Fakir Al Rababa et al (2023) - corporate carbon perf and cost of debt.pdf,high,matched,surname+year exact; apostrophe dropped in filename
+Ali et al (2023),Ali et al (2023) - do capital markets reward corporate climante cahnge actions.pdf,high,matched,
+Ali et al (2026),Ali et al (2026) - carbon risk and cost of debt.pdf,high,matched,
+Almutairi (2026),Almutairi (2026) - the impact of climate change disc and cost of debt.pdf,high,matched,
+Altavilla et al (2024),"Altavilla et al (2024) - climate risk, bank lending and monetary policy.pdf",high,matched,
+Attig et al (2025),Attig et al (2025) - creditors at the gate.pdf,high,matched,
+Azmi et al (2021),Azmi et al (2021) - ESG activities and banking performance.pdf,high,matched,
+Borsuk & Shrimali (2026),"Borsuk, Shrimali (2026) - carbon risk and corp creditworthiness.pdf",high,matched,
+Boubaker et al (2026),Boubaker et al (2026) - env practices and corp cost of debt.pdf,high,matched,
+Brinette et al (2026),Brinette et al (2026) - waste mgmt and cost of debt.pdf,high,matched,
+Caragnano et al (2020),Caragnano (2020) - Is it worth reducing ghg emissions.pdf,high,matched,filename omits 'et al'; only Caragnano candidate
+Chava (2010),Chava (2010) - Do env concerns affect the cost of bank loans.pdf,high,matched,
+Chava (2014),Chava (2014) - Env externalities and cost of capital (2).pdf,high,matched,
+Chen et al (2020),Chen et al (2021) - Do Banks Value Borrowers Environmental Record.pdf,high,matched,"JBE print year 2021, published online 22 Sep 2020 = study_key year; only Chen-et-al loan candidate (Chen & Gao is bond); paper reports loan spreads and total borrowing costs, matching listed labels Ln(Spread)/Ln(TCB)"
+Cicchini et al (2026),Cicchini et al (2026) - ghg emission and the cost of debt.pdf,high,matched,
+D'Arcangelo et al (2025),DArcangelo et al (2025) - the effect of climate policies on firm financing.pdf,high,matched,apostrophe dropped in filename
+Delis et al (2021),Delis et al (2021) - Being stranded with fossil fuel reserves.pdf,high,matched,
+Ding et al (2022),"Ding et al (2022) - Env administrative penalty, corp env disclsoures and the cost of debt.pdf",high,matched,
+"Drago, Carnevale (2020)","Drago, Carnevale (2020) - Do CSR Ratings Affect Loan Spreads.pdf",high,matched,"distinct from Drago et al (2018) CDS paper, which is out of scope"
+Du et al (2015),Du et al (2017) - Do lenders applaud corp env perf.pdf,high,matched,"JBE print 2017, published online 18 Jul 2015 = study_key year; the other Du PDF is separately matched to Du et al (2022), so no conflict"
+Du et al (2022),Du et al (2022) - Will environmental information disclosure afect bank credit decisions  and corp debt financing costs.pdf,high,matched,
+Ehlers et al (2021),Ehlers et al (2021) - th epricing of carbon risk in syndicated loans.pdf,high,matched,
+Eichholtz et al (2019),Eichholtz et al (2019) - Env perf and the cost of debt.pdf,high,matched,allowed_classes loan|bond; LOAN variable only in this run
+Eliwa et al (2021),Eliwa et al (2021) - ESG practices and the cost of debt.pdf,high,matched,
+Erragragui (2018),Erragragui (2018) - Doe creditors price firms ESG risk.pdf,high,matched,
+Fonseka et al (2019a),Fonseka et al (2019) - THe effect of env infromation disclosure and energy product type on the cost of debt.pdf,high,matched,"two Fonseka 2019 PDFs; surname+year alone is ambiguous, resolved on outcome label: this paper (Pacific-Basin Finance J.) computes COD as interest expenditure / total debt, matching the 2019a label"
+Fonseka et al (2019b),Fonseka et al (2019) - Impact of env information disclosure and real estate segments on cost of debt.pdf,high,matched,"two Fonseka 2019 PDFs; resolved on outcome label: this paper (Economics of Transition) uses COD: LN_IR, matching the 2019b label"
+Gonzales Sanches et al (2026),"Gonzales Sanches et al (2026) - corp env resp, env policy stringency and debt cost.pdf",high,matched,
+Hamrouni et al (2019a),Hamrouni et al (2019) - Are corp social resp disclosures relevant for lenders.pdf,high,matched,only one Hamrouni 2019 PDF in corpus; no 2019b study_key exists
+Ho & Wong (2023),"Ho, Wong (2023) - effect of climate-realted risk on the costs of bank loans.pdf",high,matched,
+Hoepner et al (2016),Hoepner et al (2016) - The effects of corp and coutnry sust characteristics on the cost of debt.pdf,high,matched,
+Hui et al (2024),Hui et al (2024) - Financing sustainability  How environmental disclosures shape bank lending.pdf,high,matched,
+Johnson (2020),"Johnson (2020) - The link between env, social and corp gov disclsoure and the cost of capital.pdf",high,matched,
+Jung et al (2016),"Jung et al (2018) - Carbon Risk, Carbon Risk Awareness and the Cost of Debt financing.pdf",high,matched,"JBE print 2018, published online 28 May 2016 = study_key year; only Jung candidate"
+"Kleimeier, Viehs (2021)","Kleimeier, Viehs (2021) - Prcing carbon risk.pdf | Kleimeier, Viehs (2018) - carbon disc, emission levels and the cost of debt.pdf",high,matched,BOTH PDFs in scope under this single study_key (user-confirmed: the 2018 working paper has no separate study_key; its effects sit under the 2021 key). Rows tagged EL2021: / WP2018: in source_pointer.
+Kordschia (2020),Kordschia (2019) - A risk mgmt perspective on csr and the marginal cost of debt.pdf,high,matched,"author is Kordsachi; Rev Manag Sci print 2021, published online 30 Apr 2020 = study_key year; filename year 2019 is the submission year; only candidate"
+Kozak (2021),Kozak (2021) - will the reduction of co2 emission lower the cost of debt.pdf,high,matched,two filenames but byte-identical duplicates (md5 ce855ba3ff5a2921f72789e82b3489f2); duplicate copy is 'Kozak (2021) - Will the reduction of co emissions lower the cost of debt financing.pdf'; not a conflict
+Kumar & Firoz (2018),"Kumar, Firoz (2018) - Impact of carbon emissions on cost of debt.pdf",high,matched,

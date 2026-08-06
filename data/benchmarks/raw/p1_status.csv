@@ -1,0 +1,12 @@
+﻿study_key,status,n_rows,comment
+"Atif, Ali (2021)",unclear,2,"SD of the CDS variable IS printed (25.12) but its unit is stated nowhere in the paper; bp vs percentage points differ by 100x. Rows written with sd_bp empty. NOTE: this use of 'unclear' deviates from the narrowed definition (which covers 'no variable of the in-scope class identifiable') because the status set has no value for 'SD printed, unit ambiguous'. Flagged for human adjudication."
+Bannier et al (2022),bp_ok,4,"CDS1Y and CDS5Y, both explicitly labelled [bp]. U.S. and EU subsamples only, no full-sample column, so one row per subsample."
+Christ et al (2022),bp_ok,2,"'CDS in bp' (convertible) plus 'LN (CDS)' (log row, sd_bp empty, mean recorded)."
+Drago et al (2018),bp_ok,1,"Single CDS row labelled 'LnSpread (bp)'; printed values are bp levels, not logs. Label/level conflict -> confidence low."
+Duong et al (2025),bp_ok,4,"CDS spreads at 1-, 5-, 10- and 30-year tenors, header explicitly '(bps)'."
+Höck et al (2020),no_sd,0,"Appendix table 'Descriptive statistics of variables' (p. 91) reports CDS with Min / 25% / Median / Mean / 75% / Max / Obs only. No standard deviation column anywhere; the paper has no other descriptives table (Table 1 = variable overview, Table 2 = regressions). CDS unit is bp (stated in text, p. 90)."
+Kölbel et al (2020),bp_ok,1,"Five-year CDS spread S 5Y (bp). Term-structure slope Y 5Y,1Y excluded as a spread difference."
+Okimoto & Takaoka (2024),bp_ok,1,CDS spread printed in % -> factor 100.
+Safiullah et al (2021),no_sd,0,"A 5-year CDS spread variable exists in the paper (dependent variable of the additional test in Section 8.3, sourced from CRI-RMI) but it is absent from the descriptive statistics table (Table 2, p. 4), which covers credit rating, carbon emissions and controls only. No SD of the CDS spread is printed anywhere."
+"Truong, Kim (2019)",bp_ok,6,"CDS spread levels at 1-, 2-, 3-, 5-, 7- and 10-year maturities, all stated to be in basis points. CDS slope variables excluded."
+Zhang et al (2023),log_only,4,"All four CDS variables (CDS1/5/10/30) are defined in Table 1 as natural logarithms of CDS spreads; no untransformed CDS descriptives printed, so no conversion applied."

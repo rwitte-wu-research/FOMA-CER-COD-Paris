@@ -1,0 +1,27 @@
+﻿study_key,filename,match_confidence,status,comment
+Apergis et al (2022),Apergis et al (2022) - ESG scores and cost of debt.pdf,high,matched,surname + year exact
+"Bauer, Hann (2010)","Bauer, Hann (2010) - Corp env mgmt and credit risk.pdf",high,matched,surname + year exact
+Ben Slimane et al (2019),Ben Slimane et al (2019) - ESG investing in corp bonds.pdf,high,matched,"TWO files match surname + year: 'Ben Slimane et al (2019) - ESG investing in corp bonds.pdf' and '... (1).pdf'. They are byte-identical (both 1,915,519 bytes, MD5 ae485d6d9f0c86cd3fe31dfeb92baf3c), i.e. one paper stored twice, so there is no choice between different studies to guess at. Matched to the non-suffixed copy."
+Boermans et al (2023),Boermans et al (2023) - funding the fittest.pdf,high,matched,surname + year exact
+"Chen, Gao (2011)","Chen, Gao (unknown) - The pricing of climate risk.pdf",medium,matched,"filename year is 'unknown'; no year printed on the title page (working paper, Chen & Silva Gao, Univ. of Massachusetts Boston, 'The Pricing of Climate Risk'). Only one Chen/Gao candidate in the folder; authors and topic match."
+Dumrose & Höck (2023),"Dumrose, Hoeck (2023) - corporte carbon risk and credi risk.pdf",high,matched,surname + year exact ('Hoeck' = Höck transliterated); distinct from Höck et al (2020)
+Eichholtz et al (2019),Eichholtz et al (2019) - Env perf and the cost of debt.pdf,high,matched,"surname + year exact; allowed_classes = loan|bond, bond variable only to be extracted"
+Ferriani (2022),Ferriani (2022) - Issuing bonds during the covid-19 pandemic.pdf,high,matched,surname + year exact
+"Ge, Liu (2015)","Ge, Liu (2015) - Corporate social responsibility and the cost of corp bonds.pdf",high,matched,surname + year exact
+Hansen & Marcet (2025),"Hansen, Marcet (2025) - the diff impact of env violations on the cost of cinancing.pdf",high,matched,surname + year exact
+Kim & Pouget (2026),"Kim, Pouget (2026) - do cabron emission affect cost of capital.pdf",high,matched,surname + year exact
+Li & Qiu (2026),"Li, Qui (2026) - env pollution and copr credit spreads.pdf",high,matched,surname + year exact ('Qui' = Qiu misspelt in filename)
+Ma et al (2022),"Ma et al (2022) - env violations, refinancing risk.pdf",high,matched,surname + year exact
+Oikonomou et al (2014),Oikonomou et al (2014) - The effects of corp social perf on the cost of corp debt and credit ratings.pdf,high,matched,surname + year exact
+"Okimoto, Takaoka (2022)","Okimoto, Takaoka (2022) - Sust and credit spreads in japan.pdf",high,matched,surname + year exact; distinct from Okimoto & Takaoka (2024)
+Panjwani et al (2023),Panjawani et al (2023) - do scope 3 carbon emissions impact firms cost of debt.pdf,high,matched,surname + year exact ('Panjawani' = Panjwani misspelt in filename)
+Polbennikov et al (2016),Polebennikov et al (2016) - ESG Ratings and Performance of corp bonds.pdf,high,matched,surname + year exact ('Polebennikov' = Polbennikov misspelt in filename)
+Salvi et al (2021),Salvi et al (2021) - CSR in the bond market.pdf,high,matched,surname + year exact
+Schneider (2010),Schneider (2010) - Is env perf a deteminant of bond pricing#.pdf,high,matched,surname + year exact
+Seltzer et al (2022),Seltzer et al (2022) - Climate reg risk and corp bonds.pdf,high,matched,surname + year exact
+Sze et al (2021),Sze et al (2021) - Is the cost of corp debt influenced by ESG factors.pdf,high,matched,surname + year exact
+Tan et al (2021),Tan et al (2021) - The impact of air pollution on the cost of debt financing.pdf,high,matched,surname + year exact; distinct from Tan et al (2026)
+Tang et al (2023),Tang et al (2023) - the impact of env info disc.pdf,high,matched,surname + year exact
+Wang & Wijethilake (2026),"Wang, Wijethilake (2026) - the effect of carbon disc qualitty.pdf",high,matched,surname + year exact
+Wang et al (2025a),Wang et al (2025) - corp env perf and bond financing cost.pdf,high,matched,"Resolved by the user from corpus metadata (not from reading the papers): Wang et al (2025a) = Wang, Ding, Yang & Wu, IRFA 106 (2025) 104479, 'Corporate environmental performance and bond financing cost'. The other surname+year candidate ('Wang et al (2025) - u-shaped relationshsip...') is Wang et al (2025b) and belongs to the loan run."
+Xiang & Gong (2026),"Xiang, Gong (2026) - the value of climate disc.pdf",high,matched,surname + year exact

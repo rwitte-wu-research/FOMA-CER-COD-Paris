@@ -1,0 +1,35 @@
+study_key,filename,match_confidence,status,comment
+Lemma et al (2017),"Lemma et al (2017) - Corp carbon risk, vol disclusre and cost of capital.pdf",high,matched,
+Li et al (2014),Li et al (2014) - Carbon emission and the cost of capital.pdf,high,matched,
+Li et al (2022),Li et al (2021) - Corp social resp green fin system guidelines and cost of debt financing.pdf,high,matched,"Only Li-et-al loan candidate (Li & Qiu is bond). Filename year 2021 is the acceptance year (accepted 6 Nov 2021, DOI 10.1002/csr.2222); print year is 2022 = study_key year. Content-confirmed: the paper's variable table defines 'CoD - Ratio of interest expense to average total debt', matching the listed label exactly."
+Lin et al (2025),Lin et al (2025) - corp carbon emissions and the cost of bank borrowing.pdf,high,matched,
+Liu et al (2023),Liu et al (2023) - the effect of gov green grip.pdf,high,matched,
+Luo et al (2019),Luo et al (2019) - Env information disclosure quality.pdf,high,matched,
+"Maaloul, Wegener (2021)","Maaloul, Wegener (2022) - Mandatory vs voluntary ghg emissions disclosure and credit risk.pdf",high,matched,"TWO Maaloul PDFs of different papers. Assigned to the Maaloul & Wegener paper (Social and Environmental Accountability Journal 42(1-2), 63-92; published online 24 Dec 2021 = study_key year, print 2022). Three independent confirmations: (a) author pair matches exactly; (b) it contains the variable literally named 'Cost of debt(it+1)', the listed label; (c) it covers credit ratings, matching corpus_classes_verbatim 'loan (interest rate), rating'. The other PDF - 'Maaloul et al (2021) - The effect of ESG perf and disclosure on cost of debt' (Maaloul, Zeghal, Ben Amar & Mansour, Corporate Reputation Review 2021) - is a DIFFERENT paper, contains no 'Cost of debt(it+1)' variable, maps to no study_key in p1_studies.csv, and is NOT used."
+"Nandy, Lodh (2012)","Nandy, Lodh (2012) - Do banks value the co-friendliness of firms in their corp lending decision.pdf",high,matched,
+Nasih et al (2024),Nasih et al (2024) - the relationship of carbon emission disc on the cost of debt.pdf,high,matched,
+Ng & Rezaee (2012),"Ng, Rezaee (unknown) - Sustainability Disclosures and Cost of Capital.pdf",high,matched,"Filename year is 'unknown'; the PDF is the SSRN working paper 'Sustainability Disclosures and Cost of Capital' by Ng (HK PolyU) & Rezaee (Memphis), SSRN abstract 2038654, posted 2012 = study_key year. Sole candidate."
+Ofogbe et al (2021),Ofogbe et al (2021) - The relationship between the CSR and cost of capital.pdf,high,matched,
+Ould Daoud Ellili (2020),"Ould Daoud Ellili (2020) - ESG disclosure, ownership structure and cost of capital.pdf",high,matched,
+Owolabi et al (2024),Owolabi et al (2024) - the impact of carbon risk on the cost of debt.pdf,high,matched,
+"Palea, Drogo (2020)","Palea, Drogo (2020) - Carbon emissions and the cost of debt in the eurozone.pdf",high,matched,
+Piechocka-Kałużna et al (2021),Piechocka-Kałużna et al (2021) - The impact of CSR ESG on cost of capital.pdf,high,matched,
+Pizzutilo et al (2020),Pizzutilo et al (2020) - Dealing with carbon risk and the cost of debt.pdf,high,matched,
+Ratajczak & Mikolajewicz (2021),"Ratajczak, Mikolajewicz (2021) - the impact of env, social and corp gov resp on cost of dbet.pdf",high,matched,
+Ririmasse et al (2026),"Ririmasse et al (2026) - carbon emission, carbon reportin cahnnels and corp debt.pdf",high,matched,
+Sandra et al (2021),Sandra et al (2021) - Long-Run Relationship of CSR and cost of captital of quoted comp in nigeria stock echange.pdf,high,matched,
+Shad et al (2022),Shad et al (2022) - The efficacy of sustainability reporting towards cost of debt and equity reduction.pdf,high,matched,
+Shi et al (2025),Shi et al (2025) - is green an effective signal for investors.pdf,high,matched,
+Tan et al (2026),Tan et al (2026) - theimpact of climate risk information disc on corp financing cost.pdf,high,matched,"Distinct from Tan et al (2021), which is bond and out of scope."
+Temiz (2022),Temiz (2022) - Env perf and cost of finance.pdf,high,matched,
+Trinh et al (2024),Trinh et al (2024) - eco-innovation and corp cost of debt.pdf,high,matched,
+Wang et al (2020),Wang et al (2020) - Corp carbon diaxide emissions and the cost of debt financing.pdf,high,matched,
+Wang et al (2022a),"Wang et al (2022) - Air pollution, env violation risk and the cost of debt.pdf",high,matched,Sole Wang 2022 PDF; no 2022b study_key exists in p1_studies.csv.
+Wang et al (2025b),Wang et al (2025) - u-shaped relationshsip between corp carbon perf and cost of debt.pdf,high,matched,"Two Wang 2025 PDFs. Resolved on instrument class: this one is the cost-of-debt paper and contains the variable COD1, matching the 2025b label list. The other ('corp env perf and bond financing cost', outcome BFC) is the bond paper and maps to Wang et al (2025a), which is out of scope in this run."
+Wu et al (2020),Wu et al (2020) - An emp study on green env systems certification.PDF,high,matched,Filename uses an uppercase .PDF extension.
+Yang et al (2024),Yang et al (2024) - the impact of env information disc on the cost of debt.pdf,high,matched,
+Yilmaz (2022),Yilmaz (2022) - ESG-Based Sustainability Performance and its Impact on Cost of Capital.pdf,high,matched,
+Zheng (2021),Zheng (2021) - An emprirical study of the impact of CSR and the cost of debt.pdf,high,matched,
+Zhou et al (2018),"Zhou et al (2018) - carbon risk, cost of debt financing and the moderating effect.pdf",high,matched,
+Zhou et al (2024),Zhou et al (2024) - corp net zero transition and financing cost.pdf,high,matched,
+"Zhu, Zhao (2022)","Zhu, Zhao (2022) - Carbon risk and the cost of bank loans.pdf",high,matched,

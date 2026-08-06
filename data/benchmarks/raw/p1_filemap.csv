@@ -1,0 +1,12 @@
+study_key,filename,match_confidence,status,comment
+"Atif, Ali (2021)","Atif, Ali (2021) - ESG disclosure and default risk.pdf",high,matched,surname + year exact
+Bannier et al (2022),Bannier et al (2022) - CSR and credit risk.pdf,high,matched,surname + year exact
+Christ et al (2022),Christ et al (unknown) - Corporate Sustainability Performance and the Cost of Debt.pdf,medium,matched,"filename year is ""unknown""; no year printed on paper (SSRN working paper 4135247); only one Christ candidate in folder; content matches (CDS spreads / cost of debt)"
+Drago et al (2018),Drago et al (2018) - Do corporate social responsibility ratings affect credit default swap spreads.pdf,high,matched,"surname + year exact; distinct from Drago, Carnevale (2020)"
+Duong et al (2025),Duong et al (2025) - do firms benefit from carbon risk mgmt.pdf,high,matched,surname + year exact
+Höck et al (2020),Höck et al (2020) - The effect of env sustainability on credit risk.pdf,high,matched,"surname + year exact; distinct from Dumrose & Höck (2023)"
+Kölbel et al (2020),Kölbel et al (2020) - Does the CDS market reflect regulatory climate risk disclosure.pdf,high,matched,surname + year exact
+Okimoto & Takaoka (2024),"Okimoto, Takaoka (2024) - credit default swaps and corp carbon emission in japan.pdf",high,matched,"surname + year exact; distinct from Okimoto, Takaoka (2022)"
+Safiullah et al (2021),Safiullah et al (2021) - Carbon emissions and the credit ratings.pdf,high,matched,surname + year exact; distinct from Safiullah et al (2025)
+"Truong, Kim (2019)","Truong, Kim (2019) - Do Corporate Social Responsibility Activities Reduce credit risk.pdf",high,matched,surname + year exact
+Zhang et al (2023),Zhang et al (2023) - how credit defautl swap market measures carbon risk.pdf,high,matched,surname + year exact

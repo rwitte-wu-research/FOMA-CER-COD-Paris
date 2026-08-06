@@ -1,0 +1,39 @@
+study_key,status,n_rows,comment
+Al-Fakir Al Rabab'a et al (2023),bp_ok,1,"COD (Bloomberg WACC cost of debt), unit inferred as percent from the printed range."
+Ali et al (2023),bp_ok,1,"KD (Bloomberg weighted average cost of debt), unit inferred as percent. Listed 'interest-spread' not in the descriptives table."
+Ali et al (2026),bp_ok,1,"WACD, decimal fraction. SD printed to 2 dp only. Listed CODAD not in the descriptives table."
+Almutairi (2026),bp_ok,1,"COD = interest expense / average debt, decimal fraction. Listed alternative proxy not in the descriptives table."
+Altavilla et al (2024),bp_ok,1,Loan spread over maturity-matched risk-free rate; percentage points confirmed by the text ('standard deviation of the spread is 76 basis points').
+Attig et al (2025),bp_ok,2,"Two rows: AISD loan spread and total cost of loan, both printed in basis points."
+Azmi et al (2021),bp_ok,1,Cost of debt (%) for emerging-market BANKS. Value recorded as printed but the table is internally inconsistent; sd_bp 2378 flagged; confidence low.
+Borsuk & Shrimali (2026),bp_ok,2,COD converted (232 bp). Second row (DealScan loan spread) left unconverted - printed figures are inconsistent with the paper's stated bp unit and read as natural logs; flagged for adjudication.
+Boubaker et al (2026),bp_ok,1,CoD with an explicit '%' unit column.
+Brinette et al (2026),no_sd,0,"Finance Research Letters note. COD (interest expense / total liabilities) is the dependent variable but the paper prints NO descriptive statistics table: Table 1 is an industry distribution, Tables 2-4 are regressions, Figs 1-2 are ML importance plots. No mean/SD anywhere."
+Caragnano et al (2020),bp_ok,1,"KD printed as 'Cost of debt, %'; whole-period column used."
+Chava (2010),bp_ok,1,Raw aisd printed in bps over LIBOR (listed label is its log).
+Chava (2014),no_sd,0,"AISD (log of all-in-drawn spread) is the loan outcome, but the paper states the descriptive statistics are presented in Online Appendix C at the author's website; no descriptive table is contained in the PDF. All in-PDF tables are regression output."
+Chen et al (2020),log_only,2,"Ln(Spread) and Ln(TCB) only. Bracketed bp figures in the table are exp() back-transforms, so the bracketed SD is not a bp-scale SD. Printed SD of Ln(Spread) is also inconsistent with its own quartiles."
+Cicchini et al (2026),bp_ok,1,CoD decimal fraction. Recorded as printed but the table is internally inconsistent (SD impossible given min/max); sd_bp 2230 flagged; confidence low.
+D'Arcangelo et al (2025),log_only,1,Only Log(AISD) is tabulated; the companion table reports means without SDs.
+Delis et al (2021),bp_ok,1,"Loan rate = AISD in bp, full-sample panel used."
+Ding et al (2022),no_sd,0,"The paper prints no descriptive statistics table. Its outcome is Delta%COD, the CHANGE RATE of the cost of debt (SD 0.419 reported in running text only). Change rates are not cost-of-debt levels under the row rules, and no SD for a COD level is printed anywhere."
+"Drago, Carnevale (2020)",log_only,1,LnSpread only. Table 1 prints raw mean all-in spreads in bp by country (overall 160.29) but no SD.
+Du et al (2015),bp_ok,1,IRD (%) with the unit printed at the variable.
+Du et al (2022),log_only,1,"DCost is the natural log of the interest expense AMOUNT (currency), not a rate or spread - not bp-convertible under any factor. Row recorded with sd_bp empty; confidence low."
+Ehlers et al (2021),bp_ok,1,Loan margin in bp (table footnote); 'All' row used as the full sample.
+Eichholtz et al (2019),bp_ok,2,"LOAN variable only in this run. Panel A prints no pooled column, so one row per collateral subsample. No loan entry exists in p1_outcome_labels.csv, so label_match = unlisted."
+Eliwa et al (2021),bp_ok,1,CoD decimal fraction; SD printed to 2 dp.
+Erragragui (2018),log_only,1,"Only LOG_CoD is tabulated. Base of the logarithm (ln vs log10) is not stated, so even the implied raw scale is ambiguous."
+Fonseka et al (2019a),bp_ok,1,"COD = interest expenditure / total debt, decimal fraction."
+Fonseka et al (2019b),bp_ok,2,"Both raw IR and LN_IR printed; raw row converted (60 bp), log row recorded separately. Table has internal inconsistencies elsewhere."
+Gonzales Sanches et al (2026),bp_ok,1,Costdebt decimal fraction; mean and SD printed to 2 dp only.
+Hamrouni et al (2019a),bp_ok,1,"Interest_TD decimal fraction, confirmed by percent equivalents in the text. Image-only PDF read from the page image."
+Ho & Wong (2023),bp_ok,1,"LoanSpread in bp, stated in the methodology section."
+Hoepner et al (2016),bp_ok,1,Raw loan spread in bp printed (listed label is its winsorized log).
+Hui et al (2024),bp_ok,1,Loan cost (%) with the unit printed at the variable.
+Johnson (2020),no_sd,0,"Cost of debt (IRESS: interest paid as a percentage of interest-bearing debt) is a dependent variable, but the paper reports only regression tables (Tables 1-8), a summary-of-results table and a disclosure-score trend figure. No mean, SD or range for the cost of debt is printed anywhere."
+Jung et al (2016),bp_ok,1,COD decimal fraction; full-sample Panel A used.
+"Kleimeier, Viehs (2021)",bp_ok,4,"Four rows, all from the 2018 working paper (Table A2 Panels A and B, raw bp and log each). The 2021 Economics Letters article prints no descriptive statistics table - its descriptives are in an online appendix not in the PDF - so it contributed no rows."
+Kordschia (2020),bp_ok,2,"COD and COLD, both stated in percent in the variable-definition table."
+Kozak (2021),bp_ok,1,COD in % per the table note; Bloomberg.
+Kumar & Firoz (2018),bp_ok,1,"COD decimal fraction, confirmed by percent equivalents in the text."

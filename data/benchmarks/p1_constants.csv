@@ -1,0 +1,16 @@
+"spec","instrument_class","median_sd_bp","k_studies"
+"primary","loan",200,49
+"primary","bond",150,21
+"primary","CDS",168.6,7
+"spread_only","loan",111.7,10
+"spread_only","bond",150,21
+"spread_only","CDS",168.6,7
+"non_spread_only","loan",310,39
+"high_conf_only","loan",157,37
+"high_conf_only","bond",153.7,12
+"high_conf_only","CDS",159.7,6
+"unflagged_only","loan",157,44
+"unflagged_only","bond",150,21
+"unflagged_only","CDS",168.6,7
+"lognormal_backtransform_lower_bound","CDS",163,3
+"lognormal_backtransform_lower_bound","loan",186.5,7

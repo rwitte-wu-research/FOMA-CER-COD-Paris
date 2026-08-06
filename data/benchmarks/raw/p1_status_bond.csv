@@ -1,0 +1,27 @@
+﻿study_key,status,n_rows,comment
+Apergis et al (2022),bp_ok,1,Spread extracted from Table 3; unit stated in text as bps.
+"Bauer, Hann (2010)",bp_ok,1,Spread (in bps) from Table 3.
+Ben Slimane et al (2019),no_sd,0,"In-class variable exists (ln OAS, the dependent variable of the paper's spread model; OAS defined as the option-adjusted spread) but no standard deviation for it is printed anywhere. The paper has no descriptive-statistics table for OAS: OAS appears only as portfolio-level averages in the ESG-sorted portfolio backtest tables (e.g. Tables 3-4, p. 9), and the only Mean/Median/Stdev tables in the paper describe the ESG z-score by rating and by sector, not the spread."
+Boermans et al (2023),bp_ok,2,Spread (%) is the listed outcome; Yield to Maturity (%) extracted additionally as an in-class variable present in the same table but absent from the outcome-label list.
+"Chen, Gao (2011)",bp_ok,1,YTM Spread (%) from Table 1 Panel B (cost-of-debt sample).
+Dumrose & Höck (2023),log_only,1,"Only Ln(Credit Spread) is printed; no raw-scale credit spread descriptive, so no bp conversion."
+Eichholtz et al (2019),bp_ok,1,"Bond Spread (in bps) from Table 1 Panel B. Panel A mortgage spread is loan class and was not extracted (allowed_classes = loan|bond, bond only this run)."
+Ferriani (2022),bp_ok,1,"Outcome list names log-ASS; the descriptives table prints the raw-scale Asset swap spread (bps), which was extracted as the obvious equivalent."
+"Ge, Liu (2015)",bp_ok,1,YieldSpread from Table 2; unit stated in the accompanying text as basis points.
+Hansen & Marcet (2025),bp_ok,1,"Spread (bps), bond sample, Table 1 Panel B."
+Kim & Pouget (2026),bp_ok,2,"Offering spread (%) and Secondary spread (%) from Table 1 Panel C. The third listed label, 'Spread (Primary + Secondary pooled)', is not a row in any descriptives table."
+Li & Qiu (2026),bp_ok,1,"CS (bps) extracted. Delta-CS, Delta-DP and Delta-RP are changes in spread, not cost-of-debt levels: no rows (Delta-CS SD recorded in the CS row note; Delta-DP/Delta-RP are not in the descriptives table at all)."
+Ma et al (2022),bp_ok,1,Spread (%) full-sample row from Table 2; before/after-penalty subsample rows not created because a full-sample value exists.
+Oikonomou et al (2014),bp_ok,1,Outcome list names ln(spread); the descriptives table prints the raw Yield spread as a decimal fraction (factor 10000). Unit inferred from range - see row note.
+"Okimoto, Takaoka (2022)",bp_ok,1,"Credit spread (bp), overall panel row, Table 2."
+Panjwani et al (2023),bp_ok,1,Long Term Credit Spread from Table 1; unit stated in footnote 4 as percentage points. data_basis left unknown - see row note.
+Polbennikov et al (2016),no_sd,0,"In-class variable exists (issuer spread / OAS in bp) but no standard deviation is printed for it. All exhibits are embedded images; the descriptive-type exhibits report averages only - Exhibit 3 (p. 25) gives average OAS (bp) by index and sector and Exhibit 4 (p. 26) gives average OAS (bp) by ESG score bucket, neither with an SD column. The paper is a practitioner article with index characteristics rather than a bond-level descriptive statistics table."
+Salvi et al (2021),bp_ok,1,"Outcome list names log(spread); the descriptives table (Table 5) prints raw SPREAD, extracted as the obvious equivalent. Unit stated in text as basis points."
+Schneider (2010),no_sd,0,"In-class variable exists (YLD_SPD, defined as the spread in basis points between each firm-year bond trade's yield to maturity and its comparable U.S. Treasury yield) and appears in the descriptive table, but that table prints no standard deviation: Table 2 Panel A (p. 37) reports N, Mean, 25%, Median and 75% only. The paper's remaining tables are a correlation matrix (Table 3) and regressions."
+Seltzer et al (2022),bp_ok,1,Offering spread from Table 1; unit stated in text as percent.
+Sze et al (2021),bp_ok,1,"OAS from Table A2, which carries an explicit b.p. unit column."
+Tan et al (2021),bp_ok,1,SPREAD (%) from Table 1C. The listed label YIELD does not appear in the descriptives table.
+Tang et al (2023),bp_ok,1,Spread from Table 4; unit inferred from range against the text's '>400 bp' statement. Listed labels Spread1 and Spread2 do not appear in the descriptives table.
+Wang & Wijethilake (2026),bp_ok,1,Spread from Table 2; unit stated in text as basis points.
+Wang et al (2025a),bp_ok,1,BFC from Table 2; unit inferred from range as percentage points.
+Xiang & Gong (2026),no_sd,0,"In-class variable exists (Spread, the corporate bond credit spread = bond yield to maturity minus the yield on Chinese government bonds of similar maturity, the dependent variable of Eq. 1) but no standard deviation is printed in the article PDF: the paper states on p. 3 that 'Summary statistics are reported in Appendix C' of the online supplementary materials, which are not part of this file. Tables 1-6 in the PDF are regression output."
