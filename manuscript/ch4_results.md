@@ -17,7 +17,7 @@ Across 2,713 effect sizes from 115 studies, the pooled partial correlation betwe
 Heterogeneity, not the mean, is the dominant feature of the evidence base: the 95% prediction interval spans [−0.390; 0.287], so a single new study can plausibly report either sign. The dispersion is visible in the cluster-level caterpillar plot (Figure 3); the full study-level forest plot is provided in the Appendix (Figure A1). Of total variance, 62.3% lies between author clusters and 37.5% within studies; sampling error accounts for less than 1%. The study-within-cluster component is empirically indistinguishable from zero, as only one cluster contains more than one study. Because studies and author clusters coincide in all but one case — the 115 studies form 114 clusters, and only one cluster comprises two studies — the study level carries almost no independent information, and heterogeneity is effectively partitioned between author clusters and effect sizes within them.
 
 <!-- FIGURE 3 artifact: output/figures/T1_A7_caterpillar_cluster.(pdf|png) [committed T1 plot; P4 visual check] -->
-**Figure 3.** Cluster-level caterpillar plot of the 114 author-cluster estimates (Fisher z) with 95% confidence intervals, ordered by magnitude. The dashed line marks the pooled CHE–RVE estimate.
+**Figure 3.** Cluster-level caterpillar plot of the 114 author-cluster estimates (Fisher z) with 95% confidence intervals, ordered by magnitude. The dashed line marks the pooled CHE–RVE estimate. The dotted lines mark the bounds of the 95% prediction interval.
 
 ### 4.1.2 Robustness of the Pooled Association
 

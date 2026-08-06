@@ -13,6 +13,12 @@
 #       rolling six-year windows (step 1 y, anchor 1998), values verbatim
 #       from output/TH_a_results.csv (H8 rows); tiers per [DEC-045 S6]:
 #       >=10 clusters full CI, 5-9 clusters point-only, <5 not estimable.
+#   (4) output/figures/T1_A7_caterpillar_cluster.(pdf|png) -> Figure 3 (Sec. 4.1.1)
+#       cluster-level caterpillar, Fisher-z scale; CS rho = 0.6 aggregates on
+#       cluster_id (agg logic ported verbatim from R/01_core.R Sec. 10); pooled
+#       line + PI bounds identity-bound to output/T1_results.csv A3/pi_overall
+#       and cross-asserted against the register headline [DEC-061]; display
+#       window per the ruling-Z analogue [DEC-061 sec. 2].
 #
 # Decision basis: M2 chapter DEC DEC-054 (figure
 # package ruling A5-A8 + hub ack 2026-08-02); manuscript pipeline ruling
@@ -22,11 +28,18 @@
 # v5 (rulings Z + F-CAP, 2026-08-03): funnel display window |z| <= 1 with an
 # out-of-range annotation; embedded figure captions removed — the manuscript
 # captions carry the legends.
+# v6 (DEC-061, 2026-08-06): A7 caterpillar re-homed from R/01_core.R Sec. 10 as
+# a build artifact — Fisher-z scale (family axis), R/14 family style, F-CAP
+# (no embedded caption/legend/estimator label); resolves ERROR #56.
+# v6.1 (DEC-061 §2, author display ruling 2026-08-06): ruling-Z analogue —
+# fixed display window ylim [-0.6, 0.5] with funnel-style out-of-range
+# annotation (one extreme cluster aggregate, z ~ -2.6, previously masked by
+# the tanh bound of the r-scale display).
 #
 # Sources (all committed): R/00_prep.R (canonical estimation-set
 # construction: `est` = d_es_usable == 1 & duplicate in {NA, 0} &
 # is.finite(n_eff); reads data/CER-COD_data_v12.xlsx internally),
-# output/robustness_register.csv, output/TH_a_results.csv.
+# output/robustness_register.csv, output/TH_a_results.csv, output/T1_results.csv.
 # Output: output/figures/*.(pdf|png) + output/fig_run_meta.txt.
 # Verifier: R/14_verify_outputs.R (run immediately after; PASS required).
 # =============================================================================
@@ -37,6 +50,7 @@ source(here::here("setup.R"))
 # SECTION 2 — Constants (contract against the committed sources) ---------------
 REGISTER_CSV   <- here::here("output", "robustness_register.csv")
 THA_CSV        <- here::here("output", "TH_a_results.csv")
+T1_CSV         <- here::here("output", "T1_results.csv")
 FIG_DIR        <- here::here("output", "figures")
 
 EXP_ES         <- 2713L    # estimation set, effect sizes
@@ -46,10 +60,11 @@ EXP_H7_STEPS   <- 113L     # cumulative steps [TB-41]
 EXP_H8_WINDOWS <- 21L      # rolling windows, 20 estimable [TB-42]
 FLOOR_FULL     <- 10L      # CI display floor [DEC-045/H-Q17; S6]
 FLOOR_DESC     <- 5L       # descriptive tier lower bound [DEC-045 S6]
+RHO_HEADLINE   <- 0.6      # CS working correlation [DEC-031; plan par. 3]
 
 FIG_W <- 7; FIG_H <- 5; FIG_DPI <- 300
 
-stopifnot(file.exists(REGISTER_CSV), file.exists(THA_CSV),
+stopifnot(file.exists(REGISTER_CSV), file.exists(THA_CSV), file.exists(T1_CSV),
           file.exists(here::here("R", "00_prep.R")))
 dir.create(FIG_DIR, showWarnings = FALSE, recursive = TRUE)
 
@@ -199,7 +214,63 @@ ggplot2::ggsave(file.path(FIG_DIR, "TH_a_H8_rolling.pdf"), p_roll,
 ggplot2::ggsave(file.path(FIG_DIR, "TH_a_H8_rolling.png"), p_roll,
                 width = FIG_W, height = FIG_H, dpi = FIG_DPI)
 
-# SECTION 7 — Run meta ----------------------------------------------------------
+# SECTION 7 — Figure 3: cluster-level caterpillar (z scale) [DEC-061] ----------
+# Pooled + PI from the committed T1 battery (A3/pi_overall row; identical fit
+# to the headline, T1 verifier identity O20); cross-asserted vs. the register.
+t1  <- readr::read_csv(T1_CSV, show_col_types = FALSE)
+pio <- t1[t1$analysis_id == "A3" & t1$spec == "pi_overall", , drop = FALSE]
+stopifnot(nrow(pio) == 1L, is.finite(pio$est_z),
+          is.finite(pio$pi_lb_z), is.finite(pio$pi_ub_z),
+          abs(pio$est_z - headline_z) < 1e-10)
+t1_pool <- pio$est_z; t1_pi_lb <- pio$pi_lb_z; t1_pi_ub <- pio$pi_ub_z
+
+# Aggregation ported verbatim from R/01_core.R (agg_rho; Borenstein CS
+# aggregation via metafor::aggregate.escalc, rho as working correlation).
+agg_rho <- function(dd, unit_col, rho) {
+  esc <- metafor::escalc(measure = "GEN", yi = dd$yi, vi = dd$vi,
+                         data = data.frame(agg_unit = dd[[unit_col]]))
+  ag  <- aggregate(esc, cluster = agg_unit, rho = rho)
+  data.frame(unit = ag$agg_unit, yi = as.numeric(ag$yi), vi = as.numeric(ag$vi))
+}
+agc <- agg_rho(data.frame(yi = es$zi, vi = es$vi, cluster = es$cluster_id),
+               "cluster", RHO_HEADLINE)
+stopifnot(nrow(agc) == EXP_CLUSTERS,
+          all(is.finite(agc$yi)), all(is.finite(agc$vi)), all(agc$vi > 0))
+agc <- dplyr::mutate(agc,
+  ci_lb = .data$yi - 1.96 * sqrt(.data$vi),
+  ci_ub = .data$yi + 1.96 * sqrt(.data$vi),
+  rank  = rank(.data$yi, ties.method = "first"))
+
+Y_WIN <- c(-0.6, 0.5)   # ruling-Z analogue window (covers the PI bounds with margin)
+n_out <- sum(agc$yi < Y_WIN[1] | agc$yi > Y_WIN[2])
+
+p_cat <- ggplot2::ggplot(agc, ggplot2::aes(x = rank, y = yi)) +
+  ggplot2::geom_hline(yintercept = 0, linewidth = 0.3, colour = "grey60") +
+  ggplot2::geom_linerange(ggplot2::aes(ymin = ci_lb, ymax = ci_ub),
+                          colour = "grey45", alpha = 0.6, linewidth = 0.35) +
+  ggplot2::geom_point(size = 0.9, colour = "grey15") +
+  ggplot2::geom_hline(yintercept = t1_pool, linetype = "dashed",
+                      linewidth = 0.4, colour = "black") +
+  ggplot2::geom_hline(yintercept = c(t1_pi_lb, t1_pi_ub), linetype = "dotted",
+                      linewidth = 0.4, colour = "grey30") +
+  ggplot2::labs(x = sprintf("Cluster aggregates (k = %d), sorted", nrow(agc)),
+                y = "Cluster aggregate (Fisher z)") +
+  ggplot2::theme_classic(base_size = 11) +
+  ggplot2::theme(axis.text.x  = ggplot2::element_blank(),
+                 axis.ticks.x = ggplot2::element_blank()) +
+  ggplot2::coord_cartesian(ylim = Y_WIN) +
+  ggplot2::annotate("text", x = 3, y = Y_WIN[2] - 0.01, hjust = 0, vjust = 1,
+                    size = 2.8, colour = "grey35",
+                    label = sprintf("%d cluster aggregate%s beyond display range (z = %.2f)",
+                                    n_out, ifelse(n_out == 1L, "", "s"),
+                                    agc$yi[which.max(abs(agc$yi))]))
+
+ggplot2::ggsave(file.path(FIG_DIR, "T1_A7_caterpillar_cluster.pdf"), p_cat,
+                width = FIG_W, height = FIG_H)
+ggplot2::ggsave(file.path(FIG_DIR, "T1_A7_caterpillar_cluster.png"), p_cat,
+                width = FIG_W, height = FIG_H, dpi = FIG_DPI)
+
+# SECTION 8 — Run meta ----------------------------------------------------------
 meta <- c(
   sprintf("14_figures.R run: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
   sprintf("estimation set: %d ES / %d studies / %d clusters",
@@ -210,7 +281,9 @@ meta <- c(
           min(h7$step[h7$tier_full])),
   sprintf("H8 windows: %d (estimable: %d)", nrow(h8),
           sum(h8$tier != "not_estimable")),
+  sprintf("A7 caterpillar: k = %d aggregates; pooled_z = %.10f; PI_z = [%.10f; %.10f]",
+          nrow(agc), t1_pool, t1_pi_lb, t1_pi_ub),
   "", capture.output(sessionInfo()))
 writeLines(meta, here::here("output", "fig_run_meta.txt"))
 
-message("14_figures.R: all three figure pairs written to output/figures/.")
+message("14_figures.R: all four figure pairs written to output/figures/.")

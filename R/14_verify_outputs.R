@@ -1,10 +1,14 @@
 # =============================================================================
-# 14_verify_outputs.R — verifier for R/14_figures.R (M2 figure package) — v4
-# Independently re-reads all committed sources and asserts (a) the six figure
+# 14_verify_outputs.R — verifier for R/14_figures.R (M2 figure package) — v5
+# Independently re-reads all committed sources and asserts (a) the eight figure
 # files exist and are non-empty, (b) the source contracts hold, (c) the
 # TB-41/TB-42 pinned values are reproduced by the plotted data at 3 dp.
 # v4: helper names v_ok/v_fail (R/00_prep.R defines its own ok(); sourcing it
 # in V2 overwrote the verifier helpers in v3 — namespace-safe rename).
+# v5 (DEC-061): + T1_A7 caterpillar pair in V1; new V6 numeric-identity block —
+#   pooled/PI vs. output/T1_results.csv A3/pi_overall (register cross-check at
+#   1e-10; r3 pins -0.059 / [-0.412; 0.295]), independent aggregate
+#   re-derivation (k = 114, rank/order logic), fig_run_meta A7-line consistency.
 # Any failure stops with a message; the runner pastes the full console output.
 # =============================================================================
 source(here::here("setup.R"))
@@ -17,7 +21,8 @@ FIG_DIR <- here::here("output", "figures")
 files <- file.path(FIG_DIR, c(
   "D1_funnel_contour.pdf",  "D1_funnel_contour.png",
   "TH_a_H7_cumulative.pdf", "TH_a_H7_cumulative.png",
-  "TH_a_H8_rolling.pdf",    "TH_a_H8_rolling.png"))
+  "TH_a_H8_rolling.pdf",    "TH_a_H8_rolling.png",
+  "T1_A7_caterpillar_cluster.pdf", "T1_A7_caterpillar_cluster.png"))
 
 # V1 — outputs exist and are non-empty ----------------------------------------
 for (f in files) {
@@ -26,7 +31,7 @@ for (f in files) {
 }
 if (!file.exists(here::here("output", "fig_run_meta.txt")))
   v_fail("missing output/fig_run_meta.txt")
-v_ok("V1: 6 figure files + fig_run_meta.txt present, non-empty")
+v_ok("V1: 8 figure files + fig_run_meta.txt present, non-empty")
 
 # V2 — estimation-set contract (funnel source, via canonical prep) ------------
 source(here::here("R", "00_prep.R"))
@@ -94,5 +99,37 @@ if (r3(rng8[1]) != -0.087 || r3(rng8[2]) != -0.015)
   v_fail("V5: window-mean range [%.3f; %.3f] != [-0.087; -0.015]",
          rng8[1], rng8[2])
 v_ok("V5: H8 = 21 windows / 20 estimable; 2002 window not estimable; tiers clean; range [-0.087; -0.015]")
+
+# V6 — A7 caterpillar: numeric identity + logic [DEC-061] ----------------------
+t1 <- readr::read_csv(here::here("output", "T1_results.csv"), show_col_types = FALSE)
+pio <- t1[t1$analysis_id == "A3" & t1$spec == "pi_overall", , drop = FALSE]
+if (nrow(pio) != 1L) v_fail("V6: A3/pi_overall rows %d != 1", nrow(pio))
+if (abs(pio$est_z - hz) > 1e-10)
+  v_fail("V6: pi_overall est_z %.12f != register headline %.12f", pio$est_z, hz)
+if (r3(pio$est_z) != -0.059 || r3(pio$pi_lb_z) != -0.412 || r3(pio$pi_ub_z) != 0.295)
+  v_fail("V6: pooled/PI pins violated: %.3f [%.3f; %.3f]",
+         pio$est_z, pio$pi_lb_z, pio$pi_ub_z)
+esc <- metafor::escalc(measure = "GEN",
+                       yi = as.numeric(es$d_fisher_z),
+                       vi = 1 / (as.numeric(es$n_eff) - 3),
+                       data = data.frame(agg_unit = es$cluster_id))
+agv <- aggregate(esc, cluster = agg_unit, rho = 0.6)
+if (nrow(agv) != 114L) v_fail("V6: aggregate count %d != 114", nrow(agv))
+if (!all(is.finite(as.numeric(agv$yi))) || !all(is.finite(as.numeric(agv$vi))))
+  v_fail("V6: non-finite aggregate yi/vi")
+rk <- rank(as.numeric(agv$yi), ties.method = "first")
+if (!all(sort(rk) == 1:114)) v_fail("V6: rank is not a 1..114 permutation")
+if (is.unsorted(as.numeric(agv$yi)[order(rk)]))
+  v_fail("V6: ordering by rank does not sort the aggregates")
+meta_l <- readLines(here::here("output", "fig_run_meta.txt"))
+a7 <- grep("^A7 caterpillar:", meta_l, value = TRUE)
+if (length(a7) != 1L)
+  v_fail("V6: fig_run_meta lacks the A7 line (run 14_figures v6 first)")
+num <- as.numeric(regmatches(a7, gregexpr("-?\\d+\\.\\d+", a7))[[1]])
+if (length(num) != 3L ||
+    max(abs(num - c(pio$est_z, pio$pi_lb_z, pio$pi_ub_z))) > 1e-9)
+  v_fail("V6: meta A7 values diverge from T1_results.csv")
+v_ok("V6: A7 identity — pooled %.10f; PI [%.10f; %.10f]; k = 114; rank/order logic clean; meta consistent",
+     pio$est_z, pio$pi_lb_z, pio$pi_ub_z)
 
 message("\n================ R/14 VERIFIER: ALL PASS ================")
