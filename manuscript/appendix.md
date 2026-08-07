@@ -8,10 +8,9 @@
 
 ## Literature search documentation
 
-**Search strings.** `[PENDING #16: exact search strings per database]`
+**Search strings.** Query-level strings are not reported: the 2021/22 wave's execution metadata were not retained, and the 2026 wave's AI-mediated retrieval has no fixed query strings (Section 3.1). Reproducibility is provided at the record level — the complete deduplicated hit list (2,006 records) and the identified-not-extracted catalogue (593 records) ship with the replication package.
 
-**PRISMA flow diagram.** `[PENDING #16: PRISMA flow — final home Figure 2,
-Section 3.1; this slot page documents the gate for the appendix assembly]`
+**PRISMA flow diagram.** Reported as Figure 2 (Section 3.1): two-wave flow, with the first wave shown qualitatively per the pre-specified decision rule and the 2026 wave fully quantified.
 
 ## Supplementary tables
 

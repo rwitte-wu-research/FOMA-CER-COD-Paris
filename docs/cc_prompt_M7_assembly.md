@@ -21,6 +21,11 @@ redeemed S1-P4; remaining notes are comments that pandoc strips); the
 marker set gains `PENDING Item 20`; §6 gains the S1 RENDER GATE (bp ladder,
 bp trio, band, drop-set, count census incl. the 114 Class-B parity, and the
 3LMA-RVE zero check). Assembly runs only after this gate list is green.
+v1.3.1 (run-1 erratum): g6 counts the sources AFTER stripping HTML comments
+(pandoc strips them by design; run-1 found one comment-embedded `114` in the
+appendix Table-A.3 generator note — same class as the v1.1 #37 rationale);
+the two appendix `PENDING #16` slots are resolved in the sources (run-1
+finding 2), so the `PENDING #16` expected source count of 0 now holds.
 
 Single-use, deterministic build. Repo: `C:\R_Projects\FOMA-CER-COD-Paris`.
 **Hard rules:** no git writes (no add/commit/tag/push), no edits to any tracked
@@ -164,7 +169,8 @@ On OUTPUT_DOCX:
       `113` >= 3 · `111` >= 1.
   g6. 114 Class-B parity: the count of the standalone token `114`
       (regex `\b114\b`) in the docx plain text EQUALS the same count over
-      the eight TMP sources BEFORE step 3 — report both numbers.
+      the eight TMP sources BEFORE step 3, computed AFTER stripping HTML
+      comments (`<!-- … -->`) from the sources — report both numbers.
   g7. `3LMA-RVE` count == 0.
   g8. Table-2 spots: `Extended combined drop-set (erratum constellation)`
       == 1 · `Headline model, v12.1 anchor` == 1.
