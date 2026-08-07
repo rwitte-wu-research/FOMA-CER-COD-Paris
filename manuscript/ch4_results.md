@@ -12,12 +12,12 @@ This chapter reports the results along the four research questions. Section 4.1 
 
 ### 4.1.1 Headline Estimate and Heterogeneity
 
-Across 2,713 effect sizes from 115 studies, the pooled partial correlation between corporate environmental responsibility and the cost of debt is r = −0.059 (95% CI [−0.086; −0.031], df = 111.7, p < 0.001). At |r| = 0.059, the pooled association falls below the 'small' partial-correlation benchmark of 0.07 (Doucouliagos, 2011), at 0.84 times that threshold. [PENDING #37: economic translation (TB-08) — bp per instrument; Volker extraction]
+Across 2,713 effect sizes from 115 studies, the pooled partial correlation between corporate environmental responsibility and the cost of debt is r = −0.059 (95% CI [−0.086; −0.031], df = 110.7, p < 0.001). At |r| = 0.059, the pooled association falls below the 'small' partial-correlation benchmark of 0.07 (Doucouliagos, 2011), at 0.84 times that threshold. [PENDING #37: economic translation (TB-08) — bp per instrument; Volker extraction]
 
-Heterogeneity, not the mean, is the dominant feature of the evidence base: the 95% prediction interval spans [−0.390; 0.287], so a single new study can plausibly report either sign. The dispersion is visible in the cluster-level caterpillar plot (Figure 3); the full study-level forest plot is provided in the Appendix (Figure A1). Of total variance, 62.3% lies between author clusters and 37.5% within studies; sampling error accounts for less than 1%. The study-within-cluster component is empirically indistinguishable from zero, as only one cluster contains more than one study. Because studies and author clusters coincide in all but one case — the 115 studies form 114 clusters, and only one cluster comprises two studies — the study level carries almost no independent information, and heterogeneity is effectively partitioned between author clusters and effect sizes within them.
+Heterogeneity, not the mean, is the dominant feature of the evidence base: the 95% prediction interval spans [−0.392; 0.288], so a single new study can plausibly report either sign. The dispersion is visible in the cluster-level caterpillar plot (Figure 3); the full study-level forest plot is provided in the Appendix (Figure A1). Of total variance, 62.6% lies between author clusters and 37.2% within studies; sampling error accounts for less than 1%. The study-within-cluster component is empirically indistinguishable from zero, as only two clusters contain more than one study. Because studies and author clusters coincide in all but two cases — the 115 studies form 113 clusters, and each of two clusters comprises two studies — the study level carries almost no independent information, and heterogeneity is effectively partitioned between author clusters and effect sizes within them.
 
 <!-- FIGURE 3 artifact: output/figures/T1_A7_caterpillar_cluster.(pdf|png) [committed T1 plot; P4 visual check] -->
-**Figure 3.** Cluster-level caterpillar plot of the 114 author-cluster estimates (Fisher z) with 95% confidence intervals, ordered by magnitude. The dashed line marks the pooled CHE–RVE estimate. The dotted lines mark the bounds of the 95% prediction interval.
+**Figure 3.** Cluster-level caterpillar plot of the 113 author-cluster estimates (Fisher z) with 95% confidence intervals, ordered by magnitude. The dashed line marks the pooled CHE–RVE estimate. The dotted lines mark the bounds of the 95% prediction interval.
 
 ### 4.1.2 Robustness of the Pooled Association
 
@@ -30,7 +30,7 @@ The pre-specified robustness register comprises twenty-three specifications of t
 |---|---|---|---|---|
 | *Anchor specifications* | | | | |
 | Headline model (CHE–RVE) | 2,713 | −0.059 | [−0.086; −0.031] | (reference) |
-| One effect per cluster (Knapp–Hartung) | 114 | −0.062 | [−0.109; −0.013] | −0.003 |
+| One effect per cluster (Knapp–Hartung) | 113 | −0.063 | [−0.112; −0.015] | −0.004 |
 | UWLS+3 | 2,713 | −0.031 | [−0.087; 0.025] | +0.028 |
 | Working correlation ρ = 0.4 | 2,713 | −0.059 | [−0.087; −0.032] | −0.001 |
 | Working correlation ρ = 0.8 | 2,713 | −0.058 | [−0.085; −0.031] | +0.001 |
@@ -55,7 +55,7 @@ The pre-specified robustness register comprises twenty-three specifications of t
 | Influence diagnostics | — | — | Appendix | — |
 | Post-Paris leave-one-study-out | — | — | Section 4.2.1 | — |
 
-The five anchor specifications vary the dependence and weighting assumptions of the headline model. The pooled estimate is insensitive to the working-correlation assumption (rho = 0.4/0.8: r = −0.059/−0.058) and to aggregation to one effect per cluster (r = −0.062, 95% CI [−0.109; −0.013], Knapp-Hartung, k = 114). Precision-weighted estimators are smaller (UWLS+3: −0.031; WAAP: −0.031; Hunter-Schmidt: −0.022), reflecting the dominance of two very large samples in the precision weights (top cluster: 37.9% of total UWLS+3 weight; top two: 52.6%); we therefore retain the hierarchical model as the headline and report the precision-weighted family in the Appendix.
+The five anchor specifications vary the dependence and weighting assumptions of the headline model. The pooled estimate is insensitive to the working-correlation assumption (rho = 0.4/0.8: r = −0.060/−0.058) and to aggregation to one effect per cluster (r = −0.063, 95% CI [−0.112; −0.015], Knapp-Hartung, k = 113). Precision-weighted estimators are smaller (UWLS+3: −0.031; WAAP: −0.031; Hunter-Schmidt: −0.022), reflecting the dominance of two very large samples in the precision weights (top cluster: 37.9% of total UWLS+3 weight; top two: 52.6%); we therefore retain the hierarchical model as the headline and report the precision-weighted family in the Appendix.
 
 Seven of the eleven design variants re-estimate the pooled association under alternative sample and estimator choices; the remaining four are the technical level panels reported below. All seven re-estimations leave the headline reading intact. Excluding the 99 star-bound effect sizes (r = −.058), rebuilding the sampling variance on firm counts instead of firm-years (r = −.051), shifting the partial-correlation df convention to k = 10 or k = 20 (r = −.058 in both cases), and replacing the rho-based cluster aggregation with an assumption-free cluster-median analysis (r = −.062) all reproduce the headline estimate of r = −.059 to within .008 on the r scale. Two specifications attenuate the association: dropping the 296 proxy-filled sample-size rows (r = −.038, 95% CI [−.048, −.029]) and restricting to directly reported correlations (r = −.038, 95% CI [−.086, .011], 52 studies) — both retain the negative sign and, like every other row, lie inside the SESOI band.
 
@@ -71,7 +71,7 @@ Taken together, these results answer RQ1 in the affirmative and support H1: corp
 
 ### 4.2.1 Headline Contrast and Equivalence
 
-Descriptively, the association is marginally weaker in study windows lying predominantly after the Paris Agreement (r = −0.049, 95% CI [−0.066; −0.031], 711 effect sizes from 31 studies) than before (r = −0.060, 95% CI [−0.098; −0.022], 1,994 effect sizes from 83 studies); the corresponding prediction intervals are [−0.208; 0.113] and [−0.440; 0.338].
+Descriptively, the association is marginally weaker in study windows lying predominantly after the Paris Agreement (r = −0.049, 95% CI [−0.066; −0.031], 711 effect sizes from 31 studies) than before (r = −0.061, 95% CI [−0.099; −0.022], 1,994 effect sizes from 83 studies); the corresponding prediction intervals are [−0.208; 0.113] and [−0.442; 0.339].
 
 The formal test of the Paris Agreement moderator yields a precise null: the post-minus-pre contrast on the Fisher-z scale is 0.010 (95% CI [−0.028; 0.049], t(15.0) = 0.56, p = 0.582), based on 2,705 effect sizes with defined sample windows. The confidence interval excludes any shift larger than roughly 80% of the pooled effect itself in either direction.
 
