@@ -76,20 +76,25 @@ REG_LBL = {
  "leave_one_out": "Leave-one-out (114 cluster refits)",
  "influence_diagnostics": "Influence diagnostics",
  "loso_post_cell": "Post-Paris leave-one-study-out",
+ "headline_v12_1": "Headline model, v12.1 anchor (cluster-merge erratum)",
+ "dropset_item18_extended": "Extended combined drop-set (erratum constellation)",
 }
 REG_PTR = {"panel_q_vhb": "reported in text", "panel_field": "reported in text",
            "panel_es_measure": "reported in text", "panel_es_method": "reported in text",
            "leave_one_out": "summary in text; Appendix",
            "influence_diagnostics": "Appendix", "loso_post_cell": "Section 4.2.1"}
 REG_GRP = {"headline": "A", "one_effect_per_cluster": "A", "uwls3": "A",
-           "rho_0.4": "A", "rho_0.8": "A"}
-GRP_HDR = {"A": "*Anchor specifications*", "G": "*Design variants*", "F": "*Outlier and influence*"}
+           "rho_0.4": "A", "rho_0.8": "A",
+           "headline_v12_1": "V", "dropset_item18_extended": "V"}
+GRP_HDR = {"A": "*Anchor specifications*", "G": "*Design variants*", "F": "*Outlier and influence*",
+           "V": "*v12.1 anchor and extended drop-set (Section 3.2 erratum; Section 4.1.2)*"}
 GRP_OF = lambda s, i: REG_GRP.get(s, "G" if i < 16 else "F")
 
 def table2(reg):
-    if len(reg) != 23: die(f"register rows {len(reg)} != 23")
+    if len(reg) != 25: die(f"register rows {len(reg)} != 25")
     out = ["**Table 2.** Robustness register for the pooled CER\u2013COD association "
-           "(23 pre-specified specifications; \u0394 on the Fisher-z scale against the "
+           "(23 pre-specified specifications plus the v12.1 anchor and one "
+           "result-blind extended drop-set; \u0394 on the Fisher-z scale against the "
            "headline; full register machine-readable in the online appendix).", "",
            "| Specification | k (ES) | r | 95% CI | \u0394z vs. headline |",
            "|---|---|---|---|---|"]
