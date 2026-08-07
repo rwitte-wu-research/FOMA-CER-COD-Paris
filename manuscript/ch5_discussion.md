@@ -61,13 +61,15 @@ For policymakers, the assessed object is precise: how far the finance-flow align
 
 ## 5.6 Limitations
 
-Five limits qualify these conclusions, and all five concern interpretation and precision rather than detection. First, the synthesis inherits the identification limits of its primary designs: the evidence base consists predominantly of partial correlations from observational specifications, so the pooled quantity is an association — bounded, calibrated, and selection-checked, but not a causal effect — and primary-level endogeneity concerns carry to the aggregate. Second, the heterogeneity bounds that qualify every average reported here are themselves estimates: they depend on the variance-component structure of the dependence model, and their width should be read as modeled rather than observed.
+Six limits qualify these conclusions. First, the synthesis inherits the identification limits of its primary designs: the evidence base consists predominantly of partial correlations from observational specifications, so the pooled quantity is an association — bounded, calibrated, and selection-checked, but not a causal effect — and primary-level endogeneity concerns carry to the aggregate. Second, the heterogeneity bounds that qualify every average reported here are themselves estimates: they depend on the variance-component structure of the dependence model, and their width should be read as modeled rather than observed.
 
 Third, the identification battery carries one acknowledged trade-off. The race specification buys identification at a precision cost: with corr(sample mid-year, exposure share) = 0.81, the trend-adjusted break interval widens to [−0.026; +0.079] and cannot exclude effects up to the primary SESOI; the equivalence claim therefore rests on the unadjusted and composition-adjusted forms, per the pre-specified effect-size read-out. That trade-off was accepted at design time, not discovered after it.
 
 Fourth, on the Bayesian side: Bayes-factor magnitudes for both model components — level and moderation — scale with prior width in the expected direction, which is why the pre-specified informed priors anchor the reported values and the package-default factors appear only as sensitivity brackets.
 
 Fifth, the basis-point translation rests on corpus-printed descriptives: benchmark coverage is 80 of 109 eligible study–instrument cells, the loan benchmark pools accounting-ratio and spread operationalizations (Section 4.1.1), and log-scale sources enter only through a lower-bound back-transformation — the translation is a first-order scale anchor, not an estimate with sampling error.
+
+Sixth, search-process metrics of the first wave were not retained at PRISMA granularity, and query-level reproducibility is not available for AI-mediated retrieval; compensating transparency is provided through record-level disclosure (complete hit list and identified-not-extracted catalogue in the replication package), the documented rule layer, the retrievability benchmark, and complete enumeration of the corpus.
 
 These limits bound what the conclusions mean, not whether the design could have detected what it tested — that sensitivity was quantified in advance (Section 3.3.1). Each limit also marks a design requirement for the research that follows.
 

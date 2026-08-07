@@ -217,6 +217,30 @@ LRT p = .309 and .080).
 | Pre-Paris | 1,994 / 83 | −0.590 (.162) | −0.046 [−0.091; −0.000] (.0497) | −0.058 [−0.098; −0.018] | PEESE |
 | Post-Paris | 711 / 31 | −1.238 (.0047) | −0.025 [−0.042; −0.007] (.0098) | −0.045 [−0.061; −0.028] | PEESE |
 
+**Appendix Table A.5.** Prior reviews of the CER–cost-of-capital literature screened in the first search wave (seed list; Section 3.1).
+
+| Seed review |
+|---|
+| Alshehhi et al. (2018) |
+| Benlemlih (2017) |
+| Clark & Viehs (2014) |
+| Friede et al. (2015) |
+| Gianfrate et al. (2015) |
+| Gillan et al. (2021) |
+| Velte et al. (2020) |
+| Velte (2021) |
+
+**Appendix Table A.6.** Rule-based screening layer of the 2026 search wave: rule outcomes, record-level census (Section 3.1).
+
+| Rule | Records excluded |
+|---|---|
+| No cost-of-debt term | 146 |
+| No CER term | 25 |
+| Document type | 49 |
+| **Total rule-based screens** | **220** |
+
+Rule outcomes are recorded per record in the deduplicated hit list (replication package; SUBMISSION_READINESS Item 20). `[PENDING Item 20: tier-class census of the deduplicated master; verbatim rule definitions are superseded by the record-level outcome disclosure — a later recovery may retrofit via logged exception]`
+
 ## Design calibration and additional notes
 
 A 200-replicate full-REML calibration of the analytic power stream at the grid

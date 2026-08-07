@@ -65,6 +65,8 @@ The remaining seven rows address outliers and influence. Outlier handling leaves
 
 Leave-one-out over the 114 clusters retains sign and significance in 114/114 refits (est_z −.060 to −.041; range 0.019). The largest single-cluster shift comes from Drago et al. (2018) — Cook's distance 1.64, 70 times the runner-up — whose single extreme effect size is also the top studentized-residual flag; excluding it attenuates the pooled estimate to r = −.041 without changing its reading.
 
+An extended combined drop-set removes the entire flagged constellation at once — the two merged multi-study clusters, the amount-scaled outcomes (Du et al., 2022; the Sandra/Ofogbe cluster), and the three studies with arithmetically defective descriptive tables (Zhou et al., 2018; Azmi et al., 2021; Cicchini et al., 2026): 77 effect sizes from 8 studies (6 clusters). The pooled association is unchanged within the equivalence band and marginally stronger without them (r = −0.062, 95% CI [−0.091; −0.033]; 2,636 effect sizes, 107 clusters), bounding the influence of the erratum constellation from above.
+
 Taken together, these results answer RQ1 in the affirmative and support H1: corporate environmental responsibility is negatively associated with the cost of debt, and the association survives every pre-specified robustness variant. Its magnitude, however, remains inside the SESOI band of |r| = 0.070 throughout, and the wide prediction interval marks pronounced heterogeneity across the literature. Whether the Paris Agreement has altered this association is examined in Section 4.2.
 
 ## 4.2 The Paris Contrast (RQ2)
