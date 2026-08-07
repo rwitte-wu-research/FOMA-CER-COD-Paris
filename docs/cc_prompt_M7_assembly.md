@@ -26,6 +26,10 @@ v1.3.1 (run-1 erratum): g6 counts the sources AFTER stripping HTML comments
 appendix Table-A.3 generator note — same class as the v1.1 #37 rationale);
 the two appendix `PENDING #16` slots are resolved in the sources (run-1
 finding 2), so the `PENDING #16` expected source count of 0 now holds.
+v1.3.2 (run-2 erratum): the bare `118` token is removed from g5 — the
+corpus-cluster count is not a manuscript claim (the structure sentence ends
+at 2,713/115/113); run 2 satisfied the old token only via \b-collision with
+the −0.118 CI bounds, disclosed in the run report.
 
 Single-use, deterministic build. Repo: `C:\R_Projects\FOMA-CER-COD-Paris`.
 **Hard rules:** no git writes (no add/commit/tag/push), no edits to any tracked
@@ -165,7 +169,7 @@ On OUTPUT_DOCX:
   g2. band string `110–200` (en dash) >= 1.
   g3. bp trio: `−11.8` · `−8.8` · `−9.9` · `−6.6` (U+2212), each >= 1.
   g4. drop-set: `−0.062` >= 1 · `2,636` >= 1 · `107 clusters` >= 1.
-  g5. structure counts: `2,713` >= 1 · `120 studies` >= 1 · `118` >= 1 ·
+  g5. structure counts: `2,713` >= 1 · `120 studies` >= 1 ·
       `113` >= 3 · `111` >= 1.
   g6. 114 Class-B parity: the count of the standalone token `114`
       (regex `\b114\b`) in the docx plain text EQUALS the same count over
