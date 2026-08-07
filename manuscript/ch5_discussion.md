@@ -1,6 +1,6 @@
 <!-- M5 assembly 2026-08-04 · governed by the M5 chapter DEC ·
-     [PENDING #37] slot in Section 5.1 mirrors ch1/ch4 (submission gate, not an
-     assembly blocker). TB-55 = single register voicing chapter-wide; the one
+     [#37 REDEEMED S1-P4 2026-08-07: Section-5.1 mirror in place, per ch1/ch4].
+     TB-55 = single register voicing chapter-wide; the one
      licensed Results cross-reference lives at the close of ch4 Section 4.2.
      DEC-053 supersession swaps applied at chapter use in TB-35 and TB-27
      (wording-family swap; logged in the M5 DEC). TB-64 and
@@ -15,7 +15,7 @@ This chapter interprets the evidence of Section 4 and develops its implications.
 
 ## 5.1 Principal Findings
 
-The answer to RQ1 is a calibration. CER is negatively associated with the cost of debt: the pooled partial correlation is r = −0.059 (95% CI [−0.086; −0.031]; Section 4.1), at 0.84 times the small-effect benchmark for partial correlations (Doucouliagos, 2011) — statistically detectable, economically negligible, and explicitly not null, a characterization that survives the pre-specified robustness register unchanged in sign and band (Section 4.1.2). [PENDING #37: economic translation (TB-08) — bp per instrument; Volker extraction] The pooled value, however, is a benchmark rather than a prediction: reported effects disperse widely around it, most of that dispersion reflects genuine differences between study settings rather than sampling noise (Section 4.1.1), and it is dispersion that the pre-specified context dimensions do not detectably resolve (Section 4.3). Any single setting may sit far from the calibrated mean.
+The answer to RQ1 is a calibration. CER is negatively associated with the cost of debt: the pooled partial correlation is r = −0.059 (95% CI [−0.086; −0.031]; Section 4.1), at 0.84 times the small-effect benchmark for partial correlations (Doucouliagos, 2011) — statistically detectable, economically negligible, and explicitly not null, a characterization that survives the pre-specified robustness register unchanged in sign and band (Section 4.1.2). In economic terms, this is a first-order scale anchor of approximately −11.8 basis points (loans), −8.8 bp (bonds), and −9.9 bp (CDS) per one-standard-deviation improvement in CER (Section 4.1.1). The pooled value, however, is a benchmark rather than a prediction: reported effects disperse widely around it, most of that dispersion reflects genuine differences between study settings rather than sampling noise (Section 4.1.1), and it is dispersion that the pre-specified context dimensions do not detectably resolve (Section 4.3). Any single setting may sit far from the calibrated mean.
 
 The study's central question is RQ2 (Section 4.2). For the Paris-moderation claim we adopt the equivalence register: there is no detectable Paris-Agreement moderation, and the post-minus-pre contrast is statistically equivalent to zero within the secondary SESOI band (±0.05 on Fisher-z) — carried by the equivalence test (diff_z = +0.010, p = .582; p_TOST = .022; 90% CI [−0.022; +0.042]) and coherent with the model-averaged contrast (+0.003, 95% CI [−0.031; +0.045]). Under the pre-specified priors the Bayes factors remain anecdotal (BF01 = 1.03 / 1.17), with no support for moderation in any set (BF10 < 1 throughout); the diffuse package default yields BF01 = 8.49 and is shown as a sensitivity bracket with disclosed caveats.
 
@@ -61,11 +61,13 @@ For policymakers, the assessed object is precise: how far the finance-flow align
 
 ## 5.6 Limitations
 
-Four limits qualify these conclusions, and all four concern interpretation and precision rather than detection. First, the synthesis inherits the identification limits of its primary designs: the evidence base consists predominantly of partial correlations from observational specifications, so the pooled quantity is an association — bounded, calibrated, and selection-checked, but not a causal effect — and primary-level endogeneity concerns carry to the aggregate. Second, the heterogeneity bounds that qualify every average reported here are themselves estimates: they depend on the variance-component structure of the dependence model, and their width should be read as modeled rather than observed.
+Five limits qualify these conclusions, and all five concern interpretation and precision rather than detection. First, the synthesis inherits the identification limits of its primary designs: the evidence base consists predominantly of partial correlations from observational specifications, so the pooled quantity is an association — bounded, calibrated, and selection-checked, but not a causal effect — and primary-level endogeneity concerns carry to the aggregate. Second, the heterogeneity bounds that qualify every average reported here are themselves estimates: they depend on the variance-component structure of the dependence model, and their width should be read as modeled rather than observed.
 
 Third, the identification battery carries one acknowledged trade-off. The race specification buys identification at a precision cost: with corr(sample mid-year, exposure share) = 0.81, the trend-adjusted break interval widens to [−0.026; +0.079] and cannot exclude effects up to the primary SESOI; the equivalence claim therefore rests on the unadjusted and composition-adjusted forms, per the pre-specified effect-size read-out. That trade-off was accepted at design time, not discovered after it.
 
 Fourth, on the Bayesian side: Bayes-factor magnitudes for both model components — level and moderation — scale with prior width in the expected direction, which is why the pre-specified informed priors anchor the reported values and the package-default factors appear only as sensitivity brackets.
+
+Fifth, the basis-point translation rests on corpus-printed descriptives: benchmark coverage is 80 of 109 eligible study–instrument cells, the loan benchmark pools accounting-ratio and spread operationalizations (Section 4.1.1), and log-scale sources enter only through a lower-bound back-transformation — the translation is a first-order scale anchor, not an estimate with sampling error.
 
 These limits bound what the conclusions mean, not whether the design could have detected what it tested — that sensitivity was quantified in advance (Section 3.3.1). Each limit also marks a design requirement for the research that follows.
 
