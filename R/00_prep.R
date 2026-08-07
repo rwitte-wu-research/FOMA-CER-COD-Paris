@@ -1,7 +1,7 @@
 # =============================================================================
-# R/00_prep.R — T0.4 data preparation (FOMA CER–COD, v12)
+# R/00_prep.R — T0.4 data preparation (FOMA CER–COD, v12.1)
 # Gate: pre-execution diff review. RESULT-BLIND: no pooled estimates computed.
-# Governing: DEC-024/028/031/031a/031b/042/042a. Input: data/CER-COD_data_v12.xlsx
+# Governing: DEC-024/028/031/031a/031b/042/042a/063. Input: data/CER-COD_data_v12_1.xlsx
 # Output: output/dat_prep.rds · output/design_quantities_v12.csv
 # =============================================================================
 suppressPackageStartupMessages({
@@ -15,7 +15,7 @@ fail <- function(msg) stop(paste0("[T0.4 ASSERT FAIL] ", msg), call. = FALSE)
 ok   <- function(cond, msg) if (!isTRUE(cond)) fail(msg) else message("[ok] ", msg)
 
 # --- S1: load + name normalization ------------------------------------------
-XLSX <- here("data", "CER-COD_data_v12.xlsx")
+XLSX <- here("data", "CER-COD_data_v12_1.xlsx")   # [DEC-063] v12.1 erratum canonical
 d  <- read_excel(XLSX, sheet = "data",  guess_max = 5000)
 lk <- read_excel(XLSX, sheet = "lookup", guess_max = 200)
 cm <- read_excel(XLSX, sheet = "country_map")
@@ -126,7 +126,7 @@ for (cn in names(CL)) {
 }
 ok(all(d$study %in% lk$study),        "S3 keys: data studies subset of lookup")
 ok(n_distinct(d$study) == 120,        "S3 keys: 120 studies")
-ok(n_distinct(lk$cluster_id) == 119,  "S3 keys: 119 cluster_ids (Sandra/Ofogbe merged)")
+ok(n_distinct(lk$cluster_id) == 118,  "S3 keys: 118 cluster_ids (Sandra/Ofogbe + Pizzutilo/Caragnano merged) [DEC-063]")
 ok(eqn(d$pp_share_lag0, d$share_2016),"S3 identity: pp_share_lag0 == share_2016")
 ok(all((d$pp_end_lag0 == 1) == (d$share_2016 > 0), na.rm = TRUE), "S3 identity: end_lag0 <=> share>0")
 ok(all((d$pp_start_lag0 == 1) == (d$share_2016 == 1), na.rm = TRUE), "S3 identity: start<=>share=1 (clean_post)")
@@ -229,7 +229,9 @@ write.csv(bind_rows(dq %>% mutate(across(everything(), as.character)),
                     dom %>% transmute(quantity = paste0("postcell_dom_", study),
                                       n = as.character(k), share = as.character(share)),
                     tibble(quantity = "n15_within_study_set",
-                           value = paste(n15$study, collapse = "; "))),
+                           value = paste(n15$study, collapse = "; ")),
+                    tibble(quantity = "input_provenance",
+                           value = "computed on v12.1 (MD5 7a4a1d8bcc0b745ee3158be026d9ea13)")),
           here("output", "design_quantities_v12.csv"), row.names = FALSE, na = "")
 
 # --- S8: save (no effect statistics printed) ---------------------------------

@@ -1,5 +1,7 @@
 # =============================================================================
-# R/00_verify_prep.R — paired verifier for T0.4 (v2: coverage gaps closed)
+# R/00_verify_prep.R — paired verifier for T0.4 (v3: DEC-063 repoint)
+# v3 changes (DEC-063, 2026-08-07): input = v12.1 erratum; V7a cluster census
+#   114 -> 113; dq name-keyed reads unaffected by the new input_provenance row.
 # v2 changes (per CC adversarial findings, 2026-07-12):
 #   - column-existence guard: a missing column is a FAIL, never a vacuous PASS
 #   - V3 covers ALL 12 closed lists (was 3)
@@ -17,8 +19,8 @@ chk <- function(id, desc, cond) {
 }
 has <- function(df, cols) all(cols %in% names(df))   # existence guard
 
-d  <- as.data.frame(read_excel(here("data","CER-COD_data_v12.xlsx"), sheet = "data", guess_max = 5000))
-lk <- as.data.frame(read_excel(here("data","CER-COD_data_v12.xlsx"), sheet = "lookup"))
+d  <- as.data.frame(read_excel(here("data","CER-COD_data_v12_1.xlsx"), sheet = "data", guess_max = 5000))
+lk <- as.data.frame(read_excel(here("data","CER-COD_data_v12_1.xlsx"), sheet = "lookup"))
 pr <- readRDS(here("output","dat_prep.rds")); dat <- pr$dat
 dq <- read.csv(here("output","design_quantities_v12.csv"), stringsAsFactors = FALSE)
 
@@ -139,9 +141,9 @@ allok <- chk("V6e", "window_class rule re-run",
 # --- V7: estimation-set inventory (design facts) -------------------------------
 DROP5 <- c("Johnson (2020)", "Kumar & Firoz (2018)", "Ould Daoud Ellili (2020)",
            "Piechocka-Ka\u0142u\u017cna et al (2021)", "Polbennikov et al (2016)")
-allok <- chk("V7a", "estimation set: 115 studies / 114 clusters",
+allok <- chk("V7a", "estimation set: 115 studies / 113 clusters [DEC-063]",
              length(unique(dat$study)) == 115 &&
-             length(unique(dat$cluster_id)) == 114) && allok
+             length(unique(dat$cluster_id)) == 113) && allok
 allok <- chk("V7b", "exactly the 5 documented studies drop fully at S4",
              setequal(setdiff(unique(d$study), unique(dat$study)), DROP5)) && allok
 allok <- chk("V7c", "N15 within-study set == {Li et al (2022)} under headline coding",

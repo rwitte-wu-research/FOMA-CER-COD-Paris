@@ -7,13 +7,13 @@
 #              D31.6 sample-size basis = column E ("n_eff").
 #   [DEC-031a] .4 catalogue names; .6 inference conventions (no pairwise
 #              spec-vs-headline tests); .7 figure inventory (A7/A8).
-#   [DEC-042/042a] v12 canonical; estimation set 2,713 ES / 115 studies /
-#              114 clusters (asserted constants).
+#   [DEC-042/042a/063] v12.1 canonical (ERROR #58 merge); estimation set
+#              2,713 ES / 115 studies / 113 clusters (asserted constants).
 #   [analysis_plan.md] par.3 (3LMA-RVE, rho = 0.6, grid 0.4/0.8), par.5 (CR2
 #              everywhere), par.11 (output contract), Addendum A.1/A.2/A.7/A.8.
-#   [DEC-012/DEC-012a] A6 economic translation (bp); extraction rule fixed
-#              (instrument-level median SD(COD): loan/bond/CDS; Volker task);
-#              constants PENDING DEC-012a -- placeholder grid, hard-flagged.
+#   [DEC-012/012a/012b] A6 economic translation (bp); instrument-level median
+#              SD(COD) constants LANDED (DEC-012b): loan 200.0 / bond 150.0 /
+#              CDS 168.6 bp; A6 keyed to bp_per_1sd_{loan,bond,cds}.
 #   [DEC-042b] 8 ES / 2 studies without recoverable sample windows: period
 #              NAs are a DESIGN FACT; listwise exclusion from period/dose
 #              cells only (A3: pre+post = 2,705); estimation set unchanged.
@@ -46,25 +46,26 @@
 # NO schema fix zone in this script: a schema mismatch is a STOP condition,
 #   not a patch target (CC fix scope = syntax / package-API signatures only).
 PATH_DAT_PREP <- here::here("output", "dat_prep.rds")   # T0.4 product (gitignored)
+PATH_XLSX <- here::here("data", "CER-COD_data_v12_1.xlsx")  # [DEC-063] provenance anchor
+V121_MD5  <- "7a4a1d8bcc0b745ee3158be026d9ea13"             # [DEC-063] committed fingerprint
 DIR_OUT       <- here::here("output")
 DIR_FIG       <- file.path(DIR_OUT, "figures")
 REQUIRED_COLS <- c("zi", "vi", "cluster_id", "study", "esid",
                    "pp_mid_lag0", "n_eff")
 
 # Asserted design constants [DEC-042a; Addendum A.1/A.3] -- run stops on mismatch
-K_ES <- 2713L; K_STUDY <- 115L; K_CLUSTER <- 114L; K_STUDY_POST <- 31L
+K_ES <- 2713L; K_STUDY <- 115L; K_CLUSTER <- 113L; K_STUDY_POST <- 31L  # [DEC-063: 114->113]
 K_PERIOD_NA <- 8L; K_PERIOD_NA_STUDY <- 2L  # window-undefined ES/studies [DEC-042b]
 
 RHO_HEADLINE <- 0.6                # [DEC-017]
 RHO_GRID     <- c(0.4, 0.8)        # [E1 / battery A4]
 SEED         <- 20260710           # battery seed convention; T1 is deterministic
 
-# A6 (DEC-012/DEC-012a): Delta COD in bp per 1-SD CER = tanh(z_pooled) * SD.
-# DEC-012a rule (author 2026-07-12): benchmark = median SD(COD) PER INSTRUMENT
-# (loan/bond/CDS separately); Volker extraction pending. The generic grid below
-# is a PLACEHOLDER until those constants land; A6 rows then re-key to
-# bp_per_1sd_{loan,bond,cds} in a deterministic constants-patch re-run.
-SD_COD_BP_GRID <- c(100, 150, 200) # <<< PLACEHOLDER -- PENDING DEC-012a >>>
+# A6 (DEC-012/012a/012b): Delta COD in bp per 1-SD CER = tanh(z_pooled) * SD.
+# DEC-012b (2026-08-06): instrument-level median SD(COD) constants LANDED
+# (two-stage median; source data/benchmarks/p1_constants.csv, spec = "primary").
+SD_COD_BP    <- c(loan = 200.0, bond = 150.0, cds = 168.6)  # [DEC-012b]
+K_BP_STUDIES <- c(loan = 49L,  bond = 21L,  cds = 7L)       # contributing k [DEC-012b]
 SMALL_BENCH_R  <- 0.07             # Doucouliagos (2011) "small" anchor [DEC-012]
 
 PLOT_NAVY <- "#1F3864"             # output contract [plan par.11]
@@ -92,6 +93,11 @@ stopifnot(
   "pr$n != 2713 [DEC-042a]" = identical(as.integer(pr$n), K_ES),
   "pr$seed != 20260710"     = identical(as.integer(pr$seed), 20260710L)
 )
+# [DEC-063] Provenance guard -- necessary-not-sufficient: proves the canonical
+# v12.1 workbook is present with the committed fingerprint; that dat_prep.rds
+# was built FROM it is closed by the run protocol (R/00 -> verifier -> here).
+stopifnot("v12.1 workbook md5 mismatch [DEC-063: T1 must run against the merged structure]" =
+  identical(unname(tools::md5sum(PATH_XLSX)), V121_MD5))
 dat_raw <- pr$dat
 
 missing_cols <- setdiff(REQUIRED_COLS, names(dat_raw))
@@ -127,7 +133,7 @@ if (nrow(d) != K_ES)
        "do not filter inside 01_core.R.")
 stopifnot(
   "study count != 115"   = nlevels(droplevels(d$study))   == K_STUDY,
-  "cluster count != 114" = nlevels(droplevels(d$cluster)) == K_CLUSTER
+  "cluster count != 113 [DEC-063]" = nlevels(droplevels(d$cluster)) == K_CLUSTER
 )
 
 # ---- 3. Helpers (frozen) ------------------------------------------------------
@@ -299,7 +305,7 @@ rows$A5_opc <- new_row(analysis_id = "A5", spec = "one_effect_per_cluster",
   est_r = tanh(as.numeric(m_opc$beta)),
   ci_lb_r = tanh(m_opc$ci.lb), ci_ub_r = tanh(m_opc$ci.ub),
   ms_input = FALSE, ms_label = NA,
-  note = "aggregate.escalc CS rho=0.6 within cluster_id; RE REML + Knapp-Hartung on k=114 aggregates.")
+  note = sprintf("aggregate.escalc CS rho=0.6 within cluster_id; RE REML + Knapp-Hartung on k=%d aggregates.", K_CLUSTER))
 
 # (b) UWLS+3 [Stanley et al. 2024; plan par.9]: PCC metric, df ~= n_eff (F21)
 r_h  <- tanh(d$yi)   # harmonized r = tanh(zi); do NOT use pr$dat$r_raw (pre-harmonization)
@@ -388,17 +394,18 @@ if (n_pow >= 2L) {
     note = sprintf("WAAP-UWLS: %d adequately powered (<2) -> reduces to UWLS+3 [Stanley et al. 2017]. Power statement feeds the null narrative (Ioannidis et al. 2017). F57 disclosure (unconditional): CR2 df_Satt = %.2f; top-cluster weight share = %.1f%%; top-2 = %.1f%% (full set; fallback inherits uwls3 inference).", n_pow, u3_df, 100 * top1_share, 100 * top2_share))
 }
 
-# ---- 9. A6 -- economic translation (DEC-012/012a; constants pending) -----------
+# ---- 9. A6 -- economic translation (DEC-012/012a/012b constants) ---------------
 r_head <- tanh(s1$est)
-for (sd_bp in SD_COD_BP_GRID) {
-  rows[[paste0("A6_", sd_bp)]] <- new_row(analysis_id = "A6",
-    spec = sprintf("bp_per_1sd_sd%d", sd_bp), subset = "all",
+for (cls in names(SD_COD_BP)) {
+  sd_bp <- SD_COD_BP[[cls]]
+  rows[[paste0("A6_", cls)]] <- new_row(analysis_id = "A6",
+    spec = sprintf("bp_per_1sd_%s", cls), subset = "all",
     metric = "bp_COD", estimator = "translation", rho = NA,
     k_es = k1$k_es, k_study = k1$k_study, k_cluster = k1$k_cluster,
     est_r = r_head, value = r_head * sd_bp,
     ci_lb_r = tanh(s1$ci_lb), ci_ub_r = tanh(s1$ci_ub),
-    ms_input = TRUE, ms_label = sprintf("bp_translation_sd%d", sd_bp),
-    note = sprintf("Delta COD (bp) per 1-SD CER = tanh(z_pooled) * SD_COD_bp; SD_COD_bp = %d <<< PLACEHOLDER -- PENDING DEC-012a (instrument medians via Volker task) >>>. CI endpoints scale identically (value column = point).", sd_bp))
+    ms_input = TRUE, ms_label = sprintf("bp_translation_%s", cls),
+    note = sprintf("Delta COD (bp) per 1-SD CER = tanh(z_pooled) * SD_COD_bp(%s); SD_COD_bp = %.1f bp, k = %d contributing studies [DEC-012b primary, two-stage median; data/benchmarks/p1_constants.csv]. CI endpoints scale identically (value column = point).", cls, sd_bp, K_BP_STUDIES[[cls]]))
 }
 rows$A6_bench <- new_row(analysis_id = "A6", spec = "small_benchmark_ratio",
   subset = "all", metric = "ratio", estimator = "translation", rho = NA,
@@ -465,14 +472,17 @@ meta <- c(
   sprintf("T1 run meta -- %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")),
   sprintf("dat_prep path: %s", PATH_DAT_PREP),
   sprintf("dat_prep md5:  %s", unname(tools::md5sum(PATH_DAT_PREP))),
+  sprintf("input workbook [DEC-063]: data/CER-COD_data_v12_1.xlsx md5: %s (asserted == %s)",
+          unname(tools::md5sum(PATH_XLSX)), V121_MD5),
   sprintf("pr$n / pr$seed: %s / %s (contract asserted)", pr$n, pr$seed),
   sprintf("rows/studies/clusters: %d / %d / %d", nrow(d),
           nlevels(d$study), nlevels(d$cluster)),
   sprintf("period NA [DEC-042b]: %d ES / %d studies (design fact)",
           sum(is.na(d$period)), length(unique(d$study[is.na(d$period)]))),
   sprintf("seed: %d (T1 deterministic; set defensively)", SEED),
-  sprintf("SD_COD_BP_GRID (PLACEHOLDER, PENDING DEC-012a): %s",
-          paste(SD_COD_BP_GRID, collapse = ", ")),
+  sprintf("SD_COD_BP [DEC-012b]: loan %.1f (k=%d) / bond %.1f (k=%d) / CDS %.1f (k=%d)",
+          SD_COD_BP[["loan"]], K_BP_STUDIES[["loan"]], SD_COD_BP[["bond"]],
+          K_BP_STUDIES[["bond"]], SD_COD_BP[["cds"]], K_BP_STUDIES[["cds"]]),
   "", "sessionInfo():", capture.output(sessionInfo())
 )
 writeLines(meta, file.path(DIR_OUT, "T1_run_meta.txt"))

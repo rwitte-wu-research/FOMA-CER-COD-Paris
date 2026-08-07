@@ -12,10 +12,14 @@ PATH_DAT_PREP <- here::here("output", "dat_prep.rds")
 DIR_OUT <- here::here("output"); DIR_FIG <- file.path(DIR_OUT, "figures")
 REQUIRED_COLS <- c("zi", "vi", "cluster_id", "study", "esid",
                    "pp_mid_lag0", "n_eff")   # binding schema
-K_ES <- 2713L; K_STUDY <- 115L; K_CLUSTER <- 114L; K_STUDY_POST <- 31L
+K_ES <- 2713L; K_STUDY <- 115L; K_CLUSTER <- 113L; K_STUDY_POST <- 31L  # [DEC-063: 114->113]
 K_PERIOD_NA <- 8L; K_PERIOD_NA_STUDY <- 2L  # [DEC-042b]
 RHO_SET <- c(0.6, 0.4, 0.8)
-SD_COD_BP_GRID <- c(100, 150, 200); SMALL_BENCH_R <- 0.07
+P1C <- read.csv(here::here("data", "benchmarks", "p1_constants.csv"), stringsAsFactors = FALSE)
+P1P <- P1C[P1C$spec == "primary", ]
+SD_COD_BP    <- setNames(P1P$median_sd_bp, tolower(P1P$instrument_class))   # loan/bond/cds
+K_BP_STUDIES <- setNames(as.integer(P1P$k_studies), tolower(P1P$instrument_class))
+SMALL_BENCH_R <- 0.07
 
 RES_PATH  <- file.path(DIR_OUT, "T1_results.csv")
 META_PATH <- file.path(DIR_OUT, "T1_run_meta.txt")
@@ -38,8 +42,8 @@ EXPECTED_SPECS <- rbind(
   c("A4", "rho_0.4"), c("A4", "rho_0.8"),
   c("A5", "one_effect_per_cluster"), c("A5", "uwls3"),
   c("A5", "hs_es_level"), c("A5", "waap_uwls"),
-  c("A6", "bp_per_1sd_sd100"), c("A6", "bp_per_1sd_sd150"),
-  c("A6", "bp_per_1sd_sd200"), c("A6", "small_benchmark_ratio"))
+  c("A6", "bp_per_1sd_loan"), c("A6", "bp_per_1sd_bond"),
+  c("A6", "bp_per_1sd_cds"), c("A6", "small_benchmark_ratio"))
 
 # ---- harness -------------------------------------------------------------------
 results <- character(0); n_fail <- 0L
@@ -82,7 +86,7 @@ check("O4", nrow(hl) == 1 &&
         hl$k_es == K_ES && hl$k_study == K_STUDY && hl$k_cluster == K_CLUSTER &&
         all(full3l$k_es == K_ES & full3l$k_study == K_STUDY &
               full3l$k_cluster == K_CLUSTER),
-      "k identities on full-set 3LMA rows (2713/115/114) [DEC-042a]")
+      "k identities on full-set 3LMA rows (2713/115/113) [DEC-042a/063]")
 
 # ---- O5 period cells ------------------------------------------------------------
 pre <- row_of("A3", "pi_pre"); post <- row_of("A3", "pi_post")
@@ -188,20 +192,27 @@ if (pr_ok) {
 # ---- O13 one-effect-per-cluster ------------------------------------------------------
 opc <- row_of("A5", "one_effect_per_cluster")
 check("O13", nrow(opc) == 1 && opc$k_es == K_CLUSTER && opc$k_cluster == K_CLUSTER,
-      "one_effect_per_cluster: k_es == k_cluster == 114")
+      "one_effect_per_cluster: k_es == k_cluster == 113 [DEC-063]")
 
-# ---- O15 A6 translation identities ----------------------------------------------------
-ok15 <- TRUE; det15 <- ""
-for (sd_bp in SD_COD_BP_GRID) {
-  rw <- row_of("A6", sprintf("bp_per_1sd_sd%d", sd_bp))
-  if (nrow(rw) != 1 || !near(rw$value, hl$est_r * sd_bp, 1e-10)) {
-    ok15 <- FALSE; det15 <- paste0(det15, "sd", sd_bp, " ") }
-  if (nrow(rw) == 1 && !grepl("PENDING DEC-012a", rw$note, fixed = TRUE)) {
-    ok15 <- FALSE; det15 <- paste0(det15, "DEC-012a-flag-missing ") }
+# ---- O15 A6 translation identities [DEC-012b constants assertion] ---------------------
+ok15 <- setequal(names(SD_COD_BP), c("loan", "bond", "cds")) &&
+        near(SD_COD_BP[["loan"]], 200.0, 1e-9) && near(SD_COD_BP[["bond"]], 150.0, 1e-9) &&
+        near(SD_COD_BP[["cds"]], 168.6, 1e-9) &&
+        identical(K_BP_STUDIES[["loan"]], 49L) && identical(K_BP_STUDIES[["bond"]], 21L) &&
+        identical(K_BP_STUDIES[["cds"]], 7L)
+det15 <- if (!ok15) "p1_constants primary != DEC-012b pins " else ""
+for (cls in c("loan", "bond", "cds")) {
+  rw <- row_of("A6", sprintf("bp_per_1sd_%s", cls))
+  if (nrow(rw) != 1 || !near(rw$value, hl$est_r * SD_COD_BP[[cls]], 1e-10)) {
+    ok15 <- FALSE; det15 <- paste0(det15, cls, "-value ") }
+  if (nrow(rw) == 1 && !grepl("DEC-012b", rw$note, fixed = TRUE)) {
+    ok15 <- FALSE; det15 <- paste0(det15, cls, "-note ") }
+  if (nrow(rw) == 1 && !grepl(sprintf("k = %d", K_BP_STUDIES[[cls]]), rw$note, fixed = TRUE)) {
+    ok15 <- FALSE; det15 <- paste0(det15, cls, "-k ") }
 }
 bench <- row_of("A6", "small_benchmark_ratio")
 if (nrow(bench) != 1 || !near(bench$value, hl$est_r / SMALL_BENCH_R, 1e-10)) ok15 <- FALSE
-check("O15", ok15, "A6: bp rows == est_r * SD grid; DEC-012a flag present; benchmark ratio",
+check("O15", ok15, "A6: p1_constants.csv primary == DEC-012b pins (200.0/150.0/168.6; k 49/21/7); bp rows == est_r * SD; notes carry DEC-012b + k; benchmark ratio",
       det15)
 
 # ---- O16 figures nonzero / PDF headers -------------------------------------------------
@@ -263,7 +274,7 @@ check("O21", pr_ok && nrow(d) == K_ES &&
         all(d$period[!is.na(d$period)] %in% c(0L, 1L)) &&
         sum(is.na(d$period)) == K_PERIOD_NA &&
         length(unique(d$study[is.na(d$period)])) == K_PERIOD_NA_STUDY,
-      "dat_prep contract (pr$n/seed/schema) + 2713/115/114; period 0/1 with exactly 8 NA / 2 studies [DEC-042b]")
+      "dat_prep contract (pr$n/seed/schema) + 2713/115/113; period 0/1 with exactly 8 NA / 2 studies [DEC-042b; DEC-063]")
 
 # ---- summary ------------------------------------------------------------------------------
 cat("\n============================================================\n")

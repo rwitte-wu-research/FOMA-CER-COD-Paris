@@ -1,4 +1,4 @@
-T0.4 verifier v2 — 2026-07-12 08:57:40.525532
+T0.4 verifier v2 — 2026-08-07 13:54:07.555732
 V1a  PASS corpus rows == 2852
 V1b  PASS usable == 2730
 V1c  PASS estimation set == 2713 (fresh recount)
@@ -24,7 +24,7 @@ V6b  PASS pp_share_lag0 == share_2016 (continuous identity)
 V6c  PASS end_lag0 == 1 <=> share_2016 > 0
 V6d  PASS pp_start == 1 <=> share_2016 == 1 (clean_post)
 V6e  PASS window_class rule re-run
-V7a  PASS estimation set: 115 studies / 114 clusters
+V7a  PASS estimation set: 115 studies / 113 clusters [DEC-063]
 V7b  PASS exactly the 5 documented studies drop fully at S4
 V7c  PASS N15 within-study set == {Li et al (2022)} under headline coding
 RESULT: ALL PASS
