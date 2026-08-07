@@ -1,5 +1,5 @@
 # Search & Screening Protocol — 2026-07 update layer (PRISMA backbone)
-## Databases executed (reconstructed corpus-vocabulary strings; original 2021 strings: manuscript Appendix 1)
+## Databases executed (reconstructed corpus-vocabulary strings; original 2021 strings: retained by the authors; not reported — author policy 2026-08-07)
 | DB | String | Date | Hits |
 |---|---|---|---|
 | Scopus | reconstructed (TITLE-ABS-KEY; CER×COD families) | 2026-07-10 | 986 |
@@ -12,3 +12,4 @@ Raw 2,856 → DOI+title dedupe → 2,006 uniques → corpus-recognized 66 → do
 Targeted-update layer: 43/60 retrieved by ≥1 DB (Scopus 38 · WoS 40 · EBSCO 24; 22 by all three). Misses fully attributable: non-indexed WPs (BIS/ECB/DNB/SSRN), non-indexed journals, 2026 early access. Backward test: 114 pre-2020 hits screened; qualifying non-corpus pre-2020 records fall under the same cutoff catalogue.
 ## Open (manuscript phase)
 Original 2021 execution metadata (per-DB dates/Ns) — Volker archive search, deferred; if unrecoverable: documented waiver, wave-1 qualitative + wave-2 fully quantified.
+Resolved 2026-08-07: documented waiver executed (DEC-060 §5); wave 1 reported qualitatively, wave 2 fully quantified (manuscript §3.1).
