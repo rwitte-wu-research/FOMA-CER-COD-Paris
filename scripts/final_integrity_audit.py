@@ -4,10 +4,17 @@ Purely file-internal: no comparison against source papers.
 Blocks: A structure/keys · B formula layer (engine + independent recompute) · C ranges/logic
         D vocabulary/artefact scan · E cross-sheet consistency
 Output: PASS/WARN/FAIL per check, findings listed.
+v2 (S1 window, ERROR #58 merge data-DEC): input pinned to the canonical
+data/CER-COD_data_v12_1.xlsx (v1 targeted the v12 build candidate in cwd);
+new checks E5 = cluster_id three-site consistency (data/provenance/lookup)
+and E6 = distinct-cluster census data==provenance==lookup==118 — the
+workbook-layer guards for the ERROR #58 systemic lesson (structural-drift
+alarm; the 118 pin is intentional and moves only via a data-DEC). All v1
+checks otherwise unchanged.
 """
 import pandas as pd, numpy as np, subprocess, os, shutil, re
 
-F='CER-COD_data_v12_candidate.xlsx'
+F='data/CER-COD_data_v12_1.xlsx'
 d=pd.read_excel(F,'data'); lk=pd.read_excel(F,'lookup')
 cmap=pd.read_excel(F,'country_map'); ss=pd.read_excel(F,'subsample_country_map')
 ES='ES (corr_coeff)'; NF='sample_size\nno_firms_rounded'; NFY='sample_size\nno_firm-years_rounded'
@@ -159,6 +166,18 @@ chk('E2','every study has jif or jif_note','PASS' if bool(jif_ok) else 'FAIL')
 prov=pd.read_excel(F,'provenance')
 chk('E3','provenance rows == data rows','PASS' if len(prov)==len(d) else 'WARN',f'{len(prov)} vs {len(d)}')
 chk('E4','field 120/120 in lookup','PASS' if int(lk['field'].notna().sum())==120 else 'FAIL')
+
+# ---------- E5 (v2): cluster_id three-site consistency ----------
+pv=pd.read_excel(F,'provenance')
+_m=d[['outcome','cluster_id']].merge(pv[['outcome','cluster_id']],on='outcome',suffixes=('_d','_p'))
+_bad_dp=int((_m['cluster_id_d'].astype(str)!=_m['cluster_id_p'].astype(str)).sum())
+_lkmap=lk.set_index('study')['cluster_id']
+_bad_dl=int((d['cluster_id'].astype(str)!=d['study'].map(_lkmap).astype(str)).sum())
+chk('E5','cluster_id consistent across data/provenance/lookup (ERROR #58 guard, v2)',
+    'PASS' if _bad_dp==0 and _bad_dl==0 else 'FAIL',f'data<->prov {_bad_dp}, data<->lookup {_bad_dl}')
+_n_d=d['cluster_id'].nunique(); _n_p=pv['cluster_id'].nunique(); _n_l=lk['cluster_id'].nunique()
+chk('E6','distinct-cluster census data==provenance==lookup==118 (v2 drift alarm)',
+    'PASS' if _n_d==_n_p==_n_l==118 else 'FAIL',f'{_n_d}/{_n_p}/{_n_l}')
 
 # ---------- report ----------
 print(f'{"ID":4s} {"STATUS":6s} CHECK')

@@ -1,0 +1,39 @@
+
+ID   STATUS CHECK
+A1   PASS   row count == 2852
+A2   PASS   outcome ids unique
+A3   PASS   data study keys subset of lookup
+A4   PASS   all 120 lookup studies present in data
+A5   PASS   lookup cluster_id complete
+A6   PASS   row_skey values resolve in subsample_country_map
+A7   PASS   lookup ckey values resolve in country_map
+A8   PASS   country_map country_str unique
+A9   PASS   subsample_country_map value unique
+B1   PASS   engine recalculation == cached values (30 formula cols)
+B2   PASS   grid values == independent python re-derivation
+B3   PASS   q/field data cols == lookup classes
+B4   PASS   col E == n_obs-else-proxy recompute
+B5   PASS   country cols == subsample-else-paper recompute (excl. 2 hardcoded studies)
+C1   PASS   usable ES within [-1,1]
+C2   PASS   d_sample_start <= d_sample_end
+C3   PASS   sample years within [1980, 2026]
+C4   PASS   all shares within [0,1]
+C5   PASS   d_es_usable == 1 iff ES present
+C6   PASS   non-convertible iff ES absent
+C7   PASS   exactly 1 duplicate-tagged row
+C8   PASS   firm-years >= firms where both present
+D1   PASS   closed lists on all coded moderators
+D2   WARN   remaining literal 'FLAG' cells  -> {'n_obs': 176}
+D3   PASS   leading/trailing whitespace in text cells
+D4   WARN   truncation artefacts (trailing "("/",")  -> {'d_country': ['Argentina, Brazil, Chile, China, Colombia, Greece,', 'Austria, Belgium, Cyprus, Czech Republic, Denmark,', 'China (', 'Europe (']}
+D5   PASS   vocabulary typos (e.g. "loand", double spaces)
+E1   PASS   lookup q_status 120/120
+E2   PASS   every study has jif or jif_note
+E3   PASS   provenance rows == data rows
+E4   PASS   field 120/120 in lookup
+E5   PASS   cluster_id consistent across data/provenance/lookup (ERROR #58 guard, v2)
+E6   PASS   distinct-cluster census data==provenance==lookup==118 (v2 drift alarm)
+
+SUMMARY: 33 checks | FAIL 0 | WARN 2 | PASS 31
+
+COD_instrument vocabulary: ['bond (yield)', 'derivativ (CDS spread)', 'loan (interest rate)', 'rating']

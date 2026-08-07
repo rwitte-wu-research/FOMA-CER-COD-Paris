@@ -1,0 +1,39 @@
+
+== Fingerprint screen (Item 19 / ERROR #58 follow-up) ==
+Rows read: 125 | row-bearing cells: 93 (loan 62 / bond 22 / CDS 9)
+Registered scope: 80 bp_ok cells fully screened; extended sweep: 13 further row-bearing cells; 16 cells without printed rows remain unscreened (disclosed).
+Pairs found: 8 (bp_ok_both 6 / extended 2; known-cluster pairs 1)
+
+ instrument_class                       study_a                         study_b
+             loan              Ali et al (2026)                Shi et al (2025)
+             loan        Altavilla et al (2024)         Kleimeier, Viehs (2021)
+             loan        Caragnano et al (2020)          Pizzutilo et al (2020)
+             loan Gonzales Sanches et al (2026)               Wang et al (2020)
+             loan               Li et al (2022)                Tan et al (2026)
+             loan              Luo et al (2019)              Wang et al (2022a)
+             loan           Ofogbe et al (2021)             Sandra et al (2021)
+             loan           Palea, Drogo (2020) Ratajczak & Mikolajewicz (2021)
+ matched_sd_values sig_digits_max mean_match    stratum same_cluster_known
+              0.02              1         no bp_ok_both                 no
+              0.76              2         no bp_ok_both                 no
+              1.57              3        yes bp_ok_both                 no
+              0.04              1         no bp_ok_both                 no
+            0.0145              3         no bp_ok_both                 no
+            0.0157              3         no bp_ok_both                 no
+             2.759              4        yes   extended                yes
+              0.40              2         no   extended                 no
+
+No verdicts issued. Pair list for hub adjudication; new finds follow the F2 mechanics (own data-DEC per pair, S1 merge commit).
+V1  merged rows == 125                                         PASS
+V2  row-bearing cells == 93 (62/22/9)                          PASS
+V3  registered bp_ok cells == 80 (52/21/7)                     PASS
+V4  pairs CSV schema exact (15 columns, order)                 PASS
+V5  pairs total == 8                                           PASS
+V6  positive control Caragnano-Pizzutilo found                 PASS
+V7  known-cluster pair labelled, not a new find                PASS
+V8  no self-pairs; classes valid; a < b ordering               PASS
+V9  independent recomputation matches pair set exactly         PASS
+V10 no regression vocabulary; no estimate columns              PASS
+
+----------------------------------------------------------
+VERIFIER 16: ALL CHECKS PASS
